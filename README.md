@@ -1,7 +1,7 @@
 SpreeAdminRolesAndAccess
 ========================
 
-Introduction goes here.
+This spree extension is build on CanCan to dynamically add new roles and define its access through permissions.
 
 Installation
 ------------
@@ -23,7 +23,6 @@ bundle exec rake spree_roles:permissions:populate # To populate user and admin r
 Usage
 -----
 
-This spree extension is build on CanCan.
 From Admin end, there is a role menu in configuration tab(admin end).
 A new Role can be added and its corresponding permissions can also be selected there.
 Permission to be choosen can be made only with rails console or a ruby script.
