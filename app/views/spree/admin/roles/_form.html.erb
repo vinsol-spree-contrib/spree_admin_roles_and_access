@@ -1,0 +1,19 @@
+<div>
+  <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @role } %>
+</div>
+
+<table>
+  <%= form_tag [:admin, @role], :method => method do %>
+    <tr><td>Name:</td><td><%= text_field_tag 'role[name]', @role.name %></td></tr>
+    <tr><td>Permissions:</td>
+    <td><% @permissions.each do |permission| %>
+      <% if @role.has_permission?(permission.title) %>
+        <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id, true %><%= permission.title.gsub('-',' ').titleize %></span>
+      <% else %>
+        <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id %><%= permission.title.gsub('-',' ').titleize %></span>
+      <% end %>
+      <br />
+    <% end %></td></tr>
+    <tr><td></td><td><%= submit_tag %></td></tr>
+  <% end %>
+</table>

@@ -1,0 +1,32 @@
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
+
+<% content_for :page_title do %>
+  <%= Spree.t(:listing_roles) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= button_link_to Spree.t(:new_role), new_admin_role_path %>
+  </li>
+<% end %>
+
+<%= paginate @roles %>
+
+<table class='index'>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @roles.each do |role| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td class="align-center"><%= role.name %></td>
+        <% if role.editable? %>
+          <td class="actions"><%= link_to_edit role, :no_text => true, :class => 'edit' %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
