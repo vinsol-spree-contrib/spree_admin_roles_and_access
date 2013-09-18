@@ -27,9 +27,6 @@ require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/url_helpers'
 
-# Requires factories defined in lib/spree_admin_roles_and_access/factories.rb
-require 'spree_admin_roles_and_access/factories'
-
 RSpec.configure do |config|
   # == URL Helpers
   #
@@ -38,6 +35,7 @@ RSpec.configure do |config|
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
   config.include Spree::TestingSupport::UrlHelpers
+  config.include Spree::Core::Engine.routes.url_helpers
 
   # == Mock Framework
   #
