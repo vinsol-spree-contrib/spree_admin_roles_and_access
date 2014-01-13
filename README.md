@@ -12,7 +12,7 @@ Add spree_admin_roles_and_access to your Gemfile:
 gem 'spree_admin_roles_and_access', :git => 'git://github.com/vinsol/spree_admin_roles_and_access.git'
 ```
 
-or
+                                              OR
 
 ```ruby
 gem 'spree_admin_roles_and_access', '~> 2.0.6'
