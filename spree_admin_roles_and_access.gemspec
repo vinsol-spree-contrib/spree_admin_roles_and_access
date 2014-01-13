@@ -2,13 +2,14 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_admin_roles_and_access'
-  s.version     = '2.0.3'
+  s.version     = '2.0.6'
   s.summary     = 'Dynamically defines roles and grants it permissions'
   s.required_ruby_version = '>= 1.9.3'
 
   s.author    = "Nishant 'CyRo' Tuteja"
-  s.email     = 'nishant.tuteja@vinsol.com'
-
+  s.email     = 'info@vinsol.com'
+  s.homepage  = 'http://vinsol.com'
+  
   s.require_path = 'lib'
   s.requirements << 'none'
 
