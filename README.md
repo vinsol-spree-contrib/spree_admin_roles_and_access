@@ -9,9 +9,7 @@ Installation
 Add spree_admin_roles_and_access to your Gemfile:
 
 ```ruby
-gem 'spree_admin_roles_and_access', :git => 'git://github.com/vinsol/spree_admin_roles_and_access.git'
-                      OR
-gem 'spree_admin_roles_and_access', '~> 2.0.6'
+gem 'spree_admin_roles_and_access'
 ```
 
 Bundle your dependencies and run the installation generator:
@@ -27,7 +25,7 @@ Usage
 
 From Admin end, there is a role menu in configuration tab(admin end).
 A new Role can be added and its corresponding permissions can also be selected there.
-Permission to be choosen can be made only with rails console or a ruby script.
+Permission to be chosen can be made only with rails console or a ruby script.
 
 Types of Permission
 
@@ -40,9 +38,9 @@ Types of Permission
 Pattern of the permissions :-
 
   1. Can/cannot - specifies whether the user with that permission can do or cannot do that task.
-  2. Action - specfies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
+  2. Action - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
   3. Subject - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.
-  4. Attributes - specifies the attributes for which the permission is specified. Readonly actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
+  4. Attributes - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
 
 Some Examples :-
 
