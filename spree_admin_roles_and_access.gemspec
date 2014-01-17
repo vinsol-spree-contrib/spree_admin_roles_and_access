@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.version     = '1.0.0'
   s.summary     = 'Dynamically defines roles and grants it permissions'
   s.required_ruby_version = '>= 1.9.3'
+  s.files = Dir['LICENSE', 'README.md', 'app/**/*', 'config/**/*', 'lib/**/*', 'db/**/*']
 
   s.author    = "Nishant 'CyRo' Tuteja"
   s.email     = 'info@vinsol.com'
