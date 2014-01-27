@@ -1,4 +1,4 @@
-SpreeAdminRolesAndAccess
+SpreeAdminRolesAndAccess [![Code Climate](https://codeclimate.com/github/vinsol/spree_admin_roles_and_access.png)](https://codeclimate.com/github/vinsol/spree_admin_roles_and_access)
 ========================
 
 This spree extension is build on CanCan to dynamically add new roles and define its access through permissions.
