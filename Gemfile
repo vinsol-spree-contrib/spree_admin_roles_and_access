@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rails', '3.2.15'
 gem 'json'
 gem 'sqlite3'
 gem 'multi_json', '1.2.0'
@@ -11,6 +12,7 @@ group :assets do
 end
 
 group :test do
+  gem 'simplecov'
   gem 'rspec-rails', '~> 2.12.0'
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'email_spec', '~> 1.2.1'
@@ -22,7 +24,7 @@ group :test do
   gem 'launchy'
 end
 
-gem 'spree', '~> 2.0'
+gem 'spree', '2.0.7'
 
 # Provides basic authentication functionality for testing parts of your engine
 gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
