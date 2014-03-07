@@ -313,7 +313,7 @@ describe Spree::Admin::RolesController do
 
       it { controller.should_receive(:params).and_return(@params) }
       it { @params.should_receive(:require).with(:role).and_return(@parameters) }
-      it { @parameters.should_receive(:permit).with(:name, :permission_ids).and_return(@parameters) }
+      it { @parameters.should_receive(:permit).with(:name, :permission_ids => []).and_return(@parameters) }
     end
   end
 end
