@@ -1,18 +1,22 @@
 module Spree
   module Permissions
-    def method_missing(name, current_ability, user)
-      can, action, subject, attribute = find_action_and_subject(name)
+    def method_missing(name, *args, &block)
+      if name.to_s.starts_with?('can')
+        can, action, subject, attribute = find_action_and_subject(name)
 
-      Permissions.send(:define_method, name) do |current_ability, user|
-        if attribute.nil?
-          current_ability.send(can, action, subject)
-        else
-          current_ability.send(can, action, subject, attribute)
+        Permissions.send(:define_method, name) do |current_ability, user|
+          if attribute.nil?
+            current_ability.send(can, action, subject)
+          else
+            current_ability.send(can, action, subject, attribute)
+          end
         end
+        send(name, args[0], args[1]) if self.respond_to?(name)
+      else
+        super
       end
-      send(name, current_ability, user) if self.respond_to?(name)
     end
-
+  
     define_method('default-permissions') do |current_ability, user|
       current_ability.can [:read, :update, :destroy], Spree.user_class do |resource|
         resource == user

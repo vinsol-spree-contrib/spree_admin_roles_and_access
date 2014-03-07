@@ -24,11 +24,6 @@ describe Spree::Role do
     it { should validate_uniqueness_of :name }
   end
 
-  describe 'mass_assignment' do
-    it { should allow_mass_assignment_of(:name) }
-    it { should allow_mass_assignment_of(:permission_ids) }
-  end
-
   describe 'default_role scope' do
     it "should return the role with name user" do
       Spree::Role.default_role.should eq([role1])

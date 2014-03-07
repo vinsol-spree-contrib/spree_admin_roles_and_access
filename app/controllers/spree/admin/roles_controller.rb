@@ -9,6 +9,10 @@ module Spree
       end
 
       private
+        def permitted_resource_params
+          params.require(:role).permit(:name, :permission_ids)
+        end
+
         def load_permissions
           @permissions = Spree::Permission.visible.all
         end

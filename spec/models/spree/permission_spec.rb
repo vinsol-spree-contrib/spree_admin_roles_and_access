@@ -11,11 +11,6 @@ describe Spree::Permission do
     it { should have_and_belong_to_many(:roles).class_name('Spree::Role') }
   end
 
-  describe 'attr_accessible' do
-    it { should allow_mass_assignment_of :priority }
-    it { should allow_mass_assignment_of :title }
-  end
-
   describe 'visible' do
     before(:each) do
       permission1.visible = true
@@ -52,6 +47,10 @@ describe Spree::Permission do
   end
 
   describe 'ability' do
+    before(:each) do
+      permission1.stub(:send).and_return(true)
+    end
+
     it 'should recieve a method which has the product title as method' do
       permission1.should_receive(:send).with('can-manage-all', ability, user).and_return(true)
       permission1.ability(ability, user)

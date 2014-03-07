@@ -1,5 +1,4 @@
 Spree::Role.class_eval do
-  attr_accessible :name, :permission_ids
   
   has_and_belongs_to_many :permissions, :join_table => 'spree_roles_permissions', :class_name => 'Spree::Permission'
 
@@ -15,5 +14,5 @@ Spree::Role.class_eval do
     permissions.pluck(:title).include?(permission_title)
   end
 
-  scope :default_role, where(:is_default => true) 
+  scope :default_role, lambda { where(:is_default => true) } 
 end

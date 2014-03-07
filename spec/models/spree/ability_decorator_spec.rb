@@ -127,7 +127,7 @@ describe Spree::Ability do
     end
 
     context 'with warehouse_admin user' do
-      let(:role1) { Spree::Role.find_or_create_by_name('warehouse_admin') }
+      let(:role1) { Spree::Role.find_or_create_by(:name => 'warehouse_admin') }
 
       before(:each) do
         role1.permissions = [permission10, permission11, permission12, permission0]
@@ -141,7 +141,7 @@ describe Spree::Ability do
 
     context 'with purchasing_admin user' do
       before(:each) do
-        role1 = Spree::Role.find_or_create_by_name('warehouse_admin')
+        role1 = Spree::Role.find_or_create_by(:name => 'warehouse_admin')
         role1.permissions = [permission14, permission15, permission16, permission0]
         user.roles = [role1]
       end

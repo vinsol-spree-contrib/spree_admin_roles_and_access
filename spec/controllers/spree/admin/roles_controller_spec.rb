@@ -294,4 +294,26 @@ describe Spree::Admin::RolesController do
       end
     end
   end
+
+  describe 'permitted_resource_params' do
+    let(:controller) { Spree::Admin::RolesController.new }
+
+    before(:each) do
+      @params = double('params')
+      @parameters = {:name => 'any-name'}
+      controller.stub(:params).and_return(@params)
+      @params.stub(:require).and_return(@parameters)
+      @parameters.stub(:permit).and_return(@parameters)
+    end
+    
+    describe 'should_receive' do
+      after(:each) do
+        controller.send(:permitted_resource_params)
+      end
+
+      it { controller.should_receive(:params).and_return(@params) }
+      it { @params.should_receive(:require).with(:role).and_return(@parameters) }
+      it { @parameters.should_receive(:permit).with(:name, :permission_ids).and_return(@parameters) }
+    end
+  end
 end
