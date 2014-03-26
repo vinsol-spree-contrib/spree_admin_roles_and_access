@@ -9,12 +9,18 @@ Installation
 Add spree_admin_roles_and_access to your Gemfile:
 
 ```ruby
-gem 'spree_admin_roles_and_access', '~> 2.2'
+gem 'spree_admin_roles_and_access'
 ```
 
-But if you are using 2.0.x version of spree
+But if you are using older version of spree
 
 ```ruby
+# Spree 2.1.x
+gem 'spree_admin_roles_and_access', '1.1.0'
+```
+
+```ruby
+# Spree 2.0.x
 gem 'spree_admin_roles_and_access', '1.0.0'
 ```
 
