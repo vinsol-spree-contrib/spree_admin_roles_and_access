@@ -84,6 +84,17 @@ bundle exec rake test_app
 bundle exec rspec spec
 ```
 
+Contributing
+------------
+
+1. Fork the repo.
+2. Clone your repo.
+3. Run `bundle install`.
+4. Run `bundle exec rake test_app` to create the test application in `spec/test_app`.
+5. Make your changes.
+6. Ensure specs pass by running `bundle exec rspec spec`.
+7. Submit your pull request.
+
 
 Credits
 -------
