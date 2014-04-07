@@ -9,12 +9,18 @@ Installation
 Add spree_admin_roles_and_access to your Gemfile:
 
 ```ruby
-gem 'spree_admin_roles_and_access', '~> 2.2'
+gem 'spree_admin_roles_and_access'
 ```
 
-But if you are using 2.0.x version of spree
+But if you are using older version of spree
 
 ```ruby
+# Spree 2.1.x
+gem 'spree_admin_roles_and_access', '1.1.0'
+```
+
+```ruby
+# Spree 2.0.x
 gem 'spree_admin_roles_and_access', '1.0.0'
 ```
 
@@ -83,6 +89,17 @@ bundle
 bundle exec rake test_app
 bundle exec rspec spec
 ```
+
+Contributing
+------------
+
+1. Fork the repo.
+2. Clone your repo.
+3. Run `bundle install`.
+4. Run `bundle exec rake test_app` to create the test application in `spec/test_app`.
+5. Make your changes.
+6. Ensure specs pass by running `bundle exec rspec spec`.
+7. Submit your pull request.
 
 
 Credits
