@@ -6,8 +6,8 @@
         <%= f.text_field(:name, :class => 'fullwidth title') %>
         <%= f.error_message_on(:name) %>
       </div>
-      <div data-hook="email" class="field">
-        <%= f.label(:permissions, Spree.t(:permissions)) %> <span class="required">*</span><br />
+      <div data-hook="permissions" class="field row">
+        <%= f.label(:permissions, Spree.t(:permissions)) %><br />
         <% @permissions.each do |permission| %>
           <div class="six columns <%= cycle('alpha', 'omega') %>">
             <%= label_tag("role_permissions_ids_#{permission.id}") do %>
