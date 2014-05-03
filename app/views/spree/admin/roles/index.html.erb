@@ -6,23 +6,31 @@
 
 <% content_for :page_actions do %>
   <li>
-    <%= button_link_to Spree.t(:new_role), new_admin_role_path %>
+    <%= button_link_to Spree.t(:new_role), new_admin_role_path, :icon => 'icon-plus', :id => 'admin_new_role_link' %>
   </li>
 <% end %>
 
 <%= paginate @roles %>
 
 <table class='index'>
+  <colgroup>
+    <col style="width: 70%">
+    <col style="width: 15%">
+    <col style="width: 15%">
+  </colgroup>
   <thead>
     <tr>
-      <th>Name</th>
+      <th class="align-left"><%= Spree.t(:name) %></th>
+      <th><%= Spree.t(:users) %></th>
+      <th data-hook="admin_roles_index_header_actions" class="actions"></th>
     </tr>
   </thead>
-  
+
   <tbody>
     <% @roles.each do |role| %>
       <tr class="<%= cycle('odd', 'even') %>">
-        <td class="align-center"><%= role.name %></td>
+        <td><%= role.name %></td>
+        <td class="align-center"><%= role.users.count %></td>
         <% if role.editable? %>
           <td class="actions"><%= link_to_edit role, :no_text => true, :class => 'edit' %></td>
         <% end %>
