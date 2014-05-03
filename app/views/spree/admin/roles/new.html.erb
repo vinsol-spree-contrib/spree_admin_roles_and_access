@@ -12,7 +12,7 @@
 
 <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @role } %>
 
-<%= form_for([:admin, @role], :html => { :method => :put }) do |f| %>
+<%= form_for([:admin, @role]) do |f| %>
   <fieldset class="no-border-top">
     <%= render :partial => 'form', :locals => {:f => f} %>
     <div data-hook="buttons" class="filter-actions actions">
