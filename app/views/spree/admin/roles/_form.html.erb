@@ -1,19 +1,22 @@
-<div>
-  <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @role } %>
+<div data-hook="admin_role_form_fields">
+  <div data-hook="role">
+    <div class="alpha omega twelve columns">
+      <div data-hook="name" class="field">
+        <%= f.label(:name, Spree.t(:name)) %> <span class="required">*</span>
+        <%= f.text_field(:name, :class => 'fullwidth title') %>
+        <%= f.error_message_on(:name) %>
+      </div>
+      <div data-hook="permissions" class="field row">
+        <%= f.label(:permissions, Spree.t(:permissions)) %><br />
+        <% @permissions.each do |permission| %>
+          <div class="six columns <%= cycle('alpha', 'omega') %>">
+            <%= label_tag("role_permissions_ids_#{permission.id}") do %>
+              <%= check_box_tag('role[permission_ids][]', permission.id, @role.has_permission?(permission.title), :id => "role_permissions_ids_#{permission.id}") %>
+              <%= permission.title.gsub('-',' ').titleize %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
-
-<table>
-  <%= form_tag [:admin, @role], :method => method do %>
-    <tr><td>Name:</td><td><%= text_field_tag 'role[name]', @role.name %></td></tr>
-    <tr><td>Permissions:</td>
-    <td><% @permissions.each do |permission| %>
-      <% if @role.has_permission?(permission.title) %>
-        <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id, true %><%= permission.title.gsub('-',' ').titleize %></span>
-      <% else %>
-        <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id %><%= permission.title.gsub('-',' ').titleize %></span>
-      <% end %>
-      <br />
-    <% end %></td></tr>
-    <tr><td></td><td><%= submit_tag %></td></tr>
-  <% end %>
-</table>
