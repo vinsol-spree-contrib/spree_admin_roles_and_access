@@ -89,8 +89,8 @@ describe Spree::Ability do
     let(:ability) { Spree::Ability.new(user) }
     subject { ability }
 
-    it { should be_able_to :admin, 'spree/admin/overview' }
-    it { should be_able_to :index, 'spree/admin/overview' }
+    it { should be_able_to :admin, Spree::Order }
+    it { should be_able_to :index, Spree::Order }
   end
 
   describe 'for general resource' do
