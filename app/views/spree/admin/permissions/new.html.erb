@@ -1,0 +1,16 @@
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
+<%= render :partial => 'spree/shared/error_messages', locals: { :target => @permission } %>
+
+<%= form_for([:admin, @permission]) do |f| %>
+  <fieldset data-hook="new_permission">
+    <legend align="center"><%= Spree.t(:new_permission) %></legend>
+    <%= render partial: 'fields', locals: { f: f } %>
+    <div class="filter-actions">
+      <div class="form-buttons filter-actions actions" data-hook="buttons">
+        <%= button Spree.t('actions.create'), 'icon-ok' %>
+        <span class="or"><%= Spree.t(:or) %></span>
+        <%= link_to_with_icon 'icon-remove', Spree.t('actions.cancel'), admin_roles_path, class: 'button' %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

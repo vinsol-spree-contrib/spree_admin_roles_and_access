@@ -3,7 +3,9 @@
 
 en:
   spree:
-    hello: "Hello world"
     new_role: "New Role"
     listing_roles: "Listing Roles"
     roles: "Roles"
+    new_permission: "New Permission"
+    listing_permissions: "Listing Permissions"
+    permissions: "Permissions"
