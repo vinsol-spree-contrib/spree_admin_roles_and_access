@@ -1,0 +1,7 @@
+<!-- insert_bottom '[data-hook="admin_configurations_sidebar_menu"]' -->
+
+<%= configurations_sidebar_menu_item Spree.t(:roles), admin_roles_path %>
+
+<style>
+#content { min-height: 650px; }
+</style>
