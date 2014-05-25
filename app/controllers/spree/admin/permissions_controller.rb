@@ -3,6 +3,10 @@ module Spree
     class PermissionsController < ResourceController
       before_filter :restrict_unless_editable, :only => [:edit, :update]
 
+      def index
+        @permissions = Spree::Permission.page(params[:page])
+      end
+
       private
 
         def permitted_resource_params
