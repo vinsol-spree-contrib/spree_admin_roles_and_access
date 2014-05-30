@@ -6,9 +6,14 @@
 
 <% content_for :page_actions do %>
   <li>
-    <%= button_link_to Spree.t(:new_role), new_admin_role_path, :icon => 'icon-plus', :id => 'admin_new_role_link' %>
+    <%= button_link_to Spree.t(:new_role), new_admin_role_path, { :remote => true, :data => { :update => 'new_role' }, :icon => 'icon-plus', :id => 'new_role_link' } %>
+  </li>
+  <li>
+    <%= button_link_to Spree.t(:permissions), admin_permissions_url, { icon: 'icon-chevron-left' } %>
   </li>
 <% end %>
+
+<div id="new_role"></div>
 
 <%= paginate @roles %>
 
@@ -32,7 +37,12 @@
         <td><%= role.name %></td>
         <td class="align-center"><%= role.users.count %></td>
         <% if role.editable? %>
-          <td class="actions"><%= link_to_edit role, :no_text => true, :class => 'edit' %></td>
+          <td class="actions">
+            <%= link_to_edit role, :no_text => true, :class => 'edit' %>
+            <% if role.users.count == 0 %>
+              <%= link_to_delete(role, url: [:admin, role], no_text: true, remote: false) %>
+            <% end %>
+          </td>
         <% end %>
       </tr>
     <% end %>

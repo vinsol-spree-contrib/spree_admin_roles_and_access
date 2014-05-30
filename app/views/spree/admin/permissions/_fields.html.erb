@@ -1,0 +1,8 @@
+<div data-hook="admin_permission_form" class="align-center row">
+  <div class="alpha <%= request.xhr? || content_for?(:sidebar) ? 'twelve' : 'eight' %> columns">
+    <%= f.field_container(:title) do %>
+      <%= f.label(:title, Spree.t(:title)) %> <span class="required">*</span><br />
+      <%= f.text_field(:title, { class: 'fullwidth' }) %>
+    <% end %>
+  </div>
+</div>

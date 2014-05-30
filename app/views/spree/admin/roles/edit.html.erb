@@ -8,6 +8,9 @@
   <li>
     <%= button_link_to Spree.t(:back_to_roles_list), admin_roles_path, :icon => 'icon-arrow-left' %>
   </li>
+  <li id="new_permission_link">
+    <%= button_link_to Spree.t(:new_role), new_admin_role_path, :icon => 'icon-plus', :id => 'admin_new_role_link' %>
+  </li>
 <% end %>
 
 <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @role } %>
