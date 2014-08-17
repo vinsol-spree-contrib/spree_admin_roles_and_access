@@ -1,0 +1,44 @@
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
+
+<% content_for :page_title do %>
+  <%= Spree.t(:listing_permissions) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <li>
+    <%= button_link_to Spree.t(:new_permission), new_admin_permission_url, { remote: true, data: { update: 'new_permission' }, icon: 'icon-plus', id: 'new_permission_link' } %>
+  </li>
+<% end %>
+
+<div id="new_permission"></div>
+
+<%= paginate @permissions %>
+
+<table class='index'>
+  <colgroup>
+    <col style="width: 70%">
+    <col style="width: 15%">
+    <col style="width: 15%">
+  </colgroup>
+  <thead>
+    <tr>
+      <th class="align-left"><%= Spree.t(:title) %></th>
+      <th><%= Spree.t(:roles) %></th>
+      <th data-hook="admin_roles_index_header_actions" class="actions"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @permissions.each do |permission| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= permission.title %></td>
+        <td class="align-center"><%= permission.roles.count %></td>
+        <td class="actions">
+          <% if permission.roles.count == 0 %>
+            <%= link_to_delete(permission, url: [:admin, permission], no_text: true, remote: false) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
