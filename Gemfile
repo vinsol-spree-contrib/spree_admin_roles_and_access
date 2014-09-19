@@ -4,7 +4,7 @@ gem 'rails', '4.1.2'
 gem 'mysql2'
 
 gem 'sass-rails'
-gem 'sass'
+# gem 'sass'
 
 # Gems used only for assets and not required
 # in production environments by default.
