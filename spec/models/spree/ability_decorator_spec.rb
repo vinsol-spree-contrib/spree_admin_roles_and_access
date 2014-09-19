@@ -273,8 +273,8 @@ describe Spree::Ability do
     end
 
     context 'requested with inproper token' do
-      let(:token) { 'FAIL' }
-      before(:each) { resource.stub :token => 'TOKEN123' }
+      let(:guest_token) { 'FAIL' }
+      before(:each) { resource.stub :guest_token => 'TOKEN123' }
       it_should_behave_like 'create only'
     end
   end
