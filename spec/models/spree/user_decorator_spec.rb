@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Spree::User do
+RSpec.describe Spree.user_class, type: :model do
   describe 'Association' do
-    it { should have_and_belong_to_many(:roles).class_name('Spree::Role').with_foreign_key(:user_id) }
+    it { expect(subject).to have_and_belong_to_many(:roles).class_name('Spree::Role') }
   end
 end

@@ -23,7 +23,7 @@ module Spree
       end
       
       current_ability.can [:read, :update], Spree::Order do |order, token|
-        order.user == user || (order.token && token == order.token)
+        order.user == user || (order.guest_token && token == order.guest_token)
       end
       
       current_ability.can :create, Spree::Order
