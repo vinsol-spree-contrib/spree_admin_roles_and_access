@@ -7,8 +7,14 @@ namespace :spree_roles do
       user.is_default = true
       user.save!
 
-      permission1 = Spree::Permission.create!(:title => 'can-manage-all', :priority => 0)
-      permission2 = Spree::Permission.create!(:title => 'default-permissions', :priority => 1)
+      permission1 = Spree::Permission.create!(title: 'can-manage-all', priority: 0)
+      permission2 = Spree::Permission.create!(title: 'default-permissions', priority: 1)
+      permission3 = Spree::Permission.create!(title: 'can-manage-spree/products', priority: 2) 
+      permission4 = Spree::Permission.create!(title: 'can-manage-spree/orders', priority: 2) 
+      permission5 = Spree::Permission.create!(title: 'can-manage-spree/users', priority: 2)
+      permission6 = Spree::Permission.create(title: 'can-read-spree/orders', priority: 3)
+      permission7 = Spree::Permission.create(title: 'can-index-spree/orders', priority: 3)
+
 
       user.permissions = [permission2]
       admin.permissions = [permission1]
