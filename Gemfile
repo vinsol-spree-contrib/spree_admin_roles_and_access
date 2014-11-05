@@ -1,22 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.3'
-gem 'mysql2'
-# Gems used only for assets and not required
-# in production environments by default.
+gem 'spree', github: 'spree/spree', branch: 'master'
+gem 'sass-rails', '~> 4.0.3'
 
-group :test do
-  gem 'simplecov'
-  gem 'rspec-rails', '~> 2.12.0'
-  gem 'coffee-script'
-
-  gem 'shoulda-matchers', '~> 2.2.0'
-  gem 'database_cleaner', '1.2.0'
-end
-
-gem 'spree', '2.2.0'
-
+# Spree Internationalization https://github.com/spree/spree_i18n
+gem 'spree_i18n', github: 'spree/spree_i18n', branch: 'master'
+gem 'globalize', github: 'globalize/globalize', branch: 'master'
 # Provides basic authentication functionality for testing parts of your engine
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-2-stable'
+gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: 'master'
+
 
 gemspec
