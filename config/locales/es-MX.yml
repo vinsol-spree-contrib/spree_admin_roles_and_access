@@ -1,12 +1,12 @@
 # Sample localization file for English. Add more files in this directory for other locales.
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
-en:
+es-MX:
   spree:
-    new_role: "New Role"
-    edit_role: "Edit Role"
-    listing_roles: "Listing Roles"
+    new_role: "Nuevo Rol"
+    edit_role: "Editar Rol"
+    listing_roles: "Listado de Roles"
     roles: "Roles"
-    name: "Name"
-    permissions: "Permissions"
-    save_changes: "Save Changes"
+    name: "Nombre"
+    permissions: "Permisos"
+    save_changes: "Guardar Cambios"
