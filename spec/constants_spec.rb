@@ -9,7 +9,7 @@ RSpec.describe "CONSTANTS" do
     end
 
     context 'when it key products' do
-      it { expect(PARAM_ATTRIBUTE['products']).to eq(:permalink) }
+      it { expect(PARAM_ATTRIBUTE['products']).to eq(:slug) }
       it { expect(PARAM_ATTRIBUTE['orders']).to eq(:number) }
       it { expect(PARAM_ATTRIBUTE['shipments']).to eq(:number) }
     end
