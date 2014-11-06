@@ -7,8 +7,8 @@ namespace :spree_roles do
       user.is_default = true
       user.save!
 
-      permission1 = Spree::Permission.create!(title: 'can-manage-all', priority: 0)
-      permission2 = Spree::Permission.create!(title: 'default-permissions', priority: 1)
+      permission1 = Spree::Permission.where(title: 'can-manage-all', priority: 0).first_or_create!
+      permission2 = Spree::Permission.where(title: 'default-permissions', priority: 1).first_or_create!
 
       user.permissions = [permission2]
       admin.permissions = [permission1]
@@ -18,31 +18,31 @@ namespace :spree_roles do
       customer_service = Spree::Role.where(name: 'customer service').first_or_create!
       warehouse = Spree::Role.where(name: 'warehouse').first_or_create!
 
-      permission2 = Spree::Permission.create!(title: 'default-permissions', priority: 1)
-      permission3 = Spree::Permission.create!(title: 'can-manage-spree/products', priority: 2) 
-      permission4 = Spree::Permission.create!(title: 'can-manage-spree/orders', priority: 2) 
-      permission5 = Spree::Permission.create!(title: 'can-manage-spree/users', priority: 2)
-      permission6 = Spree::Permission.create(title: 'can-manage-spree/stock_locations', priority: 2)
+      permission2 = Spree::Permission.where(title: 'default-permissions', priority: 1).first_or_create!
+      permission3 = Spree::Permission.where(title: 'can-manage-spree/products', priority: 2).first_or_create!
+      permission4 = Spree::Permission.where(title: 'can-manage-spree/orders', priority: 2).first_or_create!
+      permission5 = Spree::Permission.where(title: 'can-manage-spree/users', priority: 2).first_or_create!
+      permission6 = Spree::Permission.where(title: 'can-manage-spree/stock_locations', priority: 2).first_or_create!
       
-      permission7 = Spree::Permission.create(title: 'can-read-spree/products', priority: 3)
-      permission8 = Spree::Permission.create(title: 'can-index-spree/products', priority: 3)
-      permission9 = Spree::Permission.create(title: 'can-update-spree/products', priority: 3)
-      permission10 = Spree::Permission.create(title: 'can-create-spree/products', priority: 3)
+      permission7 = Spree::Permission.where(title: 'can-read-spree/products', priority: 3).first_or_create!
+      permission8 = Spree::Permission.where(title: 'can-index-spree/products', priority: 3).first_or_create!
+      permission9 = Spree::Permission.where(title: 'can-update-spree/products', priority: 3).first_or_create!
+      permission10 = Spree::Permission.where(title: 'can-create-spree/products', priority: 3).first_or_create!
 
-      permission11 = Spree::Permission.create(title: 'can-read-spree/users', priority: 3)
-      permission12 = Spree::Permission.create(title: 'can-index-spree/users', priority: 3)
-      permission13 = Spree::Permission.create(title: 'can-update-spree/users', priority: 3)
-      permission14 = Spree::Permission.create(title: 'can-create-spree/users', priority: 3)
+      permission11 = Spree::Permission.where(title: 'can-read-spree/users', priority: 3).first_or_create!
+      permission12 = Spree::Permission.where(title: 'can-index-spree/users', priority: 3).first_or_create!
+      permission13 = Spree::Permission.where(title: 'can-update-spree/users', priority: 3).first_or_create!
+      permission14 = Spree::Permission.where(title: 'can-create-spree/users', priority: 3).first_or_create!
 
-      permission15 = Spree::Permission.create(title: 'can-read-spree/orders', priority: 3)
-      permission16 = Spree::Permission.create(title: 'can-index-spree/orders', priority: 3)
-      permission17 = Spree::Permission.create(title: 'can-update-spree/orders', priority: 3)
-      permission18 = Spree::Permission.create(title: 'can-create-spree/orders', priority: 3)
+      permission15 = Spree::Permission.where(title: 'can-read-spree/orders', priority: 3).first_or_create!
+      permission16 = Spree::Permission.where(title: 'can-index-spree/orders', priority: 3).first_or_create!
+      permission17 = Spree::Permission.where(title: 'can-update-spree/orders', priority: 3).first_or_create!
+      permission18 = Spree::Permission.where(title: 'can-create-spree/orders', priority: 3).first_or_create!
 
-      permission19 = Spree::Permission.create(title: 'can-read-spree/stock_locations', priority: 3)
-      permission20 = Spree::Permission.create(title: 'can-index-spree/stock_locations', priority: 3)
-      permission21 = Spree::Permission.create(title: 'can-update-spree/stock_locations', priority: 3)
-      permission22 = Spree::Permission.create(title: 'can-create-spree/stock_locations', priority: 3)
+      permission19 = Spree::Permission.where(title: 'can-read-spree/stock_locations', priority: 3).first_or_create!
+      permission20 = Spree::Permission.where(title: 'can-index-spree/stock_locations', priority: 3).first_or_create!
+      permission21 = Spree::Permission.where(title: 'can-update-spree/stock_locations', priority: 3).first_or_create!
+      permission22 = Spree::Permission.where(title: 'can-create-spree/stock_locations', priority: 3).first_or_create!
 
       manager.permissions = [ permission2, 
                               permission3, 
