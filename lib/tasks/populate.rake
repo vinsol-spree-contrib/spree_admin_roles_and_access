@@ -44,9 +44,21 @@ namespace :spree_roles do
       permission21 = Spree::Permission.where(title: 'can-update-spree/stock_locations', priority: 3).first_or_create!
       permission22 = Spree::Permission.where(title: 'can-create-spree/stock_locations', priority: 3).first_or_create!
 
+      permission23 = Spree::Permission.where(title: 'can-manage-spree/taxons', priority: 2).first_or_create!
+      permission24 = Spree::Permission.where(title: 'can-manage-spree/option_types', priority: 2).first_or_create!
+      permission25 = Spree::Permission.where(title: 'can-manage-spree/taxonomies', priority: 2).first_or_create!
+      permission26 = Spree::Permission.where(title: 'can-manage-spree/images', priority: 2).first_or_create!
+      permission27 = Spree::Permission.where(title: 'can-manage-spree/product_properties', priority: 2).first_or_create!
+      permission28 = Spree::Permission.where(title: 'can-manage-spree/stocks', priority: 2).first_or_create!
+      
       manager.permissions = [ permission2, 
                               permission3, 
-                              permission4, 
+                              permission4,
+                              permission24,
+                              permission25,
+                              permission26,
+                              permission27,
+                              permission28, 
                               permission6
                             ]
       customer_service.permissions =  [ permission2, 
@@ -54,11 +66,13 @@ namespace :spree_roles do
                                         permission16, 
                                         permission17
                                       ]
-      warehouse.permissions = [ permission2, 
+      warehouse.permissions = [ permission2,
+                                permission4,
                                 permission6,
                                 permission15, 
                                 permission16, 
-                                permission17
+                                permission17,
+                                permission28
                               ]
     end
   end
