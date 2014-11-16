@@ -22,7 +22,7 @@ module Spree
         resource == user
       end
       
-      current_ability.can [:read, :update], Spree::Order do |order, token|
+      current_ability.can [:read, :update, :index], Spree::Order do |order, token|
         order.user == user || (order.guest_token && token == order.guest_token)
       end
       
@@ -30,6 +30,9 @@ module Spree
       current_ability.can :read, Spree::Address do |address|
         address.user == user
       end
+      current_ability.can [:read, :index], Spree::State
+      current_ability.can [:read, :index], Spree::Country
+
     end
 
     define_method('default-admin-permissions') do |current_ability, user|
