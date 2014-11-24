@@ -23,13 +23,16 @@ module Spree
       end
       
       current_ability.can [:read, :update], Spree::Order do |order, token|
-        order.user == user || (order.token && token == order.token)
+        order.user == user || (order.guest_token && token == order.guest_token)
       end
       
       current_ability.can :create, Spree::Order
       current_ability.can :read, Spree::Address do |address|
         address.user == user
       end
+      current_ability.can [:read], Spree::State
+      current_ability.can [:read], Spree::Country
+
     end
 
     define_method('default-admin-permissions') do |current_ability, user|
