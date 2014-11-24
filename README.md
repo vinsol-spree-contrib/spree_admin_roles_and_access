@@ -14,6 +14,13 @@ gem 'spree_admin_roles_and_access'
 
 But if you are using older version of spree
 
+
+```ruby
+# Spree 2.4.0-rc3
+gem 'spree_admin_roles_and_access', '1.3.0'
+```
+
+
 ```ruby
 # Spree 2.1.x
 gem 'spree_admin_roles_and_access', '1.1.0'

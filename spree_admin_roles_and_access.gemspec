@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_admin_roles_and_access'
-  s.version     = '1.2.2'
+  s.version     = '1.3.0'
   s.summary     = 'Dynamically defines roles and grants it permissions'
   s.required_ruby_version = '>= 1.9.3'
   s.files = Dir['LICENSE', 'README.md', 'app/**/*', 'config/**/*', 'lib/**/*', 'db/**/*']
