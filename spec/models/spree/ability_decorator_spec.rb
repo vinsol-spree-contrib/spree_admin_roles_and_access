@@ -88,9 +88,9 @@ describe Spree::Ability do
   shared_examples_for 'default admin permissions' do
     let(:ability) { Spree::Ability.new(user) }
     subject { ability }
-
-    it { should be_able_to :admin, Spree::Order }
-    it { should be_able_to :index, Spree::Order }
+
+    it { should be_able_to :admin, 'spree/admin/overview' }
+    it { should be_able_to :index, 'spree/admin/overview' }
   end
 
   describe 'for general resource' do

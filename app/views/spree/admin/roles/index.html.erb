@@ -6,10 +6,10 @@
 
 <% content_for :page_actions do %>
   <li>
-    <%= button_link_to Spree.t(:new_role), new_admin_role_path, { :remote => true, :data => { :update => 'new_role' }, :icon => 'icon-plus', :id => 'new_role_link' } %>
+    <%= button_link_to Spree.t(:new_role), new_admin_role_path, { :remote => true, :data => { :update => 'new_role' }, :icon => 'plus', :id => 'new_role_link' } %>
   </li>
   <li>
-    <%= button_link_to Spree.t(:permissions), admin_permissions_url, { icon: 'icon-chevron-left' } %>
+    <%= button_link_to Spree.t(:permissions), admin_permissions_url, { icon: 'chevron-left' } %>
   </li>
 <% end %>
 

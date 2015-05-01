@@ -8,14 +8,15 @@ gem 'mysql2'
 group :test do
   gem 'simplecov'
   gem 'rspec-rails', '~> 2.12.0'
+  gem 'coffee-script'
 
   gem 'shoulda-matchers', '~> 2.2.0'
   gem 'database_cleaner', '1.2.0'
 end
 
-gem 'spree', '2.1.0'
+gem 'spree', '2.2.0'
 
 # Provides basic authentication functionality for testing parts of your engine
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-1-stable'
+gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-2-stable'
 
 gemspec
