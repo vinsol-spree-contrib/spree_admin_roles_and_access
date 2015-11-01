@@ -1,0 +1,6 @@
+ru:
+  spree:
+    new_role: "Создать роль"
+    edit_role: "Редактировать роль"
+    listing_roles: "Список ролей"
+    permissions: "Права"

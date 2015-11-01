@@ -1,0 +1,13 @@
+<!-- insert_bottom "[data-hook='additional_role_fields']" -->
+<div class="form-group">
+  <%= f.label :permissions, Spree.t(:permissions) %>
+  <br />
+  <% @permissions.each do |permission| %>
+    <% if @role.has_permission?(permission.title) %>
+      <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id, true %> <%= permission.title.gsub('-',' ').titleize %></span>
+    <% else %>
+      <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id %> <%= permission.title.gsub('-',' ').titleize %></span>
+    <% end %>
+    <br />
+  <% end %>
+</div>
