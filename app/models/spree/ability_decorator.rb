@@ -10,7 +10,7 @@ module Spree
       alias_action :show, :to => :read
       alias_action :delete, :to => :destroy
 
-      user ||= Spree::User.new
+      user ||= Spree.user_class.new
 
       user_roles(user).each do |role|
         ability(role, user)
