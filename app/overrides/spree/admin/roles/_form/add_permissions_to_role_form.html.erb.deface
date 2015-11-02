@@ -1,4 +1,14 @@
 <!-- insert_bottom "[data-hook='additional_role_fields']" -->
+<div data-hook="role_editable" class="checkbox">
+  <label>
+  <%= f.check_box :editable, value: true %><%= Spree.t(:role_editable) %>
+  </label>
+</div>
+<div data-hook="role_is_default" class="checkbox">
+  <label>
+  <%= f.check_box :is_default, value: false %> <%= Spree.t(:role_is_default) %>
+  </label>
+</div>
 <div class="form-group">
   <%= f.label :permissions, Spree.t(:permissions) %>
   <br />
