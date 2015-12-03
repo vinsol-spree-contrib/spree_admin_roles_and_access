@@ -81,11 +81,6 @@ Points to remember
     Override a module Permission. And define the permission in a method, and create a permission in the database.
 
 
-To Do
------
-
-  To provide a space in admin end, from where permissions can be added dynamically.
-
 Testing
 -------
 
