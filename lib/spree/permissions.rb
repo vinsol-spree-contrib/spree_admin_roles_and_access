@@ -36,8 +36,8 @@ module Spree
     end
 
     define_method('default-admin-permissions') do |current_ability, user|
-      current_ability.can :admin, 'spree/admin/overview'
-      current_ability.can :index, 'spree/admin/overview'
+      current_ability.can :admin, 'spree/admin/root'
+      current_ability.can :index, 'spree/admin/root'
     end
 
     define_method('can-update-spree/users') do |current_ability, user|

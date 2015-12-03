@@ -2,7 +2,7 @@ Spree::Role.class_eval do
 
   has_and_belongs_to_many :permissions, :join_table => 'spree_roles_permissions', :class_name => 'Spree::Permission'
 
-  validates :name, :uniqueness => true
+  validates :name, uniqueness: true, allow_blank: true
 
   def ability(current_ability, user)
     permissions.each do |permission|
