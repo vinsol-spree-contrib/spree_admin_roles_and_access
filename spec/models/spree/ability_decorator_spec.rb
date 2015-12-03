@@ -5,11 +5,11 @@ RSpec.describe Spree::Ability, type: :model do
   let(:permission0) { Spree::Permission.create(title: 'default-admin-permissions', priority: 0) }
   let(:permission1) { Spree::Permission.create(title: 'default-permissions', priority: 0) }
   let(:permission2) { Spree::Permission.create(title: 'can-manage-all', priority: 1) }
-  
+
   let(:permission3) { Spree::Permission.create(title: 'can-manage-spree/products', priority: 2) }
-  let(:permission4) { Spree::Permission.create(title: 'can-manage-spree/orders', priority: 2) } 
+  let(:permission4) { Spree::Permission.create(title: 'can-manage-spree/orders', priority: 2) }
   let(:permission5) { Spree::Permission.create(title: 'can-manage-spree/users', priority: 2) }
-    
+
   let(:permission6) { Spree::Permission.create(title: 'can-read-spree/users', priority: 3) }
   let(:permission7) { Spree::Permission.create(title: 'can-index-spree/users', priority: 3) }
   let(:permission8) { Spree::Permission.create(title: 'can-update-spree/users', priority: 3) }
@@ -80,7 +80,7 @@ RSpec.describe Spree::Ability, type: :model do
   shared_examples_for 'read only' do
     let(:ability) { Spree::Ability.new(user) }
     subject { ability }
-    
+
     it { expect(subject).to_not be_able_to(:create, resource) }
     it { expect(subject).to_not be_able_to(:update, resource) }
   end
@@ -179,7 +179,7 @@ RSpec.describe Spree::Ability, type: :model do
       it { expect(subject).to be_able_to :manage, resource_order }
       it { expect(subject).to be_able_to :manage, resource_product }
       it { expect(subject).to be_able_to :manage, resource_user }
-        
+
       [:update, :create, :destroy].each do |action|
         it { expect(subject).to be_able_to action, user1 }
       end
@@ -197,9 +197,9 @@ RSpec.describe Spree::Ability, type: :model do
 
       subject { ability }
 
-        
+
       it { expect(subject).to be_able_to :read, resource_user }
-      it { expect(subject).to be_able_to :index, resource_user }        
+      it { expect(subject).to be_able_to :index, resource_user }
     end
 
     context 'with purchasing_admin user' do
@@ -255,7 +255,7 @@ RSpec.describe Spree::Ability, type: :model do
     context 'requested by other user' do
       let(:resource) { Spree::User.new }
       it_should_behave_like 'create only'
-    end    
+    end
   end
 
   describe 'for Order' do
@@ -274,20 +274,20 @@ RSpec.describe Spree::Ability, type: :model do
 
     context 'requested with inproper token' do
       let(:token) { 'FAIL' }
-      before(:each) { allow(resource).to receive_messages token: 'TOKEN123' }
+      before(:each) { resource.stub(:token).and_return('TOKEN123') }
       it_should_behave_like 'create only'
     end
   end
 
   describe 'for Product' do
     let(:resource) { Spree::Product.new }
-    
+
     it_should_behave_like 'read only'
   end
 
   describe 'for Taxons' do
     let(:resource) { Spree::Taxon.new }
-    
+
     it_should_behave_like 'read only'
   end
 
@@ -307,13 +307,13 @@ RSpec.describe Spree::Ability, type: :model do
         allow_any_instance_of(Spree::Ability).to receive(:alias_action).and_return(true)
         allow_any_instance_of(Spree::Ability).to receive(:ability).and_return(true)
       end
-      
+
       [[:edit, to: :update], [:new, to: :create], [:new_action, to: :create], [:show, to: :read]].each do |from, to|
         it "should receive alias_action with #{from}, #{to} on ability" do
           expect_any_instance_of(Spree::Ability).to receive(:alias_action).with(from, to).and_return(true)
           Spree::Ability.new(user)
         end
-      end 
+      end
     end
 
     it 'should receive new on Spree::User when there is no user passed' do
@@ -361,7 +361,7 @@ RSpec.describe Spree::Ability, type: :model do
       it { expect(subject).to_not be_able_to :update, Spree::User.new, :role_ids }
     end
   end
-    
+
   describe 'ability method' do
     let(:ability) { Spree::Ability.new(user) }
 
@@ -375,7 +375,7 @@ RSpec.describe Spree::Ability, type: :model do
     let(:rule) { CanCan::Rule.new(true, :manage, :all) }
     let(:ability) { Spree::Ability.new(user) }
     let(:rules) { [rule] }
-    
+
     describe 'can' do
       before(:each) do
         allow(CanCan::Rule).to receive(:new).and_return(rule)
@@ -394,7 +394,7 @@ RSpec.describe Spree::Ability, type: :model do
       before(:each) do
         allow(CanCan::Rule).to receive(:new).and_return(rule)
       end
-      
+
       it 'should receive new on CanCan::Rule with false, :manage, :all' do
         expect(CanCan::Rule).to receive(:new).with(false, :manage, :all).and_return(rule)
         ability.cannot(:manage, :all)
@@ -549,7 +549,7 @@ RSpec.describe Spree::Ability, type: :model do
     end
 
     describe 'relevant?' do
-      
+
       let(:rule3) { CanCan::Rule.new(true, :read, Spree::Order) }
 
       before(:each) do
@@ -720,7 +720,7 @@ RSpec.describe Spree::Ability, type: :model do
 
   describe 'alias_action' do
     let(:ability) { Spree::Ability.new(user) }
-    
+
     it 'should eq {:update=>[:edit], :create=>[:new, :new_action], :read=>[:show], destroy: [:delete]}' do
       expect(ability.aliased_actions).to eq({:update=>[:edit], :create=>[:new, :new_action], :read=>[:show], destroy: [:delete]})
     end

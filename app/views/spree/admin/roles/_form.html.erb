@@ -1,19 +1,22 @@
-<div>
-  <%= render :partial => 'spree/shared/error_messages', :locals => { :target => @role } %>
-</div>
 
-<table>
-  <%= form_tag [:admin, @role], :method => method do %>
-    <tr><td><%= Spree.t(:name) %>:</td><td><%= text_field_tag 'role[name]', @role.name %></td></tr>
-    <tr><td><%= Spree.t(:permissions) %>:</td>
-    <td><% @permissions.each do |permission| %>
-      <% if @role.has_permission?(permission.title) %>
-        <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id, true %> <%= permission.title.gsub('-',' ').titleize %></span>
-      <% else %>
-        <span class='permission-check-box'><%= check_box_tag 'role[permission_ids][]', permission.id %> <%= permission.title.gsub('-',' ').titleize %></span>
+<div data-hook="admin_role_form_fields" class="row">
+  <div class="col-md-12">
+    <%= f.field_container :name, class: ['form-group'] do %>
+      <%= f.label :name, Spree.t(:name) %>
+      <%= f.text_field :name, :class => 'form-control' %>
+      <%= error_message_on :role, :name %>
+    <% end %>
+
+    <div data-hook="admin_role_form_permissions" class="form-group">
+      <strong><%= Spree.t(:permissions) %></strong>
+      <% @permissions.each do |permission| %>
+        <div class="checkbox">
+          <%= label_tag "user_spree_permission_#{permission.title}" do %>
+            <%= check_box_tag 'role[permission_ids][]', permission.id, @role.has_permission?(permission.title), id: "user_spree_permission_#{permission.title}" %>
+            <%= permission.title.gsub('-',' ').titleize %>
+          <% end %>
+        </div>
       <% end %>
-      <br />
-    <% end %></td></tr>
-    <tr><td></td><td><%= submit_tag Spree.t(:save_changes) %></td></tr>
-  <% end %>
-</table>
+    </div>
+  </div>
+</div>
