@@ -1,0 +1,14 @@
+ru:
+  spree:
+    new_role: "Создать роль"
+    edit_role: "Редактировать роль"
+    listing_roles: "Список ролей"
+    permissions: "Права доступа"
+    new_permission: "Создать право доступа"
+    role_name: "Наименование"
+    role_editable: "Доступно редактирование"
+    role_is_default: "По-умолчанию"
+    permission_title: "Наименование"
+    permission_priority: "Приоритет"
+    permission_visible: "Видимость"
+    permission_boolean: "Boolean"

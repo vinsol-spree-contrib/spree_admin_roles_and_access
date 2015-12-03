@@ -1,0 +1,22 @@
+<div data-hook="admin_permission_form_fields">
+  <div data-hook="permission_title" class="form-group">
+    <%= f.label :title, Spree.t(:permission_title) %> <span class="required">*</span>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+  <div data-hook="permission_priority" class="form-group">
+    <%= f.label :priority, Spree.t(:permission_priority) %> <span class="required">*</span>
+    <%= f.number_field :priority, in: 0..9, step: 1, class: 'form-control' %>
+  </div>
+  <div data-hook="permission_visible" class="checkbox">
+    <label>
+    <%= f.check_box :visible, value: true %><%= Spree.t(:permission_visible) %>
+    </label>
+  </div>
+  <div data-hook="permission_boolean" class="checkbox">
+    <label>
+    <%= f.check_box :boolean, value: true %> <%= Spree.t(:permission_boolean) %>
+    </label>
+  </div>
+
+  <div data-hook="additional_permission_fields"></div>
+</div>

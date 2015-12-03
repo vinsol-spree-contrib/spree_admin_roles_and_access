@@ -1,0 +1,2 @@
+<!-- insert_bottom "[data-hook='admin_configurations_sidebar_menu']" -->
+<%= configurations_sidebar_menu_item(Spree.t(:permissions), spree.admin_permissions_path) if can? :manage, Spree::Permission %>

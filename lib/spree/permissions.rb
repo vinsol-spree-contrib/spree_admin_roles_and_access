@@ -36,19 +36,20 @@ module Spree
     end
 
     define_method('default-admin-permissions') do |current_ability, user|
-      current_ability.can :admin, 'spree/admin/root'
-      current_ability.can :index, 'spree/admin/root'
+#       current_ability.can :admin, 'spree/admin/root'
+#       current_ability.can :index, 'spree/admin/root'
+      current_ability.can :admin, Spree::Store.default
     end
 
     define_method('can-update-spree/users') do |current_ability, user|
-      current_ability.can :update, Spree::User
+      current_ability.can :update, Spree.user_class
       # The permission of cannot update role_ids was given to user so that no onw with this permission can change role of user.
-      current_ability.cannot :update, Spree::User, :role_ids
+      current_ability.cannot :update, Spree.user_class, :role_ids
     end
 
     define_method('can-create-spree/users') do |current_ability, user|
-      current_ability.can :create, Spree::User
-      current_ability.cannot :create, Spree::User, :role_ids
+      current_ability.can :create, Spree.user_class
+      current_ability.cannot :create, Spree.user_class, :role_ids
     end
 
     private

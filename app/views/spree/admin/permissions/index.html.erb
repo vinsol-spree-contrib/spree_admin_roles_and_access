@@ -1,0 +1,40 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:permissions) %>
+<% end %>
+
+<% content_for :page_actions do %>
+  <%= button_link_to Spree.t(:new_permission), new_object_url, class: "btn-success", icon: 'add', id: 'admin_new_permission_link' %>
+<% end if can? :create, Spree::Permission %>
+
+<% if @permissions.any? %>
+  <table class="table">
+    <thead>
+      <tr data-hook="admin_permissions_index_headers">
+        <th><%= Spree.t(:permission_title) %></th>
+        <th><%= Spree.t(:permission_priority) %></th>
+        <th><%= Spree.t(:permission_visible) %></th>
+        <th><%= Spree.t(:permission_boolean) %></th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @permissions.each do |permission|%>
+        <tr id="<%= spree_dom_id permission %>" data-hook="admin_permissions_index_rows">
+          <td><%= permission.title %></td>
+          <td><%= permission.priority %></td>
+          <td><%= permission.visible %></td>
+          <td><%= permission.boolean %></td>
+          <td class="actions text-right">
+            <%= link_to_edit(permission, no_text: true) if can? :edit, permission %>
+            <%= link_to_delete(permission, no_text: true) if can? :destroy, permission %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="alert alert-warning">
+    <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Permission)) %>,
+    <%= link_to(Spree.t(:add_one), new_object_url) if can? :create, Spree::Permission %>!
+  </div>
+<% end %>
