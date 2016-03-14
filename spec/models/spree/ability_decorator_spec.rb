@@ -89,8 +89,7 @@ RSpec.describe Spree::Ability, type: :model do
     let(:ability) { Spree::Ability.new(user) }
     subject { ability }
 
-    it { expect(subject).to be_able_to :admin, 'spree/admin/overview' }
-    it { expect(subject).to be_able_to :index, 'spree/admin/overview' }
+    it { expect(subject).to be_able_to :admin, ::Spree::Store }
   end
 
   describe 'for general resource' do

@@ -1,7 +1,7 @@
 SpreeAdminRolesAndAccess [![Code Climate](https://codeclimate.com/github/vinsol/spree_admin_roles_and_access.png)](https://codeclimate.com/github/vinsol/spree_admin_roles_and_access) [![Build Status](https://travis-ci.org/vinsol/spree_admin_roles_and_access.png?branch=master)](https://travis-ci.org/vinsol/spree_admin_roles_and_access)
 ========================
 
-This spree extension is build on CanCan to dynamically add new roles and define its access through permissions.
+This spree extension is built on CanCan to dynamically add new roles and define its access through permissions.
 
 Installation
 ------------
@@ -37,6 +37,7 @@ Bundle your dependencies and run the installation generator:
 bundle
 bundle exec rails g spree_admin_roles_and_access:install
 bundle exec rake spree_roles:permissions:populate # To populate user and admin roles with their permissions
+bundle exec rake spree_roles:permissions:populate_other_roles # To populate a set of few handly user roles and permissions.
 ```
 
 Usage
