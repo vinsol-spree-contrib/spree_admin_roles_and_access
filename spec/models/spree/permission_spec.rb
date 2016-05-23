@@ -2,10 +2,10 @@ require 'spec_helper'
 
 RSpec.describe Spree::Permission, type: :model do
 
-  let(:user) { Spree::User.create!(:email => 'abc@test.com', :password => 'password') }
+  let(:user) { Spree::User.create!(email: 'abc@test.com', password: 'password') }
   let(:ability) { Spree::Ability.new(user) }
-  let(:permission1) { Spree::Permission.create!(:title => 'can-manage-all', :priority => 5) }
-  let(:permission2) { Spree::Permission.create!(:title => 'can-update-all', :priority => 2) }
+  let(:permission1) { Spree::Permission.create!(title: 'can-manage-all', priority: 5) }
+  let(:permission2) { Spree::Permission.create!(title: 'can-update-all', priority: 2) }
 
   describe 'Association' do
     it { expect(subject).to have_and_belong_to_many(:roles).class_name('Spree::Role') }
@@ -58,8 +58,8 @@ RSpec.describe Spree::Permission, type: :model do
   end
 
   describe 'permissions' do
-    let(:permission3) { Spree::Permission.create!(:title => "can-read-all", :priority => 2) }
-    let(:permission31) { Spree::Permission.create!(:title => "cannot-read-all", :priority => 2) }
+    let(:permission3) { Spree::Permission.create!(title: "can-read-all", priority: 2) }
+    let(:permission31) { Spree::Permission.create!(title: "cannot-read-all", priority: 2) }
     
     it 'should create a method of same as title' do
       expect(permission3).to_not be_respond_to('can-read-all')
@@ -74,7 +74,7 @@ RSpec.describe Spree::Permission, type: :model do
 
     context 'when there is no attribute' do
 
-      let(:permission4) { Spree::Permission.create!(:title => "can-read-all", :priority => 2) }
+      let(:permission4) { Spree::Permission.create!(title: "can-read-all", priority: 2) }
 
       it 'should receive can with :read, :all' do
         expect(ability).to receive(:can).with(:read, :all).and_return(true)
@@ -83,7 +83,7 @@ RSpec.describe Spree::Permission, type: :model do
     end
 
     context 'when there is no attribute' do
-      let(:permission4) { Spree::Permission.create(:title => "can-read-all-title", :priority => 2) }
+      let(:permission4) { Spree::Permission.create(title: "can-read-all-title", priority: 2) }
       
       it 'should receive can with :read, :all, :title' do
         expect(ability).to receive(:can).with(:read, :all, :title).and_return(true)
@@ -100,8 +100,8 @@ RSpec.describe Spree::Permission, type: :model do
       end
 
       context 'when if subject is model' do
-        let(:permission4) { Spree::Permission.create!(:title => "can-read-spree/orders-title", :priority => 2) }
-        let(:permission5) { Spree::Permission.create!(:title => "can-read-spree/orders", :priority => 2) }
+        let(:permission4) { Spree::Permission.create!(title: "can-read-spree/orders-title", priority: 2) }
+        let(:permission5) { Spree::Permission.create!(title: "can-read-spree/orders", priority: 2) }
         
         context 'when there is attribute' do
           it 'should return can, action, model and attribute' do
@@ -117,7 +117,7 @@ RSpec.describe Spree::Permission, type: :model do
       end
 
       context 'when if subject is not model' do
-        let(:permission4) { Spree::Permission.create!(:title => "can-read-spree/xyz-title", :priority => 2) }
+        let(:permission4) { Spree::Permission.create!(title: "can-read-spree/xyz-title", priority: 2) }
         
         it 'should return can, action and model with xyz' do
           expect(permission4.send(:find_action_and_subject, 'can-read-spree/xyz-title')).to  eq([:can, :read, 'spree/xyz', :title])

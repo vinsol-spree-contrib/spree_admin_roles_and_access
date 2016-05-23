@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-RSpec.describe Spree::Admin::RolesController, :type => :controller do
+RSpec.describe Spree::Admin::RolesController, type: :controller do
   let(:role) { mock_model(Spree::Role) }
   let(:roles) { [role] }
   let(:empty_roles) { [] }
-  let(:user) { mock_model(Spree::User, :email => 'userkonga.com', :password => "password", :password_confirmation => "password", :roles => roles) }
+  let(:user) { mock_model(Spree::User, email: 'userkonga.com', password: "password", password_confirmation: "password", roles: roles) }
   let(:permission) { mock_model(Spree::Permission) }
   let(:permissions) { [permission] }
   let(:ability) { Spree::Ability.new(user) }
@@ -30,7 +30,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
     end
 
     def send_request
-      get :index, :use_route => 'spree'
+      spree_get :index
     end
 
     it 'should recieve page on Spree::Role' do
@@ -46,7 +46,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
   describe 'edit' do
     def send_request
-      get :edit, :id => role.id, :use_route => 'spree'
+      spree_get :edit, id: role.id
     end
 
     before(:each) do
@@ -105,7 +105,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
   describe '#authorize_admin' do
     def send_request(params = {})
-      get :index, params.merge(:use_route => 'spree')
+      spree_get :index, params
     end
 
     it 'should_receive model_class and return Spree::Role' do
@@ -121,8 +121,8 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
     end
 
     shared_examples_for 'without_params_id' do
-      it 'should not receive where on Spree::Role with :id => params[:id]' do
-        expect(Spree::Role).to_not receive(:where).with(:id => role.id.to_s)
+      it 'should not receive where on Spree::Role with id: params[:id]' do
+        expect(Spree::Role).to_not receive(:where).with(id: role.id.to_s)
       end
     end
 
@@ -149,11 +149,11 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
       context 'when there is params[:id]' do
         after(:each) do
-          send_request({:id => role.id})
+          send_request({id: role.id})
         end
 
-        it 'should receive where on Spree::Role with :id => params[:id]' do
-          expect(Spree::Role).to receive(:where).with(:id => role.id.to_s).and_return(roles)
+        it 'should receive where on Spree::Role with id: params[:id]' do
+          expect(Spree::Role).to receive(:where).with(id: role.id.to_s).and_return(roles)
         end
 
         it 'should receive authorize! with :admin, role' do
@@ -236,34 +236,34 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
         context 'when there are attributes' do
           it 'should receive authorize! with :admin, Spree::Role' do
             expect(controller).to receive(:authorize!).with(:admin, Spree::Role).and_return(true)
-            send_request(:role => {:name => 'name'})
+            send_request(role: {name: 'name'})
           end
 
           it 'should receive authorize! with :index, Spree::Role' do
             expect(controller).to receive(:authorize!).with(:index, Spree::Role, "name").and_return(true)
-            send_request(:role => {:name => 'name'})
+            send_request(role: {name: 'name'})
           end
 
           it 'should receive authorize_with_attributes! with :index, Spree::Role' do
             expect(controller).to receive(:authorize_with_attributes!).with(:index, Spree::Role, {"name" => "name"}).and_return(true)
-            send_request(:role => {:name => 'name'})
+            send_request(role: {name: 'name'})
           end
         end
 
         context 'when there is a param with same name as controller_name.singularize but its not a hash' do
           it 'should receive authorize! with :admin, Spree::Role' do
             expect(controller).to receive(:authorize!).with(:admin, Spree::Role).and_return(true)
-            send_request(:role => 'name')
+            send_request(role: 'name')
           end
 
           it 'should receive authorize_with_attributes! with :index, Spree::Role, name' do
             expect(controller).to receive(:authorize_with_attributes!).with(:index, Spree::Role, "name").and_return(true)
-            send_request(:role => "name")
+            send_request(role: "name")
           end
 
           it 'should receive authorize! with :index, Spree::Role' do
             expect(controller).to receive(:authorize!).with(:index, Spree::Role).and_return(true)
-            send_request(:role => 'name')
+            send_request(role: 'name')
           end
         end
       end
@@ -298,7 +298,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
     before(:each) do
       @params = double('params')
-      @parameters = {:name => 'any-name'}
+      @parameters = {name: 'any-name'}
       allow(controller).to receive(:params).and_return(@params)
       allow(@params).to receive(:require).and_return(@parameters)
       allow(@parameters).to receive(:permit).and_return(@parameters)
@@ -311,7 +311,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
       it { expect(controller).to receive(:params).and_return(@params) }
       it { expect(@params).to receive(:require).with(:role).and_return(@parameters) }
-      it { expect(@parameters).to receive(:permit).with(:name, :permission_ids => []).and_return(@parameters) }
+      it { expect(@parameters).to receive(:permit).with(:name, permission_ids: []).and_return(@parameters) }
     end
   end
 end

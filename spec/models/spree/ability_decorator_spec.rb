@@ -273,7 +273,7 @@ RSpec.describe Spree::Ability, type: :model do
 
     context 'requested with inproper token' do
       let(:token) { 'FAIL' }
-      before(:each) { resource.stub(:token).and_return('TOKEN123') }
+      before(:each) { allow(resource).to receive(:token).and_return('TOKEN123') }
       it_should_behave_like 'create only'
     end
   end
@@ -720,8 +720,8 @@ RSpec.describe Spree::Ability, type: :model do
   describe 'alias_action' do
     let(:ability) { Spree::Ability.new(user) }
 
-    it 'should eq {:update=>[:edit], :create=>[:new, :new_action], :read=>[:show], destroy: [:delete]}' do
-      expect(ability.aliased_actions).to eq({:update=>[:edit], :create=>[:new, :new_action], :read=>[:show], destroy: [:delete]})
+    it 'should eq {update: [:edit], create: [:new, :new_action], read: [:show], destroy: [:delete]}' do
+      expect(ability.aliased_actions).to eq({update: [:edit], create: [:new, :new_action], read: [:show], destroy: [:delete]})
     end
   end
 end

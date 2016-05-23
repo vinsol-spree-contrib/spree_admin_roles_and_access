@@ -4,11 +4,11 @@ module Spree
 
     default_scope { order(:priority) }
 
-    has_and_belongs_to_many :roles, :join_table => 'spree_roles_permissions', :class_name => 'Spree::Role'
+    has_and_belongs_to_many :roles, join_table: 'spree_roles_permissions', class_name: 'Spree::Role'
 
-    validates :title, :presence => true, :uniqueness => true
+    validates :title, presence: true, uniqueness: true
 
-    scope :visible, lambda { where(:visible => true) }
+    scope :visible, lambda { where(visible: true) }
 
     def ability(current_ability, user)
       send(title, current_ability, user)

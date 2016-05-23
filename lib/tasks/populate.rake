@@ -1,7 +1,7 @@
 namespace :spree_roles do
   namespace :permissions do
     desc "Create admin username and password"
-    task :populate => :environment do
+    task populate: :environment do
       admin = Spree::Role.where(name: 'admin').first_or_create!
       user = Spree::Role.where(name: 'user').first_or_create!
       user.is_default = true
@@ -13,7 +13,7 @@ namespace :spree_roles do
       user.permissions = [permission2]
       admin.permissions = [permission1]
     end
-    task :populate_other_roles => :environment do
+    task populate_other_roles: :environment do
       manager = Spree::Role.where(name: 'manager').first_or_create!
       customer_service = Spree::Role.where(name: 'customer service').first_or_create!
       warehouse = Spree::Role.where(name: 'warehouse').first_or_create!

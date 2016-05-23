@@ -30,6 +30,12 @@ require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/url_helpers'
 
 RSpec.configure do |config|
+  # == Requests support
+  #
+  # Adds convenient methods to request Spree's controllers
+  # spree_get :index
+  config.include Spree::TestingSupport::ControllerRequests, type: :controller
+
   # == URL Helpers
   #
   # Allows access to Spree's routes in specs:

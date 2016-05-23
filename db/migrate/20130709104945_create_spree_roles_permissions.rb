@@ -1,8 +1,8 @@
 class CreateSpreeRolesPermissions < ActiveRecord::Migration
   def change
-    create_table :spree_roles_permissions, :id => false do |t|
-      t.integer :role_id, :null => false
-      t.integer :permission_id, :null => false
+    create_table :spree_roles_permissions, id: false do |t|
+      t.integer :role_id, null: false
+      t.integer :permission_id, null: false
     end
 
     add_index(:spree_roles_permissions, :role_id)
