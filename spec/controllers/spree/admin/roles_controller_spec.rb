@@ -30,7 +30,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
     end
 
     def send_request
-      get :index, :use_route => 'spree'
+      get :index
     end
 
     it 'should recieve page on Spree::Role' do
@@ -46,7 +46,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
   describe 'edit' do
     def send_request
-      get :edit, :id => role.id, :use_route => 'spree'
+      get :edit, :id => role.id
     end
 
     before(:each) do
@@ -105,7 +105,7 @@ RSpec.describe Spree::Admin::RolesController, :type => :controller do
 
   describe '#authorize_admin' do
     def send_request(params = {})
-      get :index, params.merge(:use_route => 'spree')
+      get :index, params
     end
 
     it 'should_receive model_class and return Spree::Role' do

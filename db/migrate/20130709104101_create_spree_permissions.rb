@@ -5,7 +5,7 @@ class CreateSpreePermissions < ActiveRecord::Migration
       t.integer :priority, :default => 0
       t.boolean :visible, :boolean, :default => true
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :spree_permissions, :visible

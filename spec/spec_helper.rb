@@ -39,6 +39,12 @@ RSpec.configure do |config|
   config.include Spree::TestingSupport::UrlHelpers
   config.include Spree::Core::Engine.routes.url_helpers
 
+  # == Requests support
+  #
+  # Adds convenient methods to request Spree's controllers
+  # spree_get :index
+  config.include Spree::TestingSupport::ControllerRequests, type: :controller
+
   # == Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
