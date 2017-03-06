@@ -107,7 +107,8 @@ Sample Application
 ------------------
 
 A sample application with the extension already implemented can be found [here](https://spree-demo.domain4now.com/admin/orders)
-Admin credentials - admin@spreedemo.com / spree_admin
+
+Admin Credentials - admin@spreedemo.com / spree_admin
 
 
 Credits
