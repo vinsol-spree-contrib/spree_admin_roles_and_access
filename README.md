@@ -103,6 +103,12 @@ Contributing
 6. Ensure specs pass by running `bundle exec rspec spec`.
 7. Submit your pull request.
 
+Sample Application
+------------------
+
+A sample application with the extension already implemented can be found [here](https://spree-demo.domain4now.com/admin/orders)
+Admin credentials - admin@spreedemo.com / spree_admin
+
 
 Credits
 -------
