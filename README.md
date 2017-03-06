@@ -106,8 +106,7 @@ Contributing
 Sample Application
 ------------------
 
-A sample application with the extension already implemented can be found [here](https://spree-demo.domain4now.com/admin/orders)
-
+A sample application with the extension already implemented can be found [here](https://spree-demo.domain4now.com).
 Admin Credentials - admin@spreedemo.com / spree_admin
 
 
