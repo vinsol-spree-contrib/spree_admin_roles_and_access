@@ -4,7 +4,7 @@ namespace :spree_roles do
     def description_from_title(title)
       permission = title.split('/')
       description = ["Permitted user"]
-      description << permission.first.gsub('-', '_').gsub('index', 'list').gsub('_spree', '').titleize
+      description << permission.first.gsub('-', '_').gsub('index', 'list').gsub('_spree', '').humanize
       description << permission.second.titleize if permission[1].present?
       description.join(" ")
     end
@@ -41,6 +41,37 @@ namespace :spree_roles do
       role
     end
 
+    def make_resource_permission_set(resource_name)
+      resource_admin_permission = make_permission("can-admin-#{ resource_name }", 3)
+      resource_read_permission  = make_permission("can-read-#{ resource_name }", 3)
+      resource_index_permission = make_permission("can-index-#{ resource_name }", 3)
+      resource_update_permission = make_permission("can-update-#{ resource_name }", 3)
+      resource_create_permission = make_permission("can-create-#{ resource_name }", 3)
+      resource_delete_permission = make_permission("can-destroy-#{ resource_name }", 3)
+      resource_human_name = resource_name.gsub('/', '').gsub('spree', '').titleize
+
+      display = make_permission_set(
+        [resource_admin_permission, resource_read_permission, resource_index_permission],
+        "#{ resource_human_name  } Display",
+        "Permitted user can view #{ resource_human_name }",
+        display_permission: true
+      )
+
+      edit = make_permission_set(
+        [resource_admin_permission, resource_update_permission, resource_create_permission],
+        "#{ resource_human_name } Manage",
+        "Permitted user can create or update #{ resource_human_name }"
+      )
+
+      delete = make_permission_set(
+        [resource_admin_permission, resource_delete_permission],
+        "#{ resource_human_name } Destroy",
+        "Permitted user can delete #{ resource_human_name }"
+      )
+
+      [display, edit, delete]
+    end
+
     desc "Create admin username and password"
 
     task populate: :environment do
@@ -56,137 +87,47 @@ namespace :spree_roles do
     end
 
     task populate_other_roles: :environment do
-      default_permission_set = Spree::PermissionSet.find_by(name: 'default')
-      product_admin_permission = make_permission('can-admin-spree/products', 3)
-      product_display_permission_set = make_permission_set(
-        [product_admin_permission, make_permission('can-read-spree/products', 3), make_permission('can-index-spree/products', 3)],
-        'product_display',
-        'Can view product information',
-        display_permission: true
-      )
-      product_edit_permission_set = make_permission_set(
-        [product_admin_permission, make_permission('can-create-spree/products', 3), make_permission('can-update-spree/products', 3)],
-        'product_editing',
-        'Can edit or create product details'
-      )
-
-      user_admin_permission = make_permission('can-admin-spree/users', 3)
-      user_display_permission_set = make_permission_set(
-        [user_admin_permission, make_permission('can-read-spree/users', 3), make_permission('can-index-spree/users', 3)],
-        'user_display',
-        'Can view user information',
-        display_permission: true
-      )
-      user_edit_permission_set = make_permission_set(
-        [user_admin_permission, make_permission('can-create-spree/users', 3), make_permission('can-update-spree/users', 3)],
-        'user_editing',
-        'Can edit or create user details'
-      )
-
-      order_admin_permission = make_permission('can-admin-spree/orders', 3)
-      order_display_permission_set = make_permission_set(
-        [order_admin_permission, make_permission('can-read-spree/orders', 3), make_permission('can-index-spree/orders', 3)],
-        'order_display',
-        'Can view order information',
-        display_permission: true
-      )
-      order_edit_permission_set = make_permission_set(
-        [order_admin_permission, make_permission('can-create-spree/orders', 3), make_permission('can-update-spree/orders', 3)],
-        'order_editing',
-        'Can edit or create order details'
-      )
-
-      stock_location_admin_permission = make_permission('can-admin-spree/stock_locations', 3)
-      stock_location_display_permission_set = make_permission_set(
-        [stock_location_admin_permission, make_permission('can-read-spree/stock_locations', 3), make_permission('can-index-spree/stock_locations', 3)],
-        'stock_location_display',
-        'Can view stock_location information',
-        display_permission: true
-      )
-      stock_location_edit_permission_set = make_permission_set(
-        [stock_location_admin_permission, make_permission('can-create-spree/stock_locations', 3), make_permission('can-update-spree/stock_locations', 3)],
-        'stock_location_editing',
-        'Can edit or create stock_location details'
-      )
-
-      taxon_admin_permission = make_permission('can-admin-spree/taxons', 3)
-      taxon_display_permission_set = make_permission_set(
-        [taxon_admin_permission, make_permission('can-read-spree/taxons', 3), make_permission('can-index-spree/taxons', 3)],
-        'taxon_display',
-        'Can view taxon information',
-        display_permission: true
-      )
-      taxon_edit_permission_set = make_permission_set(
-        [taxon_admin_permission, make_permission('can-create-spree/taxons', 3), make_permission('can-update-spree/taxons', 3)],
-        'taxon_editing',
-        'Can edit or create taxon details'
-      )
-
-      taxonomie_admin_permission = make_permission('can-admin-spree/taxonomies', 3)
-      taxonomie_display_permission_set = make_permission_set(
-        [taxonomie_admin_permission, make_permission('can-read-spree/taxonomies', 3), make_permission('can-index-spree/taxonomies', 3)],
-        'taxonomy_display',
-        'Can view taxonomie information',
-        display_permission: true
-      )
-      taxonomie_edit_permission_set = make_permission_set(
-        [taxonomie_admin_permission, make_permission('can-create-spree/taxonomies', 3), make_permission('can-update-spree/taxonomies', 3)],
-        'taxonomy_editing',
-        'Can edit or create taxonomy details'
-      )
-
-      image_admin_permission = make_permission('can-admin-spree/images', 3)
-      image_display_permission_set = make_permission_set(
-        [image_admin_permission, make_permission('can-read-spree/images', 3), make_permission('can-index-spree/images', 3)],
-        'image_display',
-        'Can view image information',
-        display_permission: true
-      )
-      image_edit_permission_set = make_permission_set(
-        [image_admin_permission, make_permission('can-create-spree/images', 3), make_permission('can-update-spree/images', 3)],
-        'image_editing',
-        'Can edit or create image details'
-      )
-
-      stock_admin_permission = make_permission('can-admin-spree/stocks', 3)
-      stock_display_permission_set = make_permission_set(
-        [stock_admin_permission, make_permission('can-read-spree/stocks', 3), make_permission('can-index-spree/stocks', 3)],
-        'stock_display',
-        'Can view stock information',
-        display_permission: true
-      )
-      stock_edit_permission_set = make_permission_set(
-        [stock_admin_permission, make_permission('can-create-spree/stocks', 3), make_permission('can-update-spree/stocks', 3)],
-        'stock_editing',
-        'Can edit or create stock details'
-      )
+      default                                                            = Spree::PermissionSet.find_by(name: 'default')
+      product_display, product_edit, product_delete                      = make_resource_permission_set('spree/products')
+      user_display, user_edit, user_delete                               = make_resource_permission_set('spree/users')
+      order_display, order_edit, order_delete                            = make_resource_permission_set('spree/orders')
+      taxon_display, taxon_edit, taxon_delete                            = make_resource_permission_set('spree/taxons')
+      taxonomy_display, taxonomy_edit, taxonomy_delete                   = make_resource_permission_set('spree/taxonomies')
+      image_display, image_edit, image_delete                            = make_resource_permission_set('spree/images')
+      stock_location_display, stock_location_edit, stock_location_delete = make_resource_permission_set('spree/stock_locations')
+      stock_display, stock_edit, stock_delete                            = make_resource_permission_set('spree/stocks')
 
       create_role_with_permission_sets(
         [
-          default_permission_set, product_display_permission_set,
-          product_edit_permission_set, user_display_permission_set,
-          user_edit_permission_set, order_display_permission_set,
-          order_edit_permission_set
+          default,
+          product_display,
+          product_edit,
+          user_display,
+          user_edit,
+          order_display,
+          order_edit
         ],
         'manager'
       )
 
       create_role_with_permission_sets(
         [
-          default_permission_set, order_display_permission_set,
-          order_edit_permission_set, user_display_permission_set
+          default,
+          order_display,
+          order_edit,
+          user_display
         ],
         'customer_service'
       )
 
       create_role_with_permission_sets(
         [
-          default_permission_set, stock_display_permission_set,
-          stock_edit_permission_set
+          default,
+          stock_display,
+          stock_edit
         ],
         'warehouse'
       )
-
     end
   end
 end
