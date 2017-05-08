@@ -16,15 +16,18 @@
     <%= f.error_message_on :display_permission, class: 'error-message' %>
   <% end %>
   <%= f.field_container :permissions, class: ['form-group'] do %>
+    <%- @permission_set.permissions.to_a %>
     <%= f.label :permissions, Spree.t(:permission_set_permissions) %>
-    <% @permissions.each do |permission| %>
-      <div class="checkbox">
-        <%= label_tag do %>
-          <%= check_box_tag 'role[permission_ids][]', permission.id, @permission_set.permissions.include?(permission), id: "spree_permission_set_permission_#{permission.id}" %>
-          <%= permission.title.gsub('-', '_').titleize %><p class="help-block"><%= permission.description %></p>
-        <% end %>
-      </div>
-    <% end %>
+    <div class="searchable-scrollable-list">
+      <% @permissions.each do |permission| %>
+        <div class="checkbox">
+          <%= label_tag do %>
+            <%= check_box_tag 'permission_set[permission_ids][]', permission.id, @permission_set.permissions.include?(permission), id: "spree_permission_set_permission_#{permission.id}" %>
+            <%= permission.title.gsub('-', '_').titleize %><p class="help-block"><%= permission.description %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
     <%= f.error_message_on :permissions %>
   <% end %>
   <div data-hook="additional_permission_fields"></div>

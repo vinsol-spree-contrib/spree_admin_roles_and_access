@@ -1,6 +1,6 @@
 class CreateSpreeRolesPermissions < ActiveRecord::Migration
   def change
-    create_table :spree_roles_permissions do |t|
+    create_table :spree_roles_permissions, id: false do |t|
       t.integer :role_id, null: false
       t.integer :permission_id, null: false
     end

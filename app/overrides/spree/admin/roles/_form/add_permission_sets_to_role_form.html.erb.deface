@@ -1,11 +1,13 @@
  <!-- insert_bottom "[data-hook='additional_role_fields']" -->
 
 <div data-hook="admin_role_form_permissions" class="form-group">
+  <%- @role.permission_sets.to_a %>
   <strong><%= Spree.t(:permission_sets) %></strong>
   <hr>
   <div class="row">
     <div class="col col-xs-6">
       <strong>Managment Permissions</strong>
+      <div class="searchable-scrollable-list">
       <% @permission_sets.each do |permission_set| %>
         <% if !permission_set.display_permission %>
           <div class="checkbox">
@@ -16,9 +18,11 @@
           </div>
         <% end %>
       <% end %>
+      </div>
     </div>
     <div class="col col-xs-6">
       <strong>Display Permissions</strong>
+      <div class="searchable-scrollable-list">
       <% @permission_sets.each do |permission_set| %>
         <% if permission_set.display_permission %>
           <div class="checkbox">
@@ -29,6 +33,7 @@
           </div>
         <% end %>
       <% end %>
+      </div>
     </div>
   </div>
 </div>

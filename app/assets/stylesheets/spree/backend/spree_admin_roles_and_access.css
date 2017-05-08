@@ -1,3 +1,8 @@
 /*
  *= require spree/backend
 */
+
+.searchable-scrollable-list {
+    overflow-y: scroll;
+    max-height: 300px;
+}
