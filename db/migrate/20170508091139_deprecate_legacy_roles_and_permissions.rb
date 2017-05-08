@@ -9,13 +9,16 @@ class DeprecateLegacyRolesAndPermissions < ActiveRecord::Migration[5.0]
     Spree::Role.find_each do |role|
       permission_set = Spree::PermissionSet.where(name: role.name).first_or_create!
       role_permissions = role.legacy_permissions
-      role_permissions.each do |permission|
-        unless permission_set.permissions.include? permission
-          permission_set.permissions << permission
+      if role_permissions.present?
+        role_permissions.each do |permission|
+          permission_set.permissions << permission unless permission_set.permissions.include? permission
+        end
+
+        if permission_set.permissions.present?
+          permission_set.save!
+          role.permission_sets << permission_set
         end
       end
-      permission_set.save!
-      role.permission_sets << permission_set
     end
   end
 

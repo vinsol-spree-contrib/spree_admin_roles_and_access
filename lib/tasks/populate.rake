@@ -1,10 +1,33 @@
 namespace :spree_roles do
   namespace :permissions do
 
-    def do_permission_setup(permission, permission_set_name, role, priority)
-      permission = Spree::Permission.where(title: permission, priority: priority).first_or_create!
+    def description_from_title(title)
+      permission = title.split('/')
+      description = ["Permitted user"]
+      description << permission.first.gsub('-', '_').gsub('index', 'list').gsub('_spree', '').titleize
+      description << permission.second.titleize if permission[1].present?
+      description.join(" ")
+    end
+
+    def make_permission(title, priority)
+      permission = Spree::Permission.where(title: title).first_or_create!
+      permission.priority =  priority
+      permission.description = description_from_title(title)
+      permission.save!
+      permission
+    end
+
+    def make_permission_set(permissions, permission_set_name, description, display_permission: false)
       permission_set = Spree::PermissionSet.where(name: permission_set_name).first_or_initialize
-      create_role_with_permission_sets([permission_set], role)
+      permission_set.description = description
+      permissions.each do |permission|
+        unless permission_set.permissions.include? permission
+          permission_set.permissions << permission
+        end
+      end
+      permission_set.display_permission = display_permission
+      permission_set.save!
+      permission_set
     end
 
     def create_role_with_permission_sets(permission_sets, role)
@@ -21,75 +44,139 @@ namespace :spree_roles do
     desc "Create admin username and password"
 
     task populate: :environment do
-      do_permission_setup('can-manage-all', 'admin', 'admin', 0)
-      default_role = do_permission_setup('default-permissions', 'default', 'default', 1)
+      admin_permission = make_permission('can-manage-all', 0)
+      admin_permission_set = make_permission_set([admin_permission], 'admin', 'Can manage everything')
+      create_role_with_permission_sets([admin_permission_set], 'admin')
+
+      default_permission = make_permission('default-permissions', 1)
+      default_permission_set = make_permission_set([default_permission], 'default', 'Permission for general users including the customers')
+      default_role = create_role_with_permission_sets([default_permission_set], 'default')
       default_role.is_default = true
       default_role.save!
     end
 
     task populate_other_roles: :environment do
       default_permission_set = Spree::PermissionSet.find_by(name: 'default')
+      product_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/products', 3), make_permission('can-index-spree/products', 3)],
+        'product_display',
+        'Can view product information',
+        display_permission: true
+      )
+      product_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/products', 3), make_permission('can-update-spree/products', 3)],
+        'product_editing',
+        'Can edit or create product details'
+      )
 
-      manager = Spree::Role.where(name: 'manager').first_or_create!
-      customer_service = Spree::Role.where(name: 'customer service').first_or_create!
-      warehouse = Spree::Role.where(name: 'warehouse').first_or_create!
+      user_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/users', 3), make_permission('can-index-spree/users', 3)],
+        'user_display',
+        'Can view user information',
+        display_permission: true
+      )
+      user_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/users', 3), make_permission('can-update-spree/users', 3)],
+        'user_editing',
+        'Can edit or create user details'
+      )
 
-      permission2 = Spree::Permission.where(title: 'default-permissions', priority: 1).first_or_create!
-      permission3 = Spree::Permission.where(title: 'can-manage-spree/products', priority: 2).first_or_create!
-      permission4 = Spree::Permission.where(title: 'can-manage-spree/orders', priority: 2).first_or_create!
-      permission5 = Spree::Permission.where(title: 'can-manage-spree/users', priority: 2).first_or_create!
-      permission6 = Spree::Permission.where(title: 'can-manage-spree/stock_locations', priority: 2).first_or_create!
+      order_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/orders', 3), make_permission('can-index-spree/orders', 3)],
+        'order_display',
+        'Can view order information',
+        display_permission: true
+      )
+      order_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/orders', 3), make_permission('can-update-spree/orders', 3)],
+        'order_editing',
+        'Can edit or create order details'
+      )
 
-      permission7 = Spree::Permission.where(title: 'can-read-spree/products', priority: 3).first_or_create!
-      permission8 = Spree::Permission.where(title: 'can-index-spree/products', priority: 3).first_or_create!
-      permission9 = Spree::Permission.where(title: 'can-update-spree/products', priority: 3).first_or_create!
-      permission10 = Spree::Permission.where(title: 'can-create-spree/products', priority: 3).first_or_create!
+      stock_location_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/stock_locations', 3), make_permission('can-index-spree/stock_locations', 3)],
+        'stock_location_display',
+        'Can view stock_location information',
+        display_permission: true
+      )
+      stock_location_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/stock_locations', 3), make_permission('can-update-spree/stock_locations', 3)],
+        'stock_location_editing',
+        'Can edit or create stock_location details'
+      )
 
-      permission11 = Spree::Permission.where(title: 'can-read-spree/users', priority: 3).first_or_create!
-      permission12 = Spree::Permission.where(title: 'can-index-spree/users', priority: 3).first_or_create!
-      permission13 = Spree::Permission.where(title: 'can-update-spree/users', priority: 3).first_or_create!
-      permission14 = Spree::Permission.where(title: 'can-create-spree/users', priority: 3).first_or_create!
+      taxon_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/taxons', 3), make_permission('can-index-spree/taxons', 3)],
+        'taxon_display',
+        'Can view taxon information',
+        display_permission: true
+      )
+      taxon_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/taxons', 3), make_permission('can-update-spree/taxons', 3)],
+        'stock_location_editing',
+        'Can edit or create stock_location details'
+      )
 
-      permission15 = Spree::Permission.where(title: 'can-read-spree/orders', priority: 3).first_or_create!
-      permission16 = Spree::Permission.where(title: 'can-index-spree/orders', priority: 3).first_or_create!
-      permission17 = Spree::Permission.where(title: 'can-update-spree/orders', priority: 3).first_or_create!
-      permission18 = Spree::Permission.where(title: 'can-create-spree/orders', priority: 3).first_or_create!
+      taxonomie_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/taxonomies', 3), make_permission('can-index-spree/taxonomies', 3)],
+        'taxonomie_display',
+        'Can view taxonomie information',
+        display_permission: true
+      )
+      taxonomie_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/taxonomies', 3), make_permission('can-update-spree/taxonomies', 3)],
+        'stock_location_editing',
+        'Can edit or create stock_location details'
+      )
+      image_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/images', 3), make_permission('can-index-spree/images', 3)],
+        'image_display',
+        'Can view image information',
+        display_permission: true
+      )
+      image_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/images', 3), make_permission('can-update-spree/images', 3)],
+        'stock_location_editing',
+        'Can edit or create stock_location details'
+      )
+      stock_display_permission_set = make_permission_set(
+        [make_permission('can-read-spree/stocks', 3), make_permission('can-index-spree/stocks', 3)],
+        'stock_display',
+        'Can view stock information',
+        display_permission: true
+      )
+      stock_edit_permission_set = make_permission_set(
+        [make_permission('can-create-spree/stocks', 3), make_permission('can-update-spree/stocks', 3)],
+        'stock_location_editing',
+        'Can edit or create stock_location details'
+      )
 
-      permission19 = Spree::Permission.where(title: 'can-read-spree/stock_locations', priority: 3).first_or_create!
-      permission20 = Spree::Permission.where(title: 'can-index-spree/stock_locations', priority: 3).first_or_create!
-      permission21 = Spree::Permission.where(title: 'can-update-spree/stock_locations', priority: 3).first_or_create!
-      permission22 = Spree::Permission.where(title: 'can-create-spree/stock_locations', priority: 3).first_or_create!
+      create_role_with_permission_sets(
+        [
+          default_permission_set, product_display_permission_set,
+          product_edit_permission_set, user_display_permission_set,
+          user_edit_permission_set, order_display_permission_set,
+          order_edit_permission_set
+        ],
+        'manager'
+      )
 
-      permission23 = Spree::Permission.where(title: 'can-manage-spree/taxons', priority: 2).first_or_create!
-      permission24 = Spree::Permission.where(title: 'can-manage-spree/option_types', priority: 2).first_or_create!
-      permission25 = Spree::Permission.where(title: 'can-manage-spree/taxonomies', priority: 2).first_or_create!
-      permission26 = Spree::Permission.where(title: 'can-manage-spree/images', priority: 2).first_or_create!
-      permission27 = Spree::Permission.where(title: 'can-manage-spree/product_properties', priority: 2).first_or_create!
-      permission28 = Spree::Permission.where(title: 'can-manage-spree/stocks', priority: 2).first_or_create!
+      create_role_with_permission_sets(
+        [
+          default_permission_set, order_display_permission_set,
+          order_edit_permission_set, user_display_permission_set
+        ],
+        'customer_service'
+      )
 
-      manager.permissions = [ permission2,
-                              permission3,
-                              permission4,
-                              permission24,
-                              permission25,
-                              permission26,
-                              permission27,
-                              permission28,
-                              permission6
-                            ]
-      customer_service.permissions =  [ permission2,
-                                        permission15,
-                                        permission16,
-                                        permission17
-                                      ]
-      warehouse.permissions = [ permission2,
-                                permission4,
-                                permission6,
-                                permission15,
-                                permission16,
-                                permission17,
-                                permission28
-                              ]
+      create_role_with_permission_sets(
+        [
+          default_permission_set, stock_display_permission_set,
+          stock_edit_permission_set
+        ],
+        'warehouse'
+      )
+
     end
   end
 end
