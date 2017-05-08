@@ -21,3 +21,4 @@ en:
     select_permission_sets: "Select Permission Sets"
     atleast_one_permission_is_required: "Atleast One Permission Is Required"
     atleast_one_permission_set_is_required: "Atleast One Permission Set Is Required"
+    permission_set_display_permission_help: "Set it to indicate that permission set provides permissions for display purposed only"

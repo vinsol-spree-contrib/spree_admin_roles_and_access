@@ -1,9 +1,34 @@
-<!-- insert_bottom "[data-hook='additional_role_fields']" -->
+ <!-- insert_bottom "[data-hook='additional_role_fields']" -->
 
-<div data-hook="admin_role_form_permission_set">
-  <%= f.field_container :permission_sets, class: ['form-group'] do %>
-    <%= f.label :permission_sets, Spree.t(:permission_sets) %>
-    <%= f.select :permission_set_ids, @permission_sets.collect { |permission| [permission.name, permission.id] }, {}, { multiple: true, class: 'select2', data: { placeholder: Spree.t(:select_permission_sets) } } %>
-    <%= f.error_message_on :permission_sets, class: 'error-message' %>
-  <% end %>
+<div data-hook="admin_role_form_permissions" class="form-group">
+  <strong><%= Spree.t(:permission_sets) %></strong>
+  <hr>
+  <div class="row">
+    <div class="col col-xs-6">
+      <strong>Managment Permissions</strong>
+      <% @permission_sets.each do |permission_set| %>
+        <% if !permission_set.display_permission %>
+          <div class="checkbox">
+            <%= label_tag do %>
+              <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
+              <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col col-xs-6">
+      <strong>Display Permissions</strong>
+      <% @permission_sets.each do |permission_set| %>
+        <% if permission_set.display_permission %>
+          <div class="checkbox">
+            <%= label_tag do %>
+              <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
+              <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>

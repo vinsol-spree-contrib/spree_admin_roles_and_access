@@ -3,6 +3,10 @@
     <%= f.label :title, Spree.t(:permission_title) %> <span class="required">*</span>
     <%= f.text_field :title, class: 'form-control' %>
   </div>
+  <div data-hook="permission_description" class="form-group">
+    <%= f.label :description, Spree.t(:permission_description) %>
+    <%= f.text_field :description, class: 'form-control' %>
+  </div>
   <div data-hook="permission_priority" class="form-group">
     <%= f.label :priority, Spree.t(:permission_priority) %> <span class="required">*</span>
     <%= f.number_field :priority, in: 0..9, step: 1, class: 'form-control' %>
