@@ -43,17 +43,18 @@ bundle exec rake spree_roles:permissions:populate_other_roles # To populate a se
 Usage
 -----
 
-From Admin end, there is a role menu in configuration tab(admin end).
-A new Role can be added and its corresponding permissions can also be selected there.
-Permission to be chosen can be made only with rails console or a ruby script.
+From Admin end, There are three menu's in the configuration Tab:
+
+  1. Permission: Describes what the user can do.
+  2. Permission Set: A collection of permission describing an aspect of role.
+  3. Role: Collection of multiple permission sets which describe the role of user in the organisation.
 
 Types of Permission
 
   1. Default Permission - Basic permissions required by a user to perform task on user end, like creating an order etc. Every role should be provided with this permissions.
-
-  2. Default Admin Permission - Because of this permission an admin can go to '/admin' route.
-
-  3. Can Manage All - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
+  2. Can Manage All - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
+  3. Resource Manage Permission - Each Resource has an associated admin permission that is required for accessing it. i.e. `can-admin-spree/products`
+  4. Resource Permission - What the user is allowed to do with the resource. i.e. `Create`, `Update`, `Delete`, `List` or `Show`.
 
 Pattern of the permissions :-
 
@@ -70,6 +71,11 @@ Some Examples :-
   4. can-update-spree/product-price - can update only price of products.
   5. can-manage-all - can perform every action on all models.
 
+Permission Sets :-
+
+Once permissions are created you can organize groups of them into permission sets, These permission sets can then be assigned to the user's role which requires them.
+
+
 Points to remember
 
   1. If the controller doesn't have any model associated with it, then we will provide the full controller path like :-
@@ -79,7 +85,7 @@ Points to remember
     To create a product, can-admin-spree/product is also needed along with can-create-spree/product.
 
   3. To define custom cancan permissions, which can not be made with the pattern adopted.
-    Override a module Permission. And define the permission in a method, and create a permission in the database.
+    Override the module Permission. And define the permission in a method, and create a permission in the database. See example of `default-permission`.
 
 
 Testing
@@ -110,4 +116,4 @@ Credits
 
 [![vinsol.com: Ruby on Rails, iOS and Android developers](http://vinsol.com/vin_logo.png "Ruby on Rails, iOS and Android developers")](http://vinsol.com)
 
-Copyright (c) 2014 [vinsol.com](http://vinsol.com "Ruby on Rails, iOS and Android developers"), released under the New MIT License
+Copyright (c) 2017 [vinsol.com](http://vinsol.com "Ruby on Rails, iOS and Android developers"), released under the New MIT License

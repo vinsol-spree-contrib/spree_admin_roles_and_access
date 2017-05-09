@@ -14,7 +14,7 @@ module Spree
         end
 
         def load_permission_sets
-          @permission_sets = Spree::PermissionSet.all
+          @permission_sets = Spree::PermissionSet.order(:created_at)
         end
 
         def restrict_unless_editable

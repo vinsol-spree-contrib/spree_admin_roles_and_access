@@ -42,9 +42,9 @@ namespace :spree_roles do
     end
 
     def make_resource_permission_set(resource_name)
-      resource_admin_permission = make_permission("can-admin-#{ resource_name }", 3)
-      resource_read_permission  = make_permission("can-read-#{ resource_name }", 3)
-      resource_index_permission = make_permission("can-index-#{ resource_name }", 3)
+      resource_admin_permission  = make_permission("can-admin-#{ resource_name }", 3)
+      resource_read_permission   = make_permission("can-read-#{ resource_name }", 3)
+      resource_index_permission  = make_permission("can-index-#{ resource_name }", 3)
       resource_update_permission = make_permission("can-update-#{ resource_name }", 3)
       resource_create_permission = make_permission("can-create-#{ resource_name }", 3)
       resource_delete_permission = make_permission("can-destroy-#{ resource_name }", 3)
@@ -75,15 +75,19 @@ namespace :spree_roles do
     desc "Create admin username and password"
 
     task populate: :environment do
-      admin_permission = make_permission('can-manage-all', 0)
-      admin_permission_set = make_permission_set([admin_permission], 'admin', 'Can manage everything')
-      create_role_with_permission_sets([admin_permission_set], 'admin')
-
-      default_permission = make_permission('default-permissions', 1)
-      default_permission_set = make_permission_set([default_permission], 'default', 'Permission for general users including the customers')
+      default_permission = make_permission('default-permissions', 0)
+      default_permission_set = make_permission_set(
+        [default_permission],
+        'default',
+        'Permission for general users including the customers, Note: *users without this permission cannot checkout*'
+      )
       default_role = create_role_with_permission_sets([default_permission_set], 'default')
       default_role.is_default = true
       default_role.save!
+
+      admin_permission = make_permission('can-manage-all', 0)
+      admin_permission_set = make_permission_set([admin_permission], 'admin', 'Can manage everything')
+      create_role_with_permission_sets([admin_permission_set], 'admin')
     end
 
     task populate_other_roles: :environment do

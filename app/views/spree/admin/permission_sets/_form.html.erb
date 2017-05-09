@@ -1,3 +1,5 @@
+<div class="alert alert-info"><%= Spree.t(:permission_set_admin_permission_required) %></div>
+
 <div data-hook="admin_permission_set_form_fields">
   <%= f.field_container :name, class: ['form-group'] do %>
     <%= f.label :name, Spree.t(:permission_set_name) %><span class="required"></span>
