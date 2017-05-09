@@ -141,19 +141,19 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:show, :admin], Spree::TaxCategory,
-            [:show, :admin], Spree::TaxRate,
-            [:show, :admin], Spree::Zone,
-            [:show, :admin], Spree::Country,
-            [:show, :admin], Spree::State,
-            [:show, :admin], Spree::PaymentMethod,
-            [:show, :admin], Spree::Taxonomy,
-            [:show, :admin], Spree::ShippingMethod,
-            [:show, :admin], Spree::ShippingCategory,
-            [:show, :admin], Spree::StockLocation,
-            [:show, :admin], Spree::StockMovement,
-            [:show, :admin], Spree::RefundReason,
-            [:show, :admin], Spree::ReimbursementType,
+            [:read, :admin], Spree::TaxCategory,
+            [:read, :admin], Spree::TaxRate,
+            [:read, :admin], Spree::Zone,
+            [:read, :admin], Spree::Country,
+            [:read, :admin], Spree::State,
+            [:read, :admin], Spree::PaymentMethod,
+            [:read, :admin], Spree::Taxonomy,
+            [:read, :admin], Spree::ShippingMethod,
+            [:read, :admin], Spree::ShippingCategory,
+            [:read, :admin], Spree::StockLocation,
+            [:read, :admin], Spree::StockMovement,
+            [:read, :admin], Spree::RefundReason,
+            [:read, :admin], Spree::ReimbursementType,
           ]
         ),
         "Configuration Display",
@@ -186,16 +186,16 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:show, :admin, :edit, :cart], Spree::Order,
-            [:show, :admin], Spree::Payment,
-            [:show, :admin], Spree::Shipment,
-            [:show, :admin], Spree::Adjustment,
-            [:show, :admin], Spree::LineItem,
-            [:show, :admin], Spree::ReturnAuthorization,
-            [:show, :admin], Spree::CustomerReturn,
-            [:show, :admin], Spree::Reimbursement,
-            [:show, :admin], Spree::ReturnItem,
-            [:show, :admin], Spree::Refund
+            [:read, :admin, :edit, :cart], Spree::Order,
+            [:read, :admin], Spree::Payment,
+            [:read, :admin], Spree::Shipment,
+            [:read, :admin], Spree::Adjustment,
+            [:read, :admin], Spree::LineItem,
+            [:read, :admin], Spree::ReturnAuthorization,
+            [:read, :admin], Spree::CustomerReturn,
+            [:read, :admin], Spree::Reimbursement,
+            [:read, :admin], Spree::ReturnItem,
+            [:read, :admin], Spree::Refund
           ]
         ),
         "Order Display",
@@ -206,7 +206,7 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:admin, :show], Spree::ReimbursementType,
+            [:admin, :read], Spree::ReimbursementType,
             [:admin, :manage], Spree::Order,
             [:admin, :manage], Spree::Payment,
             [:admin, :manage], Spree::Shipment,
@@ -226,15 +226,15 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:show, :admin, :edit], Spree::Product,
-            [:show, :admin], Spree::Image,
-            [:show, :admin], Spree::Variant,
-            [:show, :admin], Spree::OptionValue,
-            [:show, :admin], Spree::ProductProperty,
-            [:show, :admin], Spree::OptionType,
-            [:show, :admin], Spree::Property,
-            [:show, :admin], Spree::Taxonomy,
-            [:show, :admin], Spree::Taxon
+            [:read, :admin, :edit], Spree::Product,
+            [:read, :admin], Spree::Image,
+            [:read, :admin], Spree::Variant,
+            [:read, :admin], Spree::OptionValue,
+            [:read, :admin], Spree::ProductProperty,
+            [:read, :admin], Spree::OptionType,
+            [:read, :admin], Spree::Property,
+            [:read, :admin], Spree::Taxonomy,
+            [:read, :admin], Spree::Taxon
           ]
         ),
         "Product Display",
@@ -260,9 +260,9 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:show, :admin], Spree::PromotionRule,
-            [:show, :admin], Spree::PromotionAction,
-            [:show, :admin], Spree::PromotionCategory
+            [:read, :admin], Spree::PromotionRule,
+            [:read, :admin], Spree::PromotionAction,
+            [:read, :admin], Spree::PromotionCategory
           ]
         ),
         "Promotion Display",
@@ -287,8 +287,8 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:show, :admin], Spree::StockItem,
-            [:show, :admin], Spree::StockLocation
+            [:read, :admin], Spree::StockItem,
+            [:read, :admin], Spree::StockLocation
           ]
         ),
         "Stock Display",
@@ -300,7 +300,7 @@ namespace :spree_roles do
         build_permission_group(
           [
             [:manage, :admin], Spree::StockItem,
-            [:show, :admin], Spree::StockLocation
+            [:read, :admin], Spree::StockLocation
           ]
         ),
         "Stock Management",
@@ -310,8 +310,8 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:show, :admin], Spree::StockTransfer,
-            [:show, :admin], Spree::StockLocation
+            [:read, :admin], Spree::StockTransfer,
+            [:read, :admin], Spree::StockLocation
           ]
         ),
         "Stock Transfer Display",
@@ -323,12 +323,14 @@ namespace :spree_roles do
         build_permission_group(
           [
             [:admin, :manage], Spree::StockTransfer,
-            [:admin, :show], Spree::StockLocation
+            [:admin, :read], Spree::StockLocation
           ]
         ),
         "Stock Transfer Managment",
         "Stock Transfer Management"
       )
+
+      user_display, user_edit, user_delete = make_resource_permission_set('spree/users')
     end
 
     task populate_other_roles: :environment do
