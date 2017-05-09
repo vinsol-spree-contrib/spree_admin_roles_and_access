@@ -83,7 +83,7 @@ namespace :spree_roles do
       when :delete
         'can-delete'
       when :index
-        'can-index'
+        'can-read'
       when :update
         'can-update'
       when :manage
@@ -109,8 +109,16 @@ namespace :spree_roles do
       ps
     end
 
-    desc "Create admin username and password"
+    def build_permission_group(permission_list)
+      group = {}
+      permission_list.each_slice(2) do |permissions, resource_class|
+        group[resource_class.to_s.underscore.pluralize] = permissions
+      end
+      group
+    end
 
+
+    desc "Create admin username and password"
     task populate: :environment do
       default_permission = make_permission('default-permissions', 0)
       default_permission_set = make_permission_set(
@@ -129,84 +137,121 @@ namespace :spree_roles do
       admin_role.save!
     end
 
-    def build_permission_group(permission_list)
-      group = {}
-      permission_list.each_slice(2) do |permissions, resource_class|
-        group[resource_class.to_s.underscore.pluralize] = permissions
+    def admin_controller?(controller_name)
+      return false unless controller_name
+      controller_name.include?('/admin/') && !controller_name.include?('/api/')
+    end
+
+    def permission_name(controller, action)
+      "#{ permission_prefix_from_name(action.to_sym) }-#{ controller.gsub('/admin','') }"
+    end
+
+    def add_to_permission_set(permission_set, permissions)
+      permissions.each do |permission|
+        unless permission_set.permissions.include? permission
+          permission_set.permissions << permission
+        end
       end
-      group
+    end
+
+    desc "Generate permission for all spree routes"
+    task populate_all_admin_permissions: :environment do
+      Spree::Core::Engine.routes.routes.map do |route|
+        controller = route.defaults[:controller]
+        action = route.defaults[:action]
+        if admin_controller? controller
+          make_permission(permission_name(controller, action), 3)
+        end
+      end
     end
 
     task populate_permission_sets: :environment do
-      config_display = make_grouped_permission_set(
-        build_permission_group(
-          [
-            [:read, :admin], Spree::TaxCategory,
-            [:read, :admin], Spree::TaxRate,
-            [:read, :admin], Spree::Zone,
-            [:read, :admin], Spree::Country,
-            [:read, :admin], Spree::State,
-            [:read, :admin], Spree::PaymentMethod,
-            [:read, :admin], Spree::Taxonomy,
-            [:read, :admin], Spree::ShippingMethod,
-            [:read, :admin], Spree::ShippingCategory,
-            [:read, :admin], Spree::StockLocation,
-            [:read, :admin], Spree::StockMovement,
-            [:read, :admin], Spree::RefundReason,
-            [:read, :admin], Spree::ReimbursementType,
-            [:edit, :admin], 'Spree::GeneralSetting'
-          ]
-        ),
-        "Configuration Display",
-        "Display Configuration of the store",
-        display: true
-      )
+      # No point in display menu is only visible if manage permission
+      # See submenu/_configuration
+      # config_display = make_grouped_permission_set(
+      #   build_permission_group(
+      #     [
+      #       [:admin], Spree::Store,
+      #       [:read, :admin], Spree::TaxCategory,
+      #       [:read, :admin], Spree::TaxRate,
+      #       [:read, :admin], Spree::Zone,
+      #       [:read, :admin], Spree::Country,
+      #       [:read, :admin], Spree::State,
+      #       [:read, :admin], Spree::PaymentMethod,
+      #       [:read, :admin], Spree::Taxonomy,
+      #       [:read, :admin], Spree::ShippingMethod,
+      #       [:read, :admin], Spree::ShippingCategory,
+      #       [:read, :admin], Spree::StockLocation,
+      #       [:read, :admin], Spree::StockMovement,
+      #       [:read, :admin], Spree::RefundReason,
+      #       [:read, :admin], Spree::ReimbursementType,
+      #       [:edit, :admin], 'Spree::GeneralSetting'
+      #     ]
+      #   ),
+      #   "Configuration Display",
+      #   "Display Configuration of the store",
+      #   display: true
+      # )
+
+      config_management =
+        make_grouped_permission_set(
+          build_permission_group(
+            [
+              [:admin], Spree::Store,
+              [:admin, :manage], Spree::Config,
+              [:admin, :manage], Spree::TaxCategory,
+              [:admin, :manage], Spree::TaxRate,
+              [:admin, :manage], Spree::Zone,
+              [:admin, :manage], Spree::Country,
+              [:admin, :manage], Spree::State,
+              [:admin, :manage], Spree::PaymentMethod,
+              [:admin, :manage], Spree::Taxonomy,
+              [:admin, :manage], Spree::ShippingMethod,
+              [:admin, :manage], Spree::ShippingCategory,
+              [:admin, :manage], Spree::StockLocation,
+              [:admin, :manage], Spree::StockTransfer,
+              [:admin, :manage], Spree::StockMovement,
+              [:admin, :manage], Spree::RefundReason,
+              [:admin, :manage], Spree::ReturnAuthorizationReason,
+              [:admin, :manage], Spree::ReimbursementType
+            ]
+          ),
+          "Configuration Management",
+          "Manage configuration of spree store 1:1 mapping of all options available in submenu/configuration."
+        )
 
 
+      order_display =
+        make_grouped_permission_set(
+          build_permission_group(
+            [
+              [:read, :admin, :edit, :cart], Spree::Order,
+              [:read, :admin], Spree::Payment,
+              [:read, :admin], Spree::Shipment,
+              [:read, :admin], Spree::Adjustment,
+              [:read, :admin], Spree::LineItem,
+              [:read, :admin], Spree::ReturnAuthorization,
+              [:read, :admin], Spree::CustomerReturn,
+              [:read, :admin], Spree::Reimbursement,
+              [:read, :admin], Spree::ReturnItem,
+              [:read, :admin], Spree::Refund
+            ]
+          ),
+          "Order Display",
+          "Display Orders",
+          display: true
+        )
 
-      make_grouped_permission_set(
-        build_permission_group(
-          [
-            [:admin, :manage], Spree::TaxCategory,
-            [:admin, :manage], Spree::TaxRate,
-            [:admin, :manage], Spree::Zone,
-            [:admin, :manage], Spree::Country,
-            [:admin, :manage], Spree::State,
-            [:admin, :manage], Spree::PaymentMethod,
-            [:admin, :manage], Spree::Taxonomy,
-            [:admin, :manage], Spree::ShippingMethod,
-            [:admin, :manage], Spree::ShippingCategory,
-            [:admin, :manage], Spree::StockLocation,
-            [:admin, :manage], Spree::StockMovement,
-            [:admin, :manage], Spree::RefundReason,
-            [:admin, :manage], Spree::ReimbursementType,
-          ]
-        ),
-        "Configuration Management",
-        "Manage Configuration of the store"
-      )
 
-      make_grouped_permission_set(
-        build_permission_group(
-          [
-            [:read, :admin, :edit, :cart], Spree::Order,
-            [:read, :admin], Spree::Payment,
-            [:read, :admin], Spree::Shipment,
-            [:read, :admin], Spree::Adjustment,
-            [:read, :admin], Spree::LineItem,
-            [:read, :admin], Spree::ReturnAuthorization,
-            [:read, :admin], Spree::CustomerReturn,
-            [:read, :admin], Spree::Reimbursement,
-            [:read, :admin], Spree::ReturnItem,
-            [:read, :admin], Spree::Refund
-          ]
-        ),
-        "Order Display",
-        "Display Orders",
-        display: true
-      )
+      admin_return_idx = make_permission('can-admin-spree/admin/return_index', 3)
+      manage_return_idx = make_permission('can-manage-spree/admin/return_index', 3)
+      return_auth      = make_permission('can-return_authorizations-spree/admin/return_index', 3)
+      customer_auth    = make_permission('can-customer_returns-spree/admin/return_index', 3)
 
-      make_grouped_permission_set(
+      # Required because of access of returns
+      add_to_permission_set(order_display, [admin_return_idx, return_auth, customer_auth])
+
+      order_mgmt = make_grouped_permission_set(
         build_permission_group(
           [
             [:admin, :read], Spree::ReimbursementType,
@@ -225,6 +270,8 @@ namespace :spree_roles do
         "Order Management",
         "Manage Orders"
       )
+
+      add_to_permission_set(order_mgmt, [admin_return_idx, manage_return_idx])
 
       make_grouped_permission_set(
         build_permission_group(
@@ -366,48 +413,5 @@ namespace :spree_roles do
       end
     end
 
-    task populate_other_roles: :environment do
-      default                                                            = Spree::PermissionSet.find_by(name: 'default')
-      product_display, product_edit, product_delete                      = make_resource_permission_set('spree/products')
-      user_display, user_edit, user_delete                               = make_resource_permission_set('spree/users')
-      order_display, order_edit, order_delete                            = make_resource_permission_set('spree/orders')
-      taxon_display, taxon_edit, taxon_delete                            = make_resource_permission_set('spree/taxons')
-      taxonomy_display, taxonomy_edit, taxonomy_delete                   = make_resource_permission_set('spree/taxonomies')
-      image_display, image_edit, image_delete                            = make_resource_permission_set('spree/images')
-      stock_location_display, stock_location_edit, stock_location_delete = make_resource_permission_set('spree/stock_locations')
-      stock_display, stock_edit, stock_delete                            = make_resource_permission_set('spree/stocks')
-
-      create_role_with_permission_sets(
-        [
-          default,
-          product_display,
-          product_edit,
-          user_display,
-          user_edit,
-          order_display,
-          order_edit
-        ],
-        'manager'
-      )
-
-      create_role_with_permission_sets(
-        [
-          default,
-          order_display,
-          order_edit,
-          user_display
-        ],
-        'customer_service'
-      )
-
-      create_role_with_permission_sets(
-        [
-          default,
-          stock_display,
-          stock_edit
-        ],
-        'warehouse'
-      )
-    end
   end
 end
