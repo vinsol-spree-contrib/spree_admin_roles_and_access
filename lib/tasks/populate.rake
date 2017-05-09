@@ -117,6 +117,22 @@ namespace :spree_roles do
       group
     end
 
+    def admin_controller?(controller_name)
+      return false unless controller_name
+      controller_name.include?('/admin/') && !controller_name.include?('/api/')
+    end
+
+    def permission_name(controller, action)
+      "#{ permission_prefix_from_name(action.to_sym) }-#{ controller.gsub('/admin','') }"
+    end
+
+    def add_to_permission_set(permission_set, permissions)
+      permissions.each do |permission|
+        unless permission_set.permissions.include? permission
+          permission_set.permissions << permission
+        end
+      end
+    end
 
     desc "Create admin username and password"
     task populate: :environment do
@@ -137,62 +153,8 @@ namespace :spree_roles do
       admin_role.save!
     end
 
-    def admin_controller?(controller_name)
-      return false unless controller_name
-      controller_name.include?('/admin/') && !controller_name.include?('/api/')
-    end
-
-    def permission_name(controller, action)
-      "#{ permission_prefix_from_name(action.to_sym) }-#{ controller.gsub('/admin','') }"
-    end
-
-    def add_to_permission_set(permission_set, permissions)
-      permissions.each do |permission|
-        unless permission_set.permissions.include? permission
-          permission_set.permissions << permission
-        end
-      end
-    end
-
-    desc "Generate permission for all spree routes"
-    task populate_all_admin_permissions: :environment do
-      Spree::Core::Engine.routes.routes.map do |route|
-        controller = route.defaults[:controller]
-        action = route.defaults[:action]
-        if admin_controller? controller
-          make_permission(permission_name(controller, action), 3)
-        end
-      end
-    end
-
+    desc "Create utility permission sets for common store admin tasks"
     task populate_permission_sets: :environment do
-      # No point in display menu is only visible if manage permission
-      # See submenu/_configuration
-      # config_display = make_grouped_permission_set(
-      #   build_permission_group(
-      #     [
-      #       [:admin], Spree::Store,
-      #       [:read, :admin], Spree::TaxCategory,
-      #       [:read, :admin], Spree::TaxRate,
-      #       [:read, :admin], Spree::Zone,
-      #       [:read, :admin], Spree::Country,
-      #       [:read, :admin], Spree::State,
-      #       [:read, :admin], Spree::PaymentMethod,
-      #       [:read, :admin], Spree::Taxonomy,
-      #       [:read, :admin], Spree::ShippingMethod,
-      #       [:read, :admin], Spree::ShippingCategory,
-      #       [:read, :admin], Spree::StockLocation,
-      #       [:read, :admin], Spree::StockMovement,
-      #       [:read, :admin], Spree::RefundReason,
-      #       [:read, :admin], Spree::ReimbursementType,
-      #       [:edit, :admin], 'Spree::GeneralSetting'
-      #     ]
-      #   ),
-      #   "Configuration Display",
-      #   "Display Configuration of the store",
-      #   display: true
-      # )
-
       config_management =
         make_grouped_permission_set(
           build_permission_group(
@@ -225,6 +187,7 @@ namespace :spree_roles do
         make_grouped_permission_set(
           build_permission_group(
             [
+              [:admin, :read, :edit], Spree::User,
               [:read, :admin, :edit, :cart], Spree::Order,
               [:read, :admin], Spree::Payment,
               [:read, :admin], Spree::Shipment,
@@ -255,6 +218,7 @@ namespace :spree_roles do
         build_permission_group(
           [
             [:admin, :read], Spree::ReimbursementType,
+            [:admin, :read, :edit], Spree::User,
             [:admin, :manage], Spree::Order,
             [:admin, :manage], Spree::Payment,
             [:admin, :manage], Spree::Shipment,
@@ -284,7 +248,8 @@ namespace :spree_roles do
             [:read, :admin], Spree::OptionType,
             [:read, :admin], Spree::Property,
             [:read, :admin], Spree::Taxonomy,
-            [:read, :admin], Spree::Taxon
+            [:read, :admin], Spree::Taxon,
+            [:admin, :read], Spree::Classification
           ]
         ),
         "Product Display",
@@ -295,6 +260,11 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
+            [:admin, :manage], Spree::Product,
+            [:admin, :manage], Spree::ProductOptionType,
+            [:manage, :admin], Spree::Image,
+            [:manage, :admin], Spree::Variant,
+            [:manage, :admin], Spree::OptionValue,
             [:admin, :manage], Spree::ProductProperty,
             [:admin, :manage], Spree::OptionType,
             [:admin, :manage], Spree::Property,
@@ -310,10 +280,10 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:read, :admin], Spree::Promotion,
+            [:read, :admin, :edit], Spree::Promotion,
+            [:read, :admin, :edit], Spree::PromotionCategory,
             [:read, :admin], Spree::PromotionRule,
             [:read, :admin], Spree::PromotionAction,
-            [:read, :admin], Spree::PromotionCategory
           ]
         ),
         "Promotion Display",
@@ -338,20 +308,11 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:read, :admin], Spree::StockItem,
-            [:read, :admin], Spree::StockLocation
-          ]
-        ),
-        "Stock Display",
-        "Display Stock",
-        display: true
-      )
-
-      make_grouped_permission_set(
-        build_permission_group(
-          [
+            [:admin], Spree::Store,
             [:manage, :admin], Spree::StockItem,
-            [:read, :admin], Spree::StockLocation
+            [:manage, :admin], Spree::StockLocation,
+            [:admin, :manage], Spree::StockMovement,
+            [:admin, :manage], Spree::StockTransfer,
           ]
         ),
         "Stock Management",
@@ -361,30 +322,10 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
-            [:read, :admin], Spree::StockTransfer,
-            [:read, :admin], Spree::StockLocation
-          ]
-        ),
-        "Stock Transfer Display",
-        "Stock Transfer Display",
-        display: true
-      )
-
-      make_grouped_permission_set(
-        build_permission_group(
-          [
-            [:admin, :manage], Spree::StockTransfer,
-            [:admin, :read], Spree::StockLocation
-          ]
-        ),
-        "Stock Transfer Managment",
-        "Stock Transfer Management"
-      )
-
-      make_grouped_permission_set(
-        build_permission_group(
-          [
-            [:admin, :manage], Spree::StoreCredit
+            [:admin], Spree::Store,
+            [:admin, :manage], Spree::StoreCreditCategory,
+            [:admin, :manage], Spree::StoreCredit,
+            [:admin, :read, :edit], Spree::User
           ]
         ),
         "Store Credit Managment",
