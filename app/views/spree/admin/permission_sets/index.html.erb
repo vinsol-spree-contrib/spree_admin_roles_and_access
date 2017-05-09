@@ -12,7 +12,8 @@
   <table class="table">
     <thead>
       <tr data-hook="admin_permission_sets_index_headers">
-        <th><%= Spree.t(:permission_set_name)%></th>
+        <th><%= sort_link @search, :name, Spree.t(:permission_set_name) %></th>
+        <th><%= sort_link @search, :updated_at, Spree.t(:permission_set_last_updated)%></th>
         <th class="actions"></th>
       </tr>
     </thead>
@@ -20,6 +21,7 @@
       <% @permission_sets.each do |permission_set| %>
         <tr id="<%= spree_dom_id permission_set %>" data-hook="admin_permissions_index_rows">
           <td><%= permission_set.name %></td>
+          <td title="<%= permission_set.updated_at %>"><%= time_ago_in_words(permission_set.updated_at) %> ago</td>
           <td class="actions text-right">
             <%= link_to_edit(permission_set, no_text: true) if can? :edit, permission_set %>
             <%= link_to_delete(permission_set, no_text: true) if can? :destroy, permission_set %>
