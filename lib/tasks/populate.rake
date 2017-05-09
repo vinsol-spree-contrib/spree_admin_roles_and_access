@@ -72,6 +72,43 @@ namespace :spree_roles do
       [display, edit, delete]
     end
 
+    def permission_prefix_from_name(name)
+      case name
+      when :admin
+        'can-admin'
+      when :new
+        'can-create'
+      when :show
+        'can-read'
+      when :delete
+        'can-delete'
+      when :index
+        'can-index'
+      when :update
+        'can-update'
+      when :manage
+        'can-manage'
+      else
+        "can-#{ name }"
+      end
+    end
+
+    def make_grouped_permission_set(permission_group, permission_set_name, description, display: false)
+      permissions = permission_group.collect do |resource_name, permission_names|
+        permission_names.collect { |permission_name| make_permission("#{ permission_prefix_from_name(permission_name) }-#{ resource_name }", 3) }
+      end.flat_map
+      ps = make_permission_set(
+        permissions,
+        permission_set_name,
+        description
+      )
+      if display
+        ps.display_permission = display
+        ps.save!
+      end
+      ps
+    end
+
     desc "Create admin username and password"
 
     task populate: :environment do
@@ -87,7 +124,211 @@ namespace :spree_roles do
 
       admin_permission = make_permission('can-manage-all', 0)
       admin_permission_set = make_permission_set([admin_permission], 'admin', 'Can manage everything')
-      create_role_with_permission_sets([admin_permission_set], 'admin')
+      admin_role = create_role_with_permission_sets([admin_permission_set], 'admin')
+      admin_role.admin_accessible = true
+      admin_role.save!
+    end
+
+    def build_permission_group(permission_list)
+      group = {}
+      permission_list.each_slice(2) do |permissions, resource_class|
+        group[resource_class.to_s.underscore.pluralize] = permissions
+      end
+      group
+    end
+
+    task populate_permission_sets: :environment do
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:show, :admin], Spree::TaxCategory,
+            [:show, :admin], Spree::TaxRate,
+            [:show, :admin], Spree::Zone,
+            [:show, :admin], Spree::Country,
+            [:show, :admin], Spree::State,
+            [:show, :admin], Spree::PaymentMethod,
+            [:show, :admin], Spree::Taxonomy,
+            [:show, :admin], Spree::ShippingMethod,
+            [:show, :admin], Spree::ShippingCategory,
+            [:show, :admin], Spree::StockLocation,
+            [:show, :admin], Spree::StockMovement,
+            [:show, :admin], Spree::RefundReason,
+            [:show, :admin], Spree::ReimbursementType,
+          ]
+        ),
+        "Configuration Display",
+        "Display Configuration of the store",
+        display: true
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:admin, :manage], Spree::TaxCategory,
+            [:admin, :manage], Spree::TaxRate,
+            [:admin, :manage], Spree::Zone,
+            [:admin, :manage], Spree::Country,
+            [:admin, :manage], Spree::State,
+            [:admin, :manage], Spree::PaymentMethod,
+            [:admin, :manage], Spree::Taxonomy,
+            [:admin, :manage], Spree::ShippingMethod,
+            [:admin, :manage], Spree::ShippingCategory,
+            [:admin, :manage], Spree::StockLocation,
+            [:admin, :manage], Spree::StockMovement,
+            [:admin, :manage], Spree::RefundReason,
+            [:admin, :manage], Spree::ReimbursementType,
+          ]
+        ),
+        "Configuration Management",
+        "Manage Configuration of the store"
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:show, :admin, :edit, :cart], Spree::Order,
+            [:show, :admin], Spree::Payment,
+            [:show, :admin], Spree::Shipment,
+            [:show, :admin], Spree::Adjustment,
+            [:show, :admin], Spree::LineItem,
+            [:show, :admin], Spree::ReturnAuthorization,
+            [:show, :admin], Spree::CustomerReturn,
+            [:show, :admin], Spree::Reimbursement,
+            [:show, :admin], Spree::ReturnItem,
+            [:show, :admin], Spree::Refund
+          ]
+        ),
+        "Order Display",
+        "Display Orders",
+        display: true
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:admin, :show], Spree::ReimbursementType,
+            [:admin, :manage], Spree::Order,
+            [:admin, :manage], Spree::Payment,
+            [:admin, :manage], Spree::Shipment,
+            [:admin, :manage], Spree::Adjustment,
+            [:admin, :manage], Spree::LineItem,
+            [:admin, :manage], Spree::ReturnAuthorization,
+            [:admin, :manage], Spree::CustomerReturn,
+            [:admin, :manage], Spree::Reimbursement,
+            [:admin, :manage], Spree::ReturnItem,
+            [:admin, :manage], Spree::Refund
+          ]
+        ),
+        "Order Management",
+        "Manage Orders"
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:show, :admin, :edit], Spree::Product,
+            [:show, :admin], Spree::Image,
+            [:show, :admin], Spree::Variant,
+            [:show, :admin], Spree::OptionValue,
+            [:show, :admin], Spree::ProductProperty,
+            [:show, :admin], Spree::OptionType,
+            [:show, :admin], Spree::Property,
+            [:show, :admin], Spree::Taxonomy,
+            [:show, :admin], Spree::Taxon
+          ]
+        ),
+        "Product Display",
+        "Display Products",
+        display: true
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:admin, :manage], Spree::ProductProperty,
+            [:admin, :manage], Spree::OptionType,
+            [:admin, :manage], Spree::Property,
+            [:admin, :manage], Spree::Taxonomy,
+            [:admin, :manage], Spree::Taxon,
+            [:admin, :manage], Spree::Classification
+          ]
+        ),
+        "Product Management",
+        "Manage Products"
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:show, :admin], Spree::PromotionRule,
+            [:show, :admin], Spree::PromotionAction,
+            [:show, :admin], Spree::PromotionCategory
+          ]
+        ),
+        "Promotion Display",
+        "Promotion Display",
+        display: true
+      )
+
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:admin, :manage], Spree::Promotion,
+            [:admin, :manage], Spree::PromotionRule,
+            [:admin, :manage], Spree::PromotionAction,
+            [:admin, :manage], Spree::PromotionCategory
+          ]
+        ),
+        "Promotion management",
+        "Promotion management"
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:show, :admin], Spree::StockItem,
+            [:show, :admin], Spree::StockLocation
+          ]
+        ),
+        "Stock Display",
+        "Display Stock",
+        display: true
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:manage, :admin], Spree::StockItem,
+            [:show, :admin], Spree::StockLocation
+          ]
+        ),
+        "Stock Management",
+        "Manage Stock"
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:show, :admin], Spree::StockTransfer,
+            [:show, :admin], Spree::StockLocation
+          ]
+        ),
+        "Stock Transfer Display",
+        "Stock Transfer Display",
+        display: true
+      )
+
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:admin, :manage], Spree::StockTransfer,
+            [:admin, :show], Spree::StockLocation
+          ]
+        ),
+        "Stock Transfer Managment",
+        "Stock Transfer Management"
+      )
     end
 
     task populate_other_roles: :environment do
