@@ -37,7 +37,7 @@ Bundle your dependencies and run the installation generator:
 bundle
 bundle exec rails g spree_admin_roles_and_access:install
 bundle exec rake spree_roles:permissions:populate # To populate user and admin roles with their permissions
-bundle exec rake spree_roles:permissions:populate_permission_sets $ To set up some convenient permission sets.
+bundle exec rake spree_roles:permissions:populate_permission_sets # To set up some convenient permission sets.
 ```
 
 Usage
