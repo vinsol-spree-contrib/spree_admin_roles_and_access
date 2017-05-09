@@ -45,33 +45,36 @@ Usage
 
 From Admin end, There are three menu's in the configuration Tab:
 
-  1. Permission: Describes what the user can do.
-  2. Permission Set: A collection of permission describing an aspect of role.
-  3. Role: Collection of multiple permission sets which describe the role of user in the organisation.
+  1. **Permission:** Describes what the user can do.
+  2. **Permission Set:** A collection of permission describing an aspect of role.
+  3. **Role:** Collection of multiple permission sets which describe the role of user in the organisation.
 
-Types of Permission
+### Types of Permission ###
 
-  1. Default Permission - Basic permissions required by a user to perform task on user end, like creating an order etc. Every role should be provided with this permissions.
-  2. Can Manage All - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
-  3. Resource Manage Permission - Each Resource has an associated admin permission that is required for accessing it. i.e. `can-admin-spree/products`
-  4. Resource Permission - What the user is allowed to do with the resource. i.e. `Create`, `Update`, `Delete`, `List` or `Show`.
+  1. **Default Permission** - Basic permissions required by a user to perform task on user end, like creating an order etc. Every role should be provided with this permissions.
+  2. **Can Manage All** - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
+  3. **Resource Manage Permission** - Each Resource has an associated admin permission that is required for accessing it. i.e. `can-admin-spree/products`
+  4. **Resource Permission** - What the user is allowed to do with the resource. i.e. `Create`, `Update`, `Delete`, `List` or `Show`.
 
-Pattern of the permissions :-
 
-  1. Can/cannot - specifies whether the user with that permission can do or cannot do that task.
-  2. Action - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
-  3. Subject - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.
-  4. Attributes - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
 
-Some Examples :-
+**Pattern of the permissions :**
 
-  1. can-manage-spree/product - can perform every action on Spree::Product but not on any other model or subject.
-  2. can-update-all - can update all models or subjects.
-  3. can-update-spree/product - can update only products, and not users, orders and other things.
-  4. can-update-spree/product-price - can update only price of products.
-  5. can-manage-all - can perform every action on all models.
+  1. **Can/cannot** - specifies whether the user with that permission can do or cannot do that task.
+  2. **Action** - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
+  3. **Subject** - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.
+  4. **Attributes** - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
 
-Permission Sets :-
+**Some Examples :**
+
+  1. **can-manage-spree/product** - can perform every action on Spree::Product but not on any other model or subject.
+  2. **can-update-all** - can update all models or subjects.
+  3. **can-update-spree/product** - can update only products, and not users, orders and other things.
+  4. **can-update-spree/product-price** - can update only price of products.
+  5. **can-manage-all** - can perform every action on all models.
+
+
+### Permission Sets ###
 
 Once permissions are created you can organize groups of them into permission sets, These permission sets can then be assigned to the user's role which requires them.
 
