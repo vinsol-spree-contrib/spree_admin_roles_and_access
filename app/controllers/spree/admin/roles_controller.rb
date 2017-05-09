@@ -10,7 +10,7 @@ module Spree
 
       private
         def permitted_resource_params
-          params.require(:role).permit(:name, permission_set_ids: [])
+          params.require(:role).permit(:name, :admin_accessible, :is_default, permission_set_ids: [])
         end
 
         def load_permission_sets

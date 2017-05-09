@@ -2,8 +2,16 @@
 
 <%= f.field_container :is_default, class: ['form-group'] do %>
   <%= f.label :is_default, Spree.t(:is_default) %>
-  <%= f.check_box :is_default, class: 'form-control' %>
+  <%= f.check_box :is_default %>
+  <p class="help-block"><%= Spree.t(:role_is_default_help) %></p>
   <%= f.error_message_on :is_default, class: 'error-message' %>
+<% end %>
+
+<%= f.field_container :admin_accessible, class: ['form-group'] do %>
+  <%= f.label :admin_accessible, Spree.t(:admin_accessible) %>
+  <%= f.check_box :admin_accessible %>
+  <p class="help-block"><%= Spree.t(:role_admin_accessible_help) %></p>
+  <%= f.error_message_on :admin_accessible, class: 'error-message' %>
 <% end %>
 
 <div data-hook="admin_role_form_permissions" class="form-group">
