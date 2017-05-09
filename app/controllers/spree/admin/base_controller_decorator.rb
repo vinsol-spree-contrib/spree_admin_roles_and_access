@@ -13,6 +13,7 @@ Spree::Admin::BaseController.class_eval do
       record = "#{params[:controller]}"
     end
 
+    Rails.logger.debug "Checking for permission to #{ params[:action] } on #{ record }"
     authorize! :admin, record
     authorize_with_attributes! params[:action].to_sym, record, params[controller_name.singularize]
   end

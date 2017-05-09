@@ -263,6 +263,7 @@ namespace :spree_roles do
       make_grouped_permission_set(
         build_permission_group(
           [
+            [:read, :admin], Spree::Promotion
             [:read, :admin], Spree::PromotionRule,
             [:read, :admin], Spree::PromotionAction,
             [:read, :admin], Spree::PromotionCategory
@@ -347,6 +348,12 @@ namespace :spree_roles do
       user_display, user_edit, user_delete = make_resource_permission_set('spree/users')
 
       [
+        make_permission('can-orders-spree/users', 3),
+        make_permission('can-edit-spree/users', 3),
+        make_permission('can-items-spree/users', 3),
+        make_permission('can-addresses-spree/users', 3),
+        make_permission('can-admin-spree/store_credits', 3)
+        make_permission('can-read-spree/store_credits', 3)
         make_permission('can-orders-spree/users', 3),
         make_permission('can-edit-spree/users', 3),
         make_permission('can-items-spree/users', 3),
