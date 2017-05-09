@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'ffaker'
   s.add_development_dependency 'rspec-rails', '~> 3.5.0'
-  s.add_development_dependency 'shoulda-matchers', '~> 2.8'
+  s.add_development_dependency 'shoulda-matchers', '~> 3.1'
   s.add_development_dependency 'rspec-activemodel-mocks'
   s.add_development_dependency 'rails-controller-testing'
   s.add_development_dependency 'sqlite3'
@@ -33,5 +33,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'byebug'
 
 end

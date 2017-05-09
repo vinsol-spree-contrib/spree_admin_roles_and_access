@@ -24,14 +24,16 @@ RSpec.describe Spree::Ability, type: :model do
   let(:permission15) { Spree::Permission.create(title: 'can-index-spree/products', priority: 3) }
   let(:permission16) { Spree::Permission.create(title: 'can-update-spree/products', priority: 3) }
   let(:permission17) { Spree::Permission.create(title: 'can-create-spree/products', priority: 3) }
+  let(:permission_set) { Spree::PermissionSet.create!(name: 'test') }
 
   let(:user) { Spree::User.create!(email: 'abc@test.com', password: '123456') }
   let(:role) { Spree::Role.where(name: 'user').first_or_create! }
   let(:roles) { [role] }
 
   before(:each) do
-    role.permissions = [permission1, permission9]
-    user.roles = [role]
+    permission_set.permissions = [permission1, permission9]
+    role.permission_sets << permission_set
+    user.roles << role
   end
 
   shared_examples_for 'access granted' do
@@ -100,10 +102,11 @@ RSpec.describe Spree::Ability, type: :model do
       let(:roles) { [role1] }
 
       before(:each) do
-        role1.permissions = [permission2]
+        permission_set.permissions = [permission2]
+        role1.permission_sets << permission_set
         user.roles = roles
-      end
 
+      end
       it_should_behave_like 'access granted'
       it_should_behave_like 'index allowed'
       it_should_behave_like 'default admin permissions'
@@ -114,8 +117,9 @@ RSpec.describe Spree::Ability, type: :model do
       let(:new_ability) { Spree::Ability.new(user) }
 
       before(:each) do
-        role1.permissions = [permission4, permission6, permission7, permission0]
-        user.roles = [role1]
+        permission_set.permissions = [permission4, permission6, permission7, permission0]
+        role1.permission_sets << permission_set
+        user.roles = roles
       end
 
       it_should_behave_like 'access denied'
@@ -129,8 +133,9 @@ RSpec.describe Spree::Ability, type: :model do
       let(:role1) { Spree::Role.find_or_create_by(name: 'warehouse_admin') }
 
       before(:each) do
-        role1.permissions = [permission10, permission11, permission12, permission0]
-        user.roles = [role1]
+        permission_set.permissions = [permission10, permission11, permission12, permission0]
+        role1.permission_sets << permission_set
+        user.roles = roles
       end
 
       it_should_behave_like 'access denied'
@@ -140,10 +145,12 @@ RSpec.describe Spree::Ability, type: :model do
 
     context 'with purchasing_admin user' do
       before(:each) do
-        role1 = Spree::Role.find_or_create_by(name: 'warehouse_admin')
-        role1.permissions = [permission14, permission15, permission16, permission0]
+        role1 = Spree::Role.find_or_create_by(name: 'purchasing_admin')
+        permission_set.permissions = [permission14, permission15, permission16, permission0]
+        role1.permission_sets << permission_set
         user.roles = [role1]
       end
+
       it_should_behave_like 'access denied'
       it_should_behave_like 'no index allowed'
       it_should_behave_like 'default admin permissions'
@@ -168,7 +175,8 @@ RSpec.describe Spree::Ability, type: :model do
 
     context 'with admin user' do
       before(:each) do
-        admin_role.permissions = [permission2]
+        permission_set.permissions = [permission2]
+        admin_role.permission_sets << permission_set
         user.roles = [admin_role]
         user1.roles = [admin_role]
       end
@@ -190,7 +198,8 @@ RSpec.describe Spree::Ability, type: :model do
       let(:ability) { Spree::Ability.new(user) }
 
       before(:each) do
-        role1.permissions = [permission4, permission6, permission7]
+        permission_set.permissions = [permission4, permission6, permission7]
+        role1.permission_sets << permission_set
         user.roles = [role1]
       end
 
@@ -206,7 +215,8 @@ RSpec.describe Spree::Ability, type: :model do
       let(:ability) { Spree::Ability.new(user) }
 
       before(:each) do
-        role1.permissions = [permission14, permission15, permission16]
+        permission_set.permissions = [permission14, permission15, permission16]
+        role1.permission_sets << permission_set
         user.roles = [role1]
       end
 
@@ -222,7 +232,8 @@ RSpec.describe Spree::Ability, type: :model do
       let(:ability) { Spree::Ability.new(user) }
 
       before(:each) do
-        role1.permissions = [permission10, permission11, permission12]
+        permission_set.permissions = [permission10, permission11, permission12]
+        role1.permission_sets << permission_set
         user.roles = [role1]
       end
 
@@ -349,7 +360,8 @@ RSpec.describe Spree::Ability, type: :model do
       let(:ability) { Spree::Ability.new(user) }
 
       before(:each) do
-        role.permissions = [permission8, permission9]
+        permission_set.permissions = [permission8, permission9]
+        role.permission_sets << permission_set
       end
 
       subject { ability }

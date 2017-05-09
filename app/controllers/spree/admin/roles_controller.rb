@@ -1,8 +1,8 @@
 module Spree
   module Admin
     class RolesController < ResourceController
-      before_filter :load_permission_sets, only: [:edit, :new, :create, :update]
-      before_filter :restrict_unless_editable, only: [:edit, :update]
+      before_action :load_permission_sets, only: [:edit, :new, :create, :update]
+      before_action :restrict_unless_editable, only: [:edit, :update]
 
       def index
         @roles = Spree::Role.page(params[:page])
