@@ -307,7 +307,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
 
       it { expect(controller).to receive(:params).and_return(@params) }
       it { expect(@params).to receive(:require).with(:role).and_return(@parameters) }
-      it { expect(@parameters).to receive(:permit).with(:name, permission_set_ids: []).and_return(@parameters) }
+      it { expect(@parameters).to receive(:permit).with(:name, :admin_accessible, :is_default, permission_set_ids: []).and_return(@parameters) }
     end
   end
 end

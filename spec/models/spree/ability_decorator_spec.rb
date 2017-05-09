@@ -732,8 +732,8 @@ RSpec.describe Spree::Ability, type: :model do
   describe 'alias_action' do
     let(:ability) { Spree::Ability.new(user) }
 
-    it 'should eq {update: [:edit], create: [:new, :new_action], read: [:show], destroy: [:delete]}' do
-      expect(ability.aliased_actions).to eq({update: [:edit], create: [:new, :new_action], read: [:show], destroy: [:delete]})
+    it 'should eq {update: [:edit], create: [:new, :new_action], read: [:show, :index], destroy: [:delete]}' do
+      expect(ability.aliased_actions).to eq({update: [:edit], create: [:new, :new_action], read: [:show, :index], destroy: [:delete]})
     end
   end
 end
