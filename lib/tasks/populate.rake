@@ -138,7 +138,7 @@ namespace :spree_roles do
     end
 
     task populate_permission_sets: :environment do
-      make_grouped_permission_set(
+      config_display = make_grouped_permission_set(
         build_permission_group(
           [
             [:read, :admin], Spree::TaxCategory,
@@ -154,12 +154,15 @@ namespace :spree_roles do
             [:read, :admin], Spree::StockMovement,
             [:read, :admin], Spree::RefundReason,
             [:read, :admin], Spree::ReimbursementType,
+            [:edit, :admin], 'Spree::GeneralSetting'
           ]
         ),
         "Configuration Display",
         "Display Configuration of the store",
         display: true
       )
+
+
 
       make_grouped_permission_set(
         build_permission_group(
@@ -330,7 +333,30 @@ namespace :spree_roles do
         "Stock Transfer Management"
       )
 
+      make_grouped_permission_set(
+        build_permission_group(
+          [
+            [:admin, :manage], Spree::StoreCredit
+          ]
+        ),
+        "Store Credit Managment",
+        "Store Credit Management"
+      )
+
+
       user_display, user_edit, user_delete = make_resource_permission_set('spree/users')
+
+      [
+        make_permission('can-orders-spree/users', 3),
+        make_permission('can-edit-spree/users', 3),
+        make_permission('can-items-spree/users', 3),
+        make_permission('can-addresses-spree/users', 3),
+        make_permission('can-read-spree/store_credits', 3)
+      ].each do |permission|
+        unless user_display.permissions.include? permission
+          user_display.permissions << permission
+        end
+      end
     end
 
     task populate_other_roles: :environment do

@@ -16,16 +16,16 @@ module Spree
         super
       end
     end
-  
+
     define_method('default-permissions') do |current_ability, user|
       current_ability.can [:read, :update, :destroy], Spree.user_class do |resource|
         resource == user
       end
-      
+
       current_ability.can [:read, :update], Spree::Order do |order, token|
         order.user == user || (order.guest_token && token == order.guest_token)
       end
-      
+
       current_ability.can :create, Spree::Order
       current_ability.can :read, Spree::Address do |address|
         address.user == user
@@ -53,10 +53,10 @@ module Spree
     private
       def find_action_and_subject(name)
         can, action, subject, attribute = name.to_s.split('-')
- 
+
         if subject == 'all'
           return can.to_sym, action.to_sym, subject.to_sym, attribute.try(:to_sym)
-        elsif (subject_class = subject.classify.safe_constantize) && subject_class.ancestors.include?(ActiveRecord::Base)
+        elsif (subject_class = subject.classify.safe_constantize) && subject_class.respond_to?(:ancestors) && subject_class.ancestors.include?(ActiveRecord::Base)
           return can.to_sym, action.to_sym, subject_class, attribute.try(:to_sym)
         else
           return can.to_sym, action.to_sym, subject, attribute.try(:to_sym)
