@@ -4,6 +4,7 @@ Spree::Role.class_eval do
   has_many :permission_sets, through: :roles_permission_sets
   has_many :permissions, through: :permission_sets
 
+  # DEPRECATED: Use permission sets instead. Only here for aiding migration for existing users
   has_and_belongs_to_many :legacy_permissions, join_table: 'spree_roles_permissions', class_name: 'Spree::Permission'
 
   validates :name, uniqueness: true, allow_blank: true
