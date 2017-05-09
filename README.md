@@ -37,7 +37,7 @@ Bundle your dependencies and run the installation generator:
 bundle
 bundle exec rails g spree_admin_roles_and_access:install
 bundle exec rake spree_roles:permissions:populate # To populate user and admin roles with their permissions
-bundle exec rake spree_roles:permissions:populate_other_roles # To populate a set of few handly user roles and permissions.
+bundle exec rake spree_roles:permissions:populate_permission_sets $ To set up some convenient permission sets.
 ```
 
 Usage
@@ -47,7 +47,8 @@ From Admin end, There are three menu's in the configuration Tab:
 
   1. **Permission:** Describes what the user can do.
   2. **Permission Set:** A collection of permission describing an aspect of role.
-  3. **Role:** Collection of multiple permission sets which describe the role of user in the organisation.
+  3. **Role:** Collection of multiple permission sets which describe the role of user in the organisation. A role can be marked as `admin_accessible` in the role edit page.
+     A role marked as such will get a default admin dashboard page in case they land on an admin page on which they do not have access.
 
 ### Types of Permission ###
 
@@ -90,6 +91,14 @@ Points to remember
   3. To define custom cancan permissions, which can not be made with the pattern adopted.
     Override the module Permission. And define the permission in a method, and create a permission in the database. See example of `default-permission`.
 
+
+Migration from older version
+----------------------------
+
+On upgrading to the latest version. A migration will run generating a permission set per user role. You can continue using the original roles as you were while gradually opting and seperating thier responsibilities into permissions sets.
+Additionally you may want to run the rake task `populate_permission_sets` to seed some initial permission sets if needed.
+
+The original relationship between roles and permissions can be accessed via, `legacy_roles` & `legacy_permissions`. They are not supported or editable via the admin interfaces and are only mantained for use in our migration task.
 
 Testing
 -------
