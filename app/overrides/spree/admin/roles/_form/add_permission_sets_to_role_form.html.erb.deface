@@ -1,0 +1,53 @@
+<!-- insert_bottom "[data-hook='additional_role_fields']" -->
+
+<%= f.field_container :is_default, class: ['form-group'] do %>
+  <%= f.label :is_default, Spree.t(:is_default) %>
+  <%= f.check_box :is_default %>
+  <p class="help-block"><%= Spree.t(:role_is_default_help) %></p>
+  <%= f.error_message_on :is_default, class: 'error-message' %>
+<% end %>
+
+<%= f.field_container :admin_accessible, class: ['form-group'] do %>
+  <%= f.label :admin_accessible, Spree.t(:admin_accessible) %>
+  <%= f.check_box :admin_accessible %>
+  <p class="help-block"><%= Spree.t(:role_admin_accessible_help) %></p>
+  <%= f.error_message_on :admin_accessible, class: 'error-message' %>
+<% end %>
+
+<div data-hook="admin_role_form_permissions" class="form-group">
+  <%- @role.permission_sets.to_a %>
+  <strong><%= Spree.t(:permission_sets) %></strong>
+  <hr/>
+  <div class="row">
+    <div class="col col-xs-6">
+      <strong>Managment Permissions</strong>
+      <div class="searchable-scrollable-list">
+      <% @permission_sets.each do |permission_set| %>
+        <% if !permission_set.display_permission %>
+          <div class="checkbox">
+            <%= label_tag do %>
+              <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
+              <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+    <div class="col col-xs-6">
+      <strong>Display Permissions</strong>
+      <div class="searchable-scrollable-list">
+      <% @permission_sets.each do |permission_set| %>
+        <% if permission_set.display_permission %>
+          <div class="checkbox">
+            <%= label_tag do %>
+              <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
+              <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>

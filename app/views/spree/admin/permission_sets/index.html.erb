@@ -1,0 +1,33 @@
+<% content_for :page_title do %>
+  <%= Spree.t(:permission_sets) %>
+<% end %>
+
+<% if can? :create, Spree::PermissionSet %>
+  <% content_for :page_actions do %>
+    <%= button_link_to Spree.t(:new_permission_set), new_object_url, class: 'btn btn-success', icon: 'add', id: 'admi_new_permission_set_link' %>
+  <% end %>
+<% end %>
+
+<% if @permission_sets.present? %>
+  <table class="table">
+    <thead>
+      <tr data-hook="admin_permission_sets_index_headers">
+        <th><%= sort_link @search, :name, Spree.t(:permission_set_name) %></th>
+        <th><%= sort_link @search, :updated_at, Spree.t(:permission_set_last_updated)%></th>
+        <th class="actions"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @permission_sets.each do |permission_set| %>
+        <tr id="<%= spree_dom_id permission_set %>" data-hook="admin_permissions_index_rows">
+          <td><%= permission_set.name %></td>
+          <td title="<%= permission_set.updated_at %>"><%= time_ago_in_words(permission_set.updated_at) %> ago</td>
+          <td class="actions text-right">
+            <%= link_to_edit(permission_set, no_text: true) if can? :edit, permission_set %>
+            <%= link_to_delete(permission_set, no_text: true) if can? :destroy, permission_set %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

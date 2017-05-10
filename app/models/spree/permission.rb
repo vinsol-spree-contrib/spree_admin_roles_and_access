@@ -4,7 +4,11 @@ module Spree
 
     default_scope { order(:priority) }
 
-    has_and_belongs_to_many :roles, join_table: 'spree_roles_permissions', class_name: 'Spree::Role'
+    # DEPRECATED: Use permission sets instead only here for aiding migration for existing users
+    has_and_belongs_to_many :legacy_roles, join_table: 'spree_roles_permissions', class_name: 'Spree::Role'
+
+    has_many :permissions_permission_sets, dependent: :destroy
+    has_many :permission_sets, through: :permissions_permission_sets
 
     validates :title, presence: true, uniqueness: true
 

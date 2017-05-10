@@ -37,38 +37,48 @@ Bundle your dependencies and run the installation generator:
 bundle
 bundle exec rails g spree_admin_roles_and_access:install
 bundle exec rake spree_roles:permissions:populate # To populate user and admin roles with their permissions
-bundle exec rake spree_roles:permissions:populate_other_roles # To populate a set of few handly user roles and permissions.
+bundle exec rake spree_roles:permissions:populate_permission_sets # To set up some convenient permission sets.
 ```
 
 Usage
 -----
 
-From Admin end, there is a role menu in configuration tab(admin end).
-A new Role can be added and its corresponding permissions can also be selected there.
-Permission to be chosen can be made only with rails console or a ruby script.
+From Admin end, There are three menu's in the configuration Tab:
 
-Types of Permission
+  1. **Permission:** Describes what the user can do.
+  2. **Permission Set:** A collection of permission describing an aspect of role.
+  3. **Role:** Collection of multiple permission sets which describe the role of user in the organisation. A role can be marked as `admin_accessible` in the role edit page.
+     A role marked as such will get a default admin dashboard page in case they land on an admin page on which they do not have access.
 
-  1. Default Permission - Basic permissions required by a user to perform task on user end, like creating an order etc. Every role should be provided with this permissions.
+### Types of Permission ###
 
-  2. Default Admin Permission - Because of this permission an admin can go to '/admin' route.
+  1. **Default Permission** - Basic permissions required by a user to perform task on user end, like creating an order etc. Every role should be provided with this permissions.
+  2. **Can Manage All** - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
+  3. **Resource Manage Permission** - Each Resource has an associated admin permission that is required for accessing it. i.e. `can-admin-spree/products`
+  4. **Resource Permission** - What the user is allowed to do with the resource. i.e. `Create`, `Update`, `Delete`, `List` or `Show`.
 
-  3. Can Manage All - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
 
-Pattern of the permissions :-
 
-  1. Can/cannot - specifies whether the user with that permission can do or cannot do that task.
-  2. Action - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
-  3. Subject - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.
-  4. Attributes - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
+**Pattern of the permissions :**
 
-Some Examples :-
+  1. **Can/cannot** - specifies whether the user with that permission can do or cannot do that task.
+  2. **Action** - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
+  3. **Subject** - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.
+  4. **Attributes** - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
 
-  1. can-manage-spree/product - can perform every action on Spree::Product but not on any other model or subject.
-  2. can-update-all - can update all models or subjects.
-  3. can-update-spree/product - can update only products, and not users, orders and other things.
-  4. can-update-spree/product-price - can update only price of products.
-  5. can-manage-all - can perform every action on all models.
+**Some Examples :**
+
+  1. **can-manage-spree/product** - can perform every action on Spree::Product but not on any other model or subject.
+  2. **can-update-all** - can update all models or subjects.
+  3. **can-update-spree/product** - can update only products, and not users, orders and other things.
+  4. **can-update-spree/product-price** - can update only price of products.
+  5. **can-manage-all** - can perform every action on all models.
+
+
+### Permission Sets ###
+
+Once permissions are created you can organize groups of them into permission sets, These permission sets can then be assigned to the user's role which requires them.
+
 
 Points to remember
 
@@ -79,8 +89,18 @@ Points to remember
     To create a product, can-admin-spree/product is also needed along with can-create-spree/product.
 
   3. To define custom cancan permissions, which can not be made with the pattern adopted.
-    Override a module Permission. And define the permission in a method, and create a permission in the database.
+    Override the module Permission. And define the permission in a method, and create a permission in the database. See example of `default-permission`.
 
+
+Migration from older version
+----------------------------
+
+On upgrading to the latest version. A migration will run generating a permission set per user role. You can continue using the original roles as you were while gradually opting and seperating their responsibilities into permissions sets.
+Additionally you may want to run the rake task `populate_permission_sets` to seed some initial permission sets if needed.
+
+The original relationship between roles and permissions can be accessed via, `legacy_roles` & `legacy_permissions`. They are not supported or editable via the admin interfaces and are only mantained for use in our migration task.
+
+**Note in the previous version read action was only for show. That has been superseded by read action now implying both show and index.**
 
 Testing
 -------
@@ -110,4 +130,4 @@ Credits
 
 [![vinsol.com: Ruby on Rails, iOS and Android developers](http://vinsol.com/vin_logo.png "Ruby on Rails, iOS and Android developers")](http://vinsol.com)
 
-Copyright (c) 2014 [vinsol.com](http://vinsol.com "Ruby on Rails, iOS and Android developers"), released under the New MIT License
+Copyright (c) 2017 [vinsol.com](http://vinsol.com "Ruby on Rails, iOS and Android developers"), released under the New MIT License

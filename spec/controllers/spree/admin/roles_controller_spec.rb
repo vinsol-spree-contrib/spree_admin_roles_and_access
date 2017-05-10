@@ -6,9 +6,11 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
   let(:empty_roles) { [] }
   let(:user) { mock_model(Spree::User, email: 'userkonga.com', password: "password", password_confirmation: "password", roles: roles) }
   let(:permission) { mock_model(Spree::Permission) }
+  let(:permission_set) { mock_model(Spree::PermissionSet) }
   let(:permissions) { [permission] }
+  let(:permission_sets) { [permission_set] }
   let(:ability) { Spree::Ability.new(user) }
-  
+
   before(:each) do
     allow(roles).to receive(:include_permissions).and_return(true)
 
@@ -23,7 +25,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
     allow(controller).to receive(:load_resource_instance).and_return(role)
     allow(controller).to receive(:fix_spree_user_var).and_return(true)
   end
-  
+
   describe 'Index' do
     before(:each) do
       allow(Spree::Role).to receive(:page).and_return(roles)
@@ -42,7 +44,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
       send_request
       expect(request).to render_template 'spree/admin/roles/index'
     end
-  end  
+  end
 
   describe 'edit' do
     def send_request
@@ -50,24 +52,18 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
     end
 
     before(:each) do
-      allow(Spree::Permission).to receive(:visible).and_return(permissions)
-      allow(permissions).to receive(:all).and_return(permissions)
+      allow(Spree::PermissionSet).to receive(:order).and_return(permission_sets)
       allow(role).to receive(:editable?).and_return(false)
     end
 
-    describe 'load_permissions' do
+    describe 'load_permission_sets' do
       it 'should receive load_permissions and return true' do
-        expect(controller).to receive(:load_permissions).and_return(true)
+        expect(controller).to receive(:load_permission_sets).and_return(true)
         send_request
       end
 
       it 'should receive visible on Spree::Permission' do
-        expect(Spree::Permission).to receive(:visible).and_return(permissions)
-        send_request
-      end
-
-      it 'should receive all on permissions' do
-        expect(permissions).to receive(:all).and_return(permissions)
+        expect(Spree::PermissionSet).to receive(:order).and_return(permission_sets)
         send_request
       end
     end
@@ -193,9 +189,9 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
 
           it 'should receive authorize! with :index, role' do
             expect(controller).to receive(:authorize!).with(:index, role).and_return(true)
-          end   
+          end
         end
-  
+
         context 'when new_action? return false' do
           before(:each) do
             allow(controller).to receive(:new_action?).and_return(false)
@@ -218,7 +214,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
 
           it 'should not receive authorize! with :index, role' do
             expect(controller).to_not receive(:authorize!).with(:index, role)
-          end   
+          end
 
           it 'should receive authorize! with :admin, Spree::Role' do
             expect(controller).to receive(:authorize!).with(:admin, Spree::Role)
@@ -245,7 +241,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
           end
 
           it 'should receive authorize_with_attributes! with :index, Spree::Role' do
-            expect(controller).to receive(:authorize_with_attributes!).with(:index, Spree::Role, {"name" => "name"}).and_return(true)
+            expect(controller).to receive(:authorize_with_attributes!).with(:index, Spree::Role, ActionController::Parameters.new({"name" => "name"})).and_return(true)
             send_request(role: {name: 'name'})
           end
         end
@@ -303,7 +299,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
       allow(@params).to receive(:require).and_return(@parameters)
       allow(@parameters).to receive(:permit).and_return(@parameters)
     end
-    
+
     describe 'should_receive' do
       after(:each) do
         controller.send(:permitted_resource_params)
@@ -311,7 +307,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
 
       it { expect(controller).to receive(:params).and_return(@params) }
       it { expect(@params).to receive(:require).with(:role).and_return(@parameters) }
-      it { expect(@parameters).to receive(:permit).with(:name, permission_ids: []).and_return(@parameters) }
+      it { expect(@parameters).to receive(:permit).with(:name, :admin_accessible, :is_default, permission_set_ids: []).and_return(@parameters) }
     end
   end
 end

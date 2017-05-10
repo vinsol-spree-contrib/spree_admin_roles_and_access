@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_admin_roles_and_access'
-  s.version     = '3.2.0.alpha'
+  s.version     = '3.2.1.alpha'
   s.summary     = 'Dynamically defines roles and grants it permissions'
   s.required_ruby_version = '>= 2.2.0'
   s.files = Dir['LICENSE', 'README.md', 'app/**/*', 'config/**/*', 'lib/**/*', 'db/**/*']
@@ -14,14 +14,15 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 3.2.0.alpha'
+  s.add_dependency 'spree_core', '~> 3.2.1'
   s.add_dependency 'spree_auth_devise', '~> 3.2.0.alpha'
 
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'ffaker'
-  s.add_development_dependency 'rspec-rails', '~> 3.1.0'
-  s.add_development_dependency 'shoulda-matchers', '~> 2.8'
+  s.add_development_dependency 'rspec-rails', '~> 3.5.0'
+  s.add_development_dependency 'shoulda-matchers', '~> 3.1'
   s.add_development_dependency 'rspec-activemodel-mocks'
+  s.add_development_dependency 'rails-controller-testing'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency 'database_cleaner'
@@ -32,5 +33,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'byebug'
 
 end

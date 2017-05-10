@@ -19,6 +19,7 @@ require 'rspec/active_model/mocks'
 require 'shoulda/matchers'
 require 'database_cleaner'
 require 'ffaker'
+require 'rails-controller-testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -35,6 +36,14 @@ RSpec.configure do |config|
   # Adds convenient methods to request Spree's controllers
   # spree_get :index
   config.include Spree::TestingSupport::ControllerRequests, type: :controller
+
+  [:controller, :view, :request].each do |type|
+    with_options type: type do
+      config.include ::Rails::Controller::Testing::TestProcess
+      config.include ::Rails::Controller::Testing::TemplateAssertions
+      config.include ::Rails::Controller::Testing::Integration
+    end
+  end
 
   # == URL Helpers
   #
@@ -85,4 +94,11 @@ RSpec.configure do |config|
   end
 
   config.fail_fast = ENV['FAIL_FAST'] || false
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

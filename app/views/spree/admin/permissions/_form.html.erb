@@ -1,20 +1,51 @@
+<div class="panel-group" id="permission-writing-guide">
+  <div class="panel panel-info">
+    <div class="panel-heading" role="button" data-toggle="collapse" data-target="#permission-list-guide">
+      <h3 class="panel-title">Pattern of the permissions <i class="icon icon-circle-arrow-right"></i></h3>
+    </div>
+
+    <ul class="list-group collapse" id="permission-list-guide">
+      <li class="list-group-item">Can/cannot - specifies whether the user with that permission can do or cannot do that task.</li>
+      <li class="list-group-item">Action - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.</li>
+      <li class="list-group-item">Subject - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.</li>
+      <li class="list-group-item">Attributes - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.</li>
+    </ul>
+  </div>
+
+  <div class="panel panel-info">
+    <div class="panel-heading" role="button" data-toggle="collapse" data-target="#permission-example">
+      <h3 class="panel-title">Some examples of permissions <i class="icon icon-circle-arrow-right"></i></h3>
+    </div>
+
+    <ul class="list-group collapse" id="permission-example">
+      <li class="list-group-item">can-manage-spree/product - can perform every action on Spree::Product but not on any other model or subject.</li>
+      <li class="list-group-item">can-update-all - can update all models or subjects.</li>
+      <li class="list-group-item">can-update-spree/product - can update only products, and not users, orders and other things.</li>
+      <li class="list-group-item">can-update-spree/product-price - can update only price of products.</li>
+      <li class="list-group-item">can-manage-all - can perform every action on all models.</li>
+    </ul>
+  </div>
+</div>
+
 <div data-hook="admin_permission_form_fields">
   <div data-hook="permission_title" class="form-group">
     <%= f.label :title, Spree.t(:permission_title) %> <span class="required">*</span>
     <%= f.text_field :title, class: 'form-control' %>
+    <a href="#permission-writing-guide" class="help-block">help</a>
+  </div>
+  <div data-hook="permission_description" class="form-group">
+    <%= f.label :description, Spree.t(:permission_description) %>
+    <%= f.text_field :description, class: 'form-control', placeholder: 'This allows the permitted user to..' %>
   </div>
   <div data-hook="permission_priority" class="form-group">
     <%= f.label :priority, Spree.t(:permission_priority) %> <span class="required">*</span>
     <%= f.number_field :priority, in: 0..9, step: 1, class: 'form-control' %>
+    <p class="help-block"><%= Spree.t(:permission_priority_help) %></p>
   </div>
   <div data-hook="permission_visible" class="checkbox">
     <label>
-    <%= f.check_box :visible, value: true %><%= Spree.t(:permission_visible) %>
-    </label>
-  </div>
-  <div data-hook="permission_boolean" class="checkbox">
-    <label>
-    <%= f.check_box :boolean, value: true %> <%= Spree.t(:permission_boolean) %>
+      <%= f.check_box :visible, value: true %><%= Spree.t(:permission_visible) %>
+      <p class="help-block"><%= Spree.t(:permission_visible_help) %></p>
     </label>
   </div>
 

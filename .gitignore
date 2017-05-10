@@ -13,3 +13,4 @@ pkg
 *.swp
 spec/dummy
 .ruby-version
+.byebug_history

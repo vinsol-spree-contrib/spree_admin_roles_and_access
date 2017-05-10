@@ -13,7 +13,6 @@
         <th><%= Spree.t(:permission_title) %></th>
         <th><%= Spree.t(:permission_priority) %></th>
         <th><%= Spree.t(:permission_visible) %></th>
-        <th><%= Spree.t(:permission_boolean) %></th>
         <th class="actions"></th>
       </tr>
     </thead>
@@ -23,7 +22,6 @@
           <td><%= permission.title %></td>
           <td><%= permission.priority %></td>
           <td><%= permission.visible %></td>
-          <td><%= permission.boolean %></td>
           <td class="actions text-right">
             <%= link_to_edit(permission, no_text: true) if can? :edit, permission %>
             <%= link_to_delete(permission, no_text: true) if can? :destroy, permission %>
