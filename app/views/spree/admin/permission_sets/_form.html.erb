@@ -1,33 +1,38 @@
 <div class="alert alert-info"><%= Spree.t(:permission_set_admin_permission_required) %></div>
 
 <div data-hook="admin_permission_set_form_fields">
-  <%= f.field_container :name, class: ['form-group'] do %>
-    <%= f.label :name, Spree.t(:permission_set_name) %><span class="required"></span>
-    <%= f.text_field :name, class: 'form-control' %>
-    <%= f.error_message_on :name, class: 'error-message' %>
-  <% end %>
-  <%= f.field_container :description, class: ['form-group'] do %>
-    <%= f.label :description, Spree.t(:permission_set_description) %>
-    <%= f.text_field :description, class: 'form-control' %>
-    <%= f.error_message_on :description, class: 'error-message' %>
-  <% end %>
-  <%= f.field_container :display_permission, class: ['form-group'] do %>
-    <%= f.label :display_permission, Spree.t(:permission_set_display_permission) %>
+  <div class="inline-input-row col-xs-12">
+    <%= f.field_container :name, class: ['input-group input-group-md'] do %>
+      <%= f.label :name, Spree.t(:permission_set_name), class: 'sr-only' %><span class="required"></span>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Name of the permission set' %>
+      <%= f.error_message_on :name, class: 'error-message' %>
+    <% end %>
+    <%= f.field_container :description, class: ['input-group input-group-md'] do %>
+      <%= f.label :description, Spree.t(:permission_set_description), class: 'sr-only' %>
+      <%= f.text_field :description, class: 'form-control', placeholder: 'This permission set allows the role to...' %>
+      <%= f.error_message_on :description, class: 'error-message' %>
+    <% end %>
+  </div>
+
+  <%= f.field_container :display_permission, class: ['input-group col-xs-12'] do %>
+    <%= f.label :display_permission, Spree.t(:permission_set_display_permission), title: Spree.t(:permission_set_display_permission_help)  %>
     <%= f.check_box :display_permission %>
-    <p class="help-block"><%= Spree.t(:permission_set_display_permission_help) %></p>
     <%= f.error_message_on :display_permission, class: 'error-message' %>
   <% end %>
-  <%= f.field_container :permissions, class: ['form-group'] do %>
+
+  <%= f.field_container :permissions, class: ['input-group col-xs-12'] do %>
     <%- @permission_set.permissions.to_a %>
-    <%= f.label :permissions, Spree.t(:permission_set_permissions) %>
     <div class="searchable-scrollable-list">
-      <% @permissions.each do |permission| %>
-        <div class="checkbox">
-          <%= label_tag do %>
-            <%= check_box_tag 'permission_set[permission_ids][]', permission.id, @permission_set.permissions.include?(permission), id: "spree_permission_set_permission_#{permission.id}" %>
-            <%= permission.title.gsub('-', '_').titleize %><p class="help-block"><%= permission.description %></p>
-          <% end %>
-        </div>
+      <% @permissions.group_by { |permission|
+          if permission.title.include?('can-read')
+          'Read Permissions'
+          elsif permission.title.include?('can-manage')
+          'Manage Permissions'
+          else
+          'Other Permissions'
+          end
+      }.each do |title, permissions|  %>
+        <%= render 'spree/admin/shared/checkbox_list_pane', { items: permissions, title: title, is_checked: lambda { |x| @permission_set.permissions.include? x }, field: 'permission_set[permission_ids][]', item_partial: 'permission' } %>
       <% end %>
     </div>
     <%= f.error_message_on :permissions %>

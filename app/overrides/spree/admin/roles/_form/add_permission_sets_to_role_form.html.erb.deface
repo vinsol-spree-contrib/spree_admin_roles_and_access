@@ -16,38 +16,9 @@
 
 <div data-hook="admin_role_form_permissions" class="form-group">
   <%- @role.permission_sets.to_a %>
-  <strong><%= Spree.t(:permission_sets) %></strong>
-  <hr/>
-  <div class="row">
-    <div class="col col-xs-6">
-      <strong>Managment Permissions</strong>
-      <div class="searchable-scrollable-list">
-      <% @permission_sets.each do |permission_set| %>
-        <% if !permission_set.display_permission %>
-          <div class="checkbox">
-            <%= label_tag do %>
-              <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
-              <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
-            <% end %>
-          </div>
-        <% end %>
-      <% end %>
-      </div>
-    </div>
-    <div class="col col-xs-6">
-      <strong>Display Permissions</strong>
-      <div class="searchable-scrollable-list">
-      <% @permission_sets.each do |permission_set| %>
-        <% if permission_set.display_permission %>
-          <div class="checkbox">
-            <%= label_tag do %>
-              <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
-              <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
-            <% end %>
-          </div>
-        <% end %>
-      <% end %>
-      </div>
-    </div>
+  <div class="searchable-scrollable-list">
+    <% @permission_sets.group_by { |permission_set| permission_set.display_permission? ? 'Display Permission' : 'Management Permission' }.each do |title, permission_sets| %>
+      <%= render 'spree/admin/shared/checkbox_list_pane', { items: permission_sets, title: title, is_checked: lambda { |x| @role.permission_sets.include? x}, field: 'role[permission_set_ids][]', item_partial: 'permission_set' } %>
+    <% end %>
   </div>
 </div>

@@ -1,3 +1,68 @@
 /*
  *= require spree/backend
-*/
+ */
+
+.searchable-scrollable-list {
+    padding-top: 10px;
+    width: 100%;
+    vertical-align: top;
+    display: flex;
+}
+
+.scrollable-list-group-item {
+    padding-left: 2px;
+    padding-right: 2px;
+    flex: 1;
+    display: inline-block;
+}
+
+.inline-input-row {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.inline-input-row > .input-group {
+    width: 49.8%;
+    margin: 0;
+    padding: 0;
+}
+
+.scrollable-list-group-item > .panel > .list-group {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.list-group-item > label {
+    text-transform: none;
+}
+
+.scrollable-list-group-item > .panel > .list-group > .list-group-item {
+    user-select: none;
+}
+
+.fixed-bottom-button-group {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left:50%;
+    align: center;
+}
+
+.help-block-inline {
+    display: inline-block;
+    padding: 10px;
+}
+
+
+#permission_set_display_permission {
+    margin-left: 20px;
+}
+
+#permission_set_permissions_field {
+    padding-top: 20px;
+}
