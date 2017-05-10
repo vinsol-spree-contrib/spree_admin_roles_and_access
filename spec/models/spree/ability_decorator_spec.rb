@@ -260,7 +260,6 @@ RSpec.describe Spree::Ability, type: :model do
     context 'requested by same user' do
       let(:resource) { user }
       it_should_behave_like 'access granted'
-      it_should_behave_like 'no index allowed'
     end
     context 'requested by other user' do
       let(:resource) { Spree::User.new }
@@ -274,7 +273,6 @@ RSpec.describe Spree::Ability, type: :model do
     context 'requested by same user' do
       before(:each) { resource.user = user }
       it_should_behave_like 'access granted'
-      it_should_behave_like 'no index allowed'
     end
 
     context 'requested by other user' do

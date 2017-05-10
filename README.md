@@ -100,6 +100,8 @@ Additionally you may want to run the rake task `populate_permission_sets` to see
 
 The original relationship between roles and permissions can be accessed via, `legacy_roles` & `legacy_permissions`. They are not supported or editable via the admin interfaces and are only mantained for use in our migration task.
 
+**Note in the previous version read action was only for show. That has been superseded by read action now implying both show and index.**
+
 Testing
 -------
 
