@@ -12,6 +12,9 @@
             <%= check_box_tag field, item.id, is_checked.call(item), class: 'hide' %>
             <%= render item_partial, { item: item } %>
           <% end %>
+          <% if is_checked.call(item) %>
+            <span class='icon icon-ok-sign pull-right'></span>
+          <% end %>
         </li>
       <% end %>
     </ul>

@@ -2,8 +2,10 @@
   <%= Spree.t(:editing_resource, resource: Spree::PermissionSet.model_name.human) %>
 <% end %>
 
-<%= form_for [:admin, @permission_set], { html: { class: 'form-inline' } } do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
+<%= form_for [:admin, @permission_set], { html: { class: 'form-inline centered-floating-buttons' } } do |f| %>
+  <div class="form-fields-group">
+    <%= render partial: 'form', locals: { f: f } %>
+  </div>
   <div class="fixed-bottom-button-group">
     <%= render partial: 'spree/admin/shared/edit_resource_links' %>
   </div>

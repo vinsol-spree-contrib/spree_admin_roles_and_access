@@ -10,13 +10,14 @@
     <%= f.field_container :description, class: ['input-group input-group-md'] do %>
       <%= f.label :description, Spree.t(:permission_set_description), class: 'sr-only' %>
       <%= f.text_field :description, class: 'form-control', placeholder: 'This permission set allows the role to...' %>
-      <%= f.error_message_on :description, class: 'error-message' %>
+      <%= f.error_message_on :description, html: { class: 'error-message' } %>
     <% end %>
   </div>
 
-  <%= f.field_container :display_permission, class: ['input-group col-xs-12'] do %>
-    <%= f.label :display_permission, Spree.t(:permission_set_display_permission), title: Spree.t(:permission_set_display_permission_help)  %>
+  <%= f.field_container :display_permission, class: ['form-group'] do %>
+    <%= f.label :display_permission, Spree.t(:permission_set_display_permission) %>
     <%= f.check_box :display_permission %>
+    <p class="help-block"><%= Spree.t(:permission_set_display_permission_help) %></p>
     <%= f.error_message_on :display_permission, class: 'error-message' %>
   <% end %>
 

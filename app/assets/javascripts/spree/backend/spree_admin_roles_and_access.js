@@ -1,6 +1,7 @@
 //= require spree/backend
 
 var SearchableList = (function() {
+  var okSign = $("<span class='icon icon-ok-sign pull-right'></span>");
   var SearchableCheckboxList = function(container) {
     this.$searchBox = $("<div class='input-group input-group-lg col-xs-12'>\
                            <input type='text' placeholder='Search..' class='narrow-down-list form-control'></input>\
@@ -17,11 +18,24 @@ var SearchableList = (function() {
   };
 
   SearchableCheckboxList.prototype.bindCheck = function() {
+    this.$container.find('.list-group-item').on('click', function(e) {
+      if (this == e.target) {
+        $(this).find('input:checkbox').click();
+      }
+    });
+
     this.$container.find('input:checkbox').on('change', function() {
-      var checkbox = $(this);
-      checkbox.parents('.list-group-item').toggleClass('list-group-item-success');
-      var total = checkbox.parents('.list-group').find('.list-group-item').length;
-      var totalChecked = checkbox.parents('.list-group').find('input:checked').length;
+      var checkbox     = $(this);
+      var lgItem       = checkbox.parents('.list-group-item');
+      var lg           = checkbox.parents('.list-group');
+      var total        = lg.find('.list-group-item').length;
+      var totalChecked = lg.find('input:checked').length;
+      if (checkbox.is(':checked')) {
+        lgItem.append(okSign.clone());
+      } else {
+        lgItem.find('.icon-ok-sign').remove();
+      }
+      lgItem.toggleClass('list-group-item-success');
       checkbox.parents('.panel').find('.count').text(totalChecked + '/' + total);
     });
   };
