@@ -7,7 +7,7 @@
     </div>
     <ul class="list-group">
       <% items.each do |item| %>
-        <li class="<%= is_checked.call(item) ? 'list-group-item-success list-group-item checbox-list-pane' : 'list-group-item checkbox-list-pane' %>">
+        <li class="<%= is_checked.call(item) ? 'list-group-item-success list-group-item checkbox-list-pane' : 'list-group-item checkbox-list-pane' %>">
           <%= label_tag do %>
             <%= check_box_tag field, item.id, is_checked.call(item), class: 'hide' %>
             <p><strong><%= item.name %></strong></p>

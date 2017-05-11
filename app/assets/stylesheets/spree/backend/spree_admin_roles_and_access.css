@@ -89,9 +89,19 @@
     padding-top: 20px;
 }
 
-.checkbox-list-pane.list-group-item > label {
+.checkbox-list-pane.list-group-item  label {
+    line-height: 0.7em;
     color: #555555;
 }
+
+.checkbox-list-pane.list-group-item > label > p {
+    padding-top: 0.6em;
+}
+
+.checkbox-list-pane.list-group-item > label > p > strong {
+    font-size: 1.3em;
+}
+
 
 .add-on .input-group-btn > .btn {
   border-left-width:0;left:-2px;
