@@ -58,7 +58,7 @@ var SearchableList = (function() {
     var form = this.$container.closest('form');
     var buttons = form.find('button');
     buttons.attr('disabled', true);
-    form.find('input').one('change', function() {
+    form.find('input:not(.narrow-down-list)').one('keyup', function() {
       buttons.attr('disabled', false);
     });
 
