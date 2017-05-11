@@ -10,7 +10,8 @@
         <li class="<%= is_checked.call(item) ? 'list-group-item-success list-group-item checbox-list-pane' : 'list-group-item checkbox-list-pane' %>">
           <%= label_tag do %>
             <%= check_box_tag field, item.id, is_checked.call(item), class: 'hide' %>
-            <%= render item_partial, { item: item } %>
+            <p><strong><%= item.name %></strong></p>
+            <p><%= item.description %></p>
           <% end %>
         </li>
       <% end %>

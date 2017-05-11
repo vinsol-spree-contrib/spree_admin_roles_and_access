@@ -39,8 +39,7 @@
             items: p_groups[title],
             title: title,
             is_checked: lambda { |x| @permission_set.permissions.include? x },
-            field: 'permission_set[permission_ids][]',
-            item_partial: 'permission'
+            field: 'permission_set[permission_ids][]'
         } %>
       <% end %>
     </div>
