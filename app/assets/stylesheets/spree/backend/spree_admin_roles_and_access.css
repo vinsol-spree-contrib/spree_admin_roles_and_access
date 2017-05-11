@@ -27,6 +27,7 @@
 }
 
 .inline-input-row > .input-group {
+    vertical-align: top;
     width: 49.8%;
     margin: 0;
     padding: 0;
@@ -49,10 +50,24 @@
 .centered-floating-buttons {
 }
 
-.form-field-group {
+.form-fields-group {
+    padding-bottom: 58px;
 }
 
 .fixed-bottom-button-group {
+    background: #fff;
+    text-align: left;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    z-index: 999;
+    padding-left: calc(16% + 45px);
+}
+
+.full-width-input {
+    min-width: 100%;
 }
 
 .help-block-inline {
@@ -67,4 +82,36 @@
 
 #permission_set_permissions_field {
     padding-top: 20px;
+}
+
+.checkbox-list-pane.list-group-item > label {
+    color: #555555;
+}
+
+.add-on .input-group-btn > .btn {
+  border-left-width:0;left:-2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* stop the glowing blue shadow */
+.add-on .form-control:focus {
+    box-shadow:none;
+    -webkit-box-shadow:none;
+    border-color:#cccccc;
+}
+
+div.withError > .searchable-scrollable-list > .panel-group > .panel {
+    border: 1px solid #F55753;
+}
+
+div.withError > div.input-group > input.narrow-down-list {
+    border-color: #e0e0e0
+}
+
+#main-part.sidebar-collapsed .fixed-bottom-button-group {
+    padding-left: 85px;
+}
+
+.input-group-btn.search-icon-btn {
+    width: 1% !important;
 }

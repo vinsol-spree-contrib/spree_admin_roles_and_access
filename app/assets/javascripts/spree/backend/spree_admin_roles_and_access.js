@@ -4,6 +4,9 @@ var SearchableList = (function() {
   var SearchableCheckboxList = function(container) {
     this.$searchBox = $("<div class='input-group input-group-lg col-xs-12'>\
                            <input type='text' placeholder='Search..' class='narrow-down-list form-control'></input>\
+                            <div class='input-group-btn search-icon-btn'>\
+                              <button class='btn btn-default' type='submit'><i class='glyphicon glyphicon-search'></i></button>\
+                            </div>\
                          </div>");
     this.$container = container;
     container.before(this.$searchBox);
@@ -36,7 +39,7 @@ var SearchableList = (function() {
 
   SearchableCheckboxList.prototype.bindSearch = function() {
     var that = this;
-    this.$searchBox.on('keyup', function() {
+    this.$searchBox.on('keyup', function(e) {
       var value = $(this).find('input').val();
       var pattern = new RegExp(value, "i");
 
@@ -58,7 +61,17 @@ var SearchableList = (function() {
     form.find('input').one('change', function() {
       buttons.attr('disabled', false);
     });
+
+    form.on('keypress', function(e) {
+      if (e.which === 13){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    });
   };
+
+
 
   return SearchableCheckboxList;
 })();

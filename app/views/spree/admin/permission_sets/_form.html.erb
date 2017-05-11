@@ -2,15 +2,15 @@
 
 <div data-hook="admin_permission_set_form_fields">
   <div class="inline-input-row col-xs-12">
-    <%= f.field_container :name, class: ['input-group input-group-md'] do %>
+    <%= f.field_container :name, class: ['form-group input-group input-group-md'] do %>
       <%= f.label :name, Spree.t(:permission_set_name), class: 'sr-only' %><span class="required"></span>
-      <%= f.text_field :name, class: 'form-control', placeholder: 'Name of the permission set' %>
-      <%= f.error_message_on :name, class: 'error-message' %>
+      <%= f.text_field :name, class: 'form-control full-width-input', placeholder: 'Name of the permission set' %>
+      <%= f.error_message_on :name, class: 'help-block' %>
     <% end %>
-    <%= f.field_container :description, class: ['input-group input-group-md'] do %>
+    <%= f.field_container :description, class: ['form-group input-group input-group-md'] do %>
       <%= f.label :description, Spree.t(:permission_set_description), class: 'sr-only' %>
-      <%= f.text_field :description, class: 'form-control', placeholder: 'This permission set allows the role to...' %>
-      <%= f.error_message_on :description, html: { class: 'error-message' } %>
+      <%= f.text_field :description, class: 'form-control full-width-input', placeholder: 'This permission set allows the role to...' %>
+      <%= f.error_message_on :description, class: 'help-block' %>
     <% end %>
   </div>
 
@@ -18,10 +18,10 @@
     <%= f.label :display_permission, Spree.t(:permission_set_display_permission) %>
     <%= f.check_box :display_permission %>
     <p class="help-block"><%= Spree.t(:permission_set_display_permission_help) %></p>
-    <%= f.error_message_on :display_permission, class: 'error-message' %>
+    <%= f.error_message_on :display_permission %>
   <% end %>
 
-  <%= f.field_container :permissions, class: ['input-group col-xs-12'] do %>
+  <%= f.field_container :permissions, class: ['form-group input-group col-xs-12'] do %>
     <%= hidden_field_tag 'permission_set[permission_ids][]', [] %>
     <%- @permission_set.permissions.to_a %>
     <div class="searchable-scrollable-list">
