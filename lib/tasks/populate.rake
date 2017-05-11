@@ -160,7 +160,6 @@ namespace :spree_roles do
           build_permission_group(
             [
               [:admin], Spree::Store,
-              [:admin, :manage], Spree::Config,
               [:admin, :manage], Spree::TaxCategory,
               [:admin, :manage], Spree::TaxRate,
               [:admin, :manage], Spree::Zone,
@@ -182,6 +181,10 @@ namespace :spree_roles do
           "Manage configuration of spree store 1:1 mapping of all options available in submenu/configuration."
         )
 
+      admin_general_settings_admin = make_permission('can-admin-spree/admin/general_settings', 3)
+      admin_general_settings_manage = make_permission('can-manage-spree/admin/general_settings', 3)
+
+      add_to_permission_set(config_management, [admin_general_settings_admin, admin_general_settings_manage])
 
       order_display =
         make_grouped_permission_set(

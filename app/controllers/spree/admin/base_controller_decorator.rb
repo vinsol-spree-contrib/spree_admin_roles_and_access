@@ -12,7 +12,6 @@ Spree::Admin::BaseController.class_eval do
     rescue
       record = "#{params[:controller]}"
     end
-
     authorize! :admin, record
     authorize_with_attributes! params[:action].to_sym, record, params[controller_name.singularize]
   end

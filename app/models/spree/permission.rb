@@ -17,5 +17,9 @@ module Spree
     def ability(current_ability, user)
       send(title, current_ability, user)
     end
+
+    def name
+      title.gsub('-', '_').humanize
+    end
   end
 end

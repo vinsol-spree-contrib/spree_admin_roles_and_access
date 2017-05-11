@@ -4,6 +4,12 @@ module Spree
       before_action :load_permissions, only: [:edit, :new, :create, :update]
 
       def index
+        if params[:q]
+          params[:q][:s] = params[:q][:s] || 'updated_at desc'
+        else
+          params[:q] = {}
+          params[:q][:s] = "updated_at desc"
+        end
         @search = Spree::PermissionSet.ransack(params[:q])
         @permission_sets = @search.result(distinct: true)
       end

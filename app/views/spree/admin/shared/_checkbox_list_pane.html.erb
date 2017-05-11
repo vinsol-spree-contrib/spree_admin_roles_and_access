@@ -1,0 +1,20 @@
+<%- selected_count = items.select { |item| is_checked.call(item) }.count %>
+<%- available_count = items.count %>
+<div class="panel-group scrollable-list-group-item">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><%= title %><span class="badge pull-right count"><%= selected_count %>/<%= available_count %></span></h3>
+    </div>
+    <ul class="list-group">
+      <% items.each do |item| %>
+        <li class="<%= is_checked.call(item) ? 'list-group-item-success list-group-item checkbox-list-pane' : 'list-group-item checkbox-list-pane' %>">
+          <%= label_tag do %>
+            <%= check_box_tag field, item.id, is_checked.call(item), class: 'hide' %>
+            <p><strong><%= item.name %></strong></p>
+            <p><%= item.description %></p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
