@@ -44,6 +44,11 @@
 
 .scrollable-list-group-item > .panel > .list-group > .list-group-item {
     user-select: none;
+    cursor: pointer;
+}
+
+.scrollable-list-group-item label {
+    cursor: pointer;
 }
 
 
