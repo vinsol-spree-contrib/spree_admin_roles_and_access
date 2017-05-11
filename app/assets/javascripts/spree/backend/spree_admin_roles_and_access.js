@@ -61,6 +61,9 @@ var SearchableList = (function() {
     form.find('input:not(.narrow-down-list)').one('keyup', function() {
       buttons.attr('disabled', false);
     });
+    form.find('input').on('change', function() {
+      buttons.attr('disabled', false);
+    });
 
     form.on('keypress', function(e) {
       if (e.which === 13){
