@@ -14,7 +14,9 @@
   <%= f.error_message_on :admin_accessible, class: 'error-message' %>
 <% end %>
 
-<div data-hook="admin_role_form_permissions" class="form-group">
+<%= f.field_container :permission_sets, class: ['input-group col-xs-12'] do %>
+<%= hidden_field_tag 'role[permission_set_ids][]', [] %>
+<div data-hook="admin_role_form_permission_sets" class="form-group">
   <%- @role.permission_sets.to_a %>
   <div class="searchable-scrollable-list">
     <% @permission_sets.group_by { |permission_set| permission_set.display_permission? ? 'Display Permission' : 'Management Permission' }.each do |title, permission_sets| %>
@@ -22,3 +24,5 @@
     <% end %>
   </div>
 </div>
+<%= f.error_message_on :permission_sets %>
+<% end %>

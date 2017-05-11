@@ -22,6 +22,7 @@
   <% end %>
 
   <%= f.field_container :permissions, class: ['input-group col-xs-12'] do %>
+    <%= hidden_field_tag 'permission_set[permission_ids][]', [] %>
     <%- @permission_set.permissions.to_a %>
     <div class="searchable-scrollable-list">
       <% @permissions.group_by { |permission|
