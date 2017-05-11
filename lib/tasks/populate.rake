@@ -160,7 +160,6 @@ namespace :spree_roles do
           build_permission_group(
             [
               [:admin], Spree::Store,
-              [:admin, :manage], Spree::AppConfiguration,
               [:admin, :manage], Spree::TaxCategory,
               [:admin, :manage], Spree::TaxRate,
               [:admin, :manage], Spree::Zone,
