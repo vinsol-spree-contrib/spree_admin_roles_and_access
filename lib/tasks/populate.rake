@@ -6,7 +6,7 @@ namespace :spree_roles do
       description = ["Permitted user"]
       description << permission.first.gsub('-', '_').gsub('index', 'list').gsub('_spree', '').humanize
       description << permission.second.titleize if permission[1].present?
-      description.join(" ")
+      description.join(" ").humanize
     end
 
     def make_permission(title, priority)
@@ -100,7 +100,7 @@ namespace :spree_roles do
       ps = make_permission_set(
         permissions,
         permission_set_name,
-        description
+        description.humanize
       )
       if display
         ps.display_permission = display
