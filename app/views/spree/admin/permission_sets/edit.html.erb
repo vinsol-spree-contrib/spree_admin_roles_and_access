@@ -1,4 +1,5 @@
 <% content_for :page_title do %>
+  <%= link_to Spree.t(:permission_sets), admin_permission_sets_path %> /
   <%= Spree.t(:editing_resource, resource: Spree::PermissionSet.model_name.human) %>
 <% end %>
 

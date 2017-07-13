@@ -58,9 +58,9 @@ namespace :spree_roles do
       )
 
       edit = make_permission_set(
-        [resource_admin_permission, resource_update_permission, resource_create_permission],
+        [resource_admin_permission, resource_update_permission, resource_create_permission, resource_read_permission],
         "#{ resource_human_name } Manage",
-        "Permitted user can create or update #{ resource_human_name }"
+        "Permitted user can create or update or read #{ resource_human_name }"
       )
 
       delete = make_permission_set(
@@ -117,15 +117,6 @@ namespace :spree_roles do
       group
     end
 
-    def admin_controller?(controller_name)
-      return false unless controller_name
-      controller_name.include?('/admin/') && !controller_name.include?('/api/')
-    end
-
-    def permission_name(controller, action)
-      "#{ permission_prefix_from_name(action.to_sym) }-#{ controller.gsub('/admin','') }"
-    end
-
     def add_to_permission_set(permission_set, permissions)
       permissions.each do |permission|
         unless permission_set.permissions.include? permission
@@ -160,7 +151,6 @@ namespace :spree_roles do
           build_permission_group(
             [
               [:admin], Spree::Store,
-              [:admin, :manage], Spree::Config,
               [:admin, :manage], Spree::TaxCategory,
               [:admin, :manage], Spree::TaxRate,
               [:admin, :manage], Spree::Zone,
@@ -182,6 +172,11 @@ namespace :spree_roles do
           "Manage configuration of spree store 1:1 mapping of all options available in submenu/configuration."
         )
 
+      general_settings_admin_permission = make_permission('can-admin-spree/config', 3)
+      general_settings_manage_permission = make_permission('can-manage-spree/config', 3)
+      admin_config_permission = make_permission('can-admin-spree/admin/general_settings', 3)
+      manage_config_permission = make_permission('can-manage-spree/admin/general_settings', 3)
+      add_to_permission_set(config_management, [general_settings_manage_permission, general_settings_admin_permission, admin_config_permission, manage_config_permission])
 
       order_display =
         make_grouped_permission_set(
@@ -313,6 +308,7 @@ namespace :spree_roles do
             [:manage, :admin], Spree::StockLocation,
             [:admin, :manage], Spree::StockMovement,
             [:admin, :manage], Spree::StockTransfer,
+            [:admin], Spree::Stock
           ]
         ),
         "Stock Management",

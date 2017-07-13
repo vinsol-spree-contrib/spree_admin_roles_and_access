@@ -23,7 +23,7 @@
     <div class="searchable-scrollable-list">
       <% @permissions.each do |permission| %>
         <div class="checkbox">
-          <%= label_tag do %>
+          <%= label_tag nil, nil, class: 'search-target' do %>
             <%= check_box_tag 'permission_set[permission_ids][]', permission.id, @permission_set.permissions.include?(permission), id: "spree_permission_set_permission_#{permission.id}" %>
             <%= permission.title.gsub('-', '_').titleize %><p class="help-block"><%= permission.description %></p>
           <% end %>

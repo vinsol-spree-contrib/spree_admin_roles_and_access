@@ -10,7 +10,7 @@ Spree::Admin::BaseController.class_eval do
         raise if record.blank?  ## This is done because on some machines model_class returns nil instead of raising an exception.
       end
     rescue
-      record = "#{params[:controller]}"
+      record = "#{ params[:controller] }"
     end
 
     authorize! :admin, record

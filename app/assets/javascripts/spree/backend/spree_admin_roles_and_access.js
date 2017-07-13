@@ -2,7 +2,7 @@
 
 var SearchableList = (function() {
   var SearchableCheckboxList = function(container) {
-    this.$searchBox = $("<input type='text' placeholder='Search..' class='narrow-down-list'></input>");
+    this.$searchBox = $("<input type='text' placeholder='Search...' class='narrow-down-list form-control'></input>");
     this.$container = container;
     container.before(this.$searchBox);
     this.bindEvents();
@@ -12,13 +12,12 @@ var SearchableList = (function() {
     var that = this;
     this.$searchBox.on('keyup', function() {
       var value = $(this).val();
-      var pattern = new RegExp(value, "i");
-
-      that.$container.find('label').each(function() {
+      var pattern = new RegExp(value, 'i');
+      that.$container.find('.search-target').each(function() {
         if (!($(this).text().search(pattern) >= 0)) {
-          $(this).hide();
+          $(this).parent().hide();
         } else {
-          $(this).show();
+          $(this).parent().show();
         }
       });
     });

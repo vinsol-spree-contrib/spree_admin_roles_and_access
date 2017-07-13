@@ -25,7 +25,7 @@
       <% @permission_sets.each do |permission_set| %>
         <% if !permission_set.display_permission %>
           <div class="checkbox">
-            <%= label_tag do %>
+            <%= label_tag nil, nil, class: 'search-target' do %>
               <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
               <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
             <% end %>
@@ -40,7 +40,7 @@
       <% @permission_sets.each do |permission_set| %>
         <% if permission_set.display_permission %>
           <div class="checkbox">
-            <%= label_tag do %>
+            <%= label_tag nil, nil, class: 'search-target' do %>
               <%= check_box_tag 'role[permission_set_ids][]', permission_set.id, @role.permission_sets.include?(permission_set), id: "user_spree_permission_#{permission_set.id}" %>
               <%= permission_set.name.titleize %><p class="help-block"><%= permission_set.description %></p>
             <% end %>
