@@ -117,15 +117,6 @@ namespace :spree_roles do
       group
     end
 
-    def admin_controller?(controller_name)
-      return false unless controller_name
-      controller_name.include?('/admin/') && !controller_name.include?('/api/')
-    end
-
-    def permission_name(controller, action)
-      "#{ permission_prefix_from_name(action.to_sym) }-#{ controller.gsub('/admin','') }"
-    end
-
     def add_to_permission_set(permission_set, permissions)
       permissions.each do |permission|
         unless permission_set.permissions.include? permission
@@ -181,10 +172,12 @@ namespace :spree_roles do
           "Manage configuration of spree store 1:1 mapping of all options available in submenu/configuration."
         )
 
+      spree_config_admin = make_permission('can-admin-spree/config', 3)
+      spree_config_manage = make_permission('can-manage-spree/config', 3)
       admin_general_settings_admin = make_permission('can-admin-spree/admin/general_settings', 3)
       admin_general_settings_manage = make_permission('can-manage-spree/admin/general_settings', 3)
 
-      add_to_permission_set(config_management, [admin_general_settings_admin, admin_general_settings_manage])
+      add_to_permission_set(config_management, [admin_general_settings_admin, admin_general_settings_manage, spree_config_manage, spree_config_admin])
 
       order_display =
         make_grouped_permission_set(
