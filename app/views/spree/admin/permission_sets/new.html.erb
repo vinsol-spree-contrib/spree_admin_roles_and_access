@@ -2,9 +2,11 @@
   <%= Spree.t(:new_permission_set) %>
 <% end %>
 
-<%= form_for [:admin, @permission_set] do |f| %>
-  <fieldset>
+<%= form_for [:admin, @permission_set], html: { class: 'form-inline centered-floating-buttons' } do |f| %>
+  <div class="form-fields-group">
     <%= render partial: 'form', locals: { f: f } %>
+  </div>
+  <div class="fixed-bottom-button-group text-center">
     <%= render partial: 'spree/admin/shared/new_resource_links' %>
-  </fieldset>
+  </div>
 <% end %>

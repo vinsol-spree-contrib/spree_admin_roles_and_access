@@ -3,6 +3,13 @@ SpreeAdminRolesAndAccess [![Code Climate](https://codeclimate.com/github/vinsol/
 
 This spree extension is built on CanCan to dynamically add new roles and define its access through permissions.
 
+Screenshots
+-----------
+
+![Permission Sets](/screenshots/admin1.png "Creating Permission Sets")
+![Roles](/screenshots/admin2.png "Creating Roles from permission sets")
+
+
 Installation
 ------------
 
@@ -10,25 +17,6 @@ Add spree_admin_roles_and_access to your Gemfile:
 
 ```ruby
 gem 'spree_admin_roles_and_access'
-```
-
-But if you are using older version of spree
-
-
-```ruby
-# Spree 2.4.0-rc3
-gem 'spree_admin_roles_and_access', '1.3.0'
-```
-
-
-```ruby
-# Spree 2.1.x
-gem 'spree_admin_roles_and_access', '1.1.0'
-```
-
-```ruby
-# Spree 2.0.x
-gem 'spree_admin_roles_and_access', '1.0.0'
 ```
 
 Bundle your dependencies and run the installation generator:
@@ -50,7 +38,8 @@ From Admin end, There are three menu's in the configuration Tab:
   3. **Role:** Collection of multiple permission sets which describe the role of user in the organisation. A role can be marked as `admin_accessible` in the role edit page.
      A role marked as such will get a default admin dashboard page in case they land on an admin page on which they do not have access.
 
-### Types of Permission ###
+Types of Permission
+-------------------
 
   1. **Default Permission** - Basic permissions required by a user to perform task on user end, like creating an order etc. Every role should be provided with this permissions.
   2. **Can Manage All** - Role with this permission can do everything. This permission is also invisible at admin end. And it should only be given to admin and super admin.
@@ -59,14 +48,16 @@ From Admin end, There are three menu's in the configuration Tab:
 
 
 
-**Pattern of the permissions :**
+Pattern of the permissions
+--------------------------
 
   1. **Can/cannot** - specifies whether the user with that permission can do or cannot do that task.
   2. **Action** - specifies the action which can be done by that model or subject like update, index, create etc. There is a special action called manage which matches every action.
   3. **Subject** - specified the model like products, users etc. of which the permission is given. There is an special subject called all which matches every subject.
   4. **Attributes** - specifies the attributes for which the permission is specified. Read-only actions shouldn't require this like index, read etc. But it is more secure if we specify them in other actions like create or update.
 
-**Some Examples :**
+Some Examples
+-------------
 
   1. **can-manage-spree/product** - can perform every action on Spree::Product but not on any other model or subject.
   2. **can-update-all** - can update all models or subjects.
@@ -75,7 +66,8 @@ From Admin end, There are three menu's in the configuration Tab:
   5. **can-manage-all** - can perform every action on all models.
 
 
-### Permission Sets ###
+Permission Sets
+---------------
 
 Once permissions are created you can organize groups of them into permission sets, These permission sets can then be assigned to the user's role which requires them.
 
@@ -95,8 +87,11 @@ Points to remember
 Migration from older version
 ----------------------------
 
-On upgrading to the latest version. A migration will run generating a permission set per user role. You can continue using the original roles as you were while gradually opting and seperating their responsibilities into permissions sets.
-Additionally you may want to run the rake task `populate_permission_sets` to seed some initial permission sets if needed.
+__v3.2.1 introduces some breaking changes.__
+
+After updating the gem version. Run `rails g spree_admin_roles_and_access:install` to get the latest migrations. This includes a migration that generates a permission set per user role. With this, you should be able to continue using the original roles as you were earlier.
+
+Additionally you may want to run the rake task `populate_permission_sets` to seed some initial permission sets. You can now gradually opt into seperating user role permissions into appropriate permission sets.
 
 The original relationship between roles and permissions can be accessed via, `legacy_roles` & `legacy_permissions`. They are not supported or editable via the admin interfaces and are only mantained for use in our migration task.
 
@@ -111,6 +106,27 @@ Be sure to bundle your dependencies and then create a dummy test app for the spe
 bundle
 bundle exec rake test_app
 bundle exec rspec spec
+```
+
+For older versions of spree
+----------------------------
+
+If you are using older version of spree. You can use the following version, please check the relavent readme for version specific installation guide.
+
+
+```ruby
+# Spree 2.4.0-rc3
+gem 'spree_admin_roles_and_access', '1.3.0'
+```
+
+```ruby
+# Spree 2.1.x
+gem 'spree_admin_roles_and_access', '1.1.0'
+```
+
+```ruby
+# Spree 2.0.x
+gem 'spree_admin_roles_and_access', '1.0.0'
 ```
 
 Contributing

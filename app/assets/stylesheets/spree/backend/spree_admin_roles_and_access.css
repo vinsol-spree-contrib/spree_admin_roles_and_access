@@ -1,3 +1,133 @@
 /*
  *= require spree/backend
-*/
+ */
+
+.searchable-scrollable-list {
+    padding-top: 10px;
+    width: 100%;
+    vertical-align: top;
+    display: flex;
+}
+
+.scrollable-list-group-item {
+    padding-left: 2px;
+    padding-right: 2px;
+    flex: 1;
+    display: inline-block;
+}
+
+.inline-input-row {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.inline-input-row > .input-group {
+    vertical-align: top;
+    width: 49.8%;
+    margin: 0;
+    padding: 0;
+}
+
+.scrollable-list-group-item > .panel > .list-group {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.list-group-item > label {
+    text-transform: none;
+}
+
+.scrollable-list-group-item > .panel > .list-group > .list-group-item {
+    user-select: none;
+    cursor: pointer;
+}
+
+.scrollable-list-group-item label {
+    cursor: pointer;
+}
+
+
+.centered-floating-buttons {
+}
+
+.form-fields-group {
+    padding-bottom: 58px;
+}
+
+.fixed-bottom-button-group {
+    background: #fff;
+    text-align: left;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    z-index: 999;
+    padding-left: calc(16% + 45px);
+}
+
+.full-width-input {
+    min-width: 100%;
+}
+
+.help-block-inline {
+    display: inline-block;
+    padding: 10px;
+}
+
+
+#permission_set_display_permission {
+    margin-left: 20px;
+}
+
+#permission_set_permissions_field {
+    padding-top: 20px;
+}
+
+.checkbox-list-pane.list-group-item  label {
+    color: #555555;
+}
+
+.checkbox-list-pane.list-group-item > label > p {
+    padding-top: 0.6em;
+    margin-bottom: -0.6em;
+}
+
+.checkbox-list-pane.list-group-item > label > p > strong {
+    font-size: 1.3em;
+    font-weight: 300;
+}
+
+
+.add-on .input-group-btn > .btn {
+  border-left-width:0;left:-2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* stop the glowing blue shadow */
+.add-on .form-control:focus {
+    box-shadow:none;
+    -webkit-box-shadow:none;
+    border-color:#cccccc;
+}
+
+div.withError > .searchable-scrollable-list > .panel-group > .panel {
+    border: 1px solid #F55753;
+}
+
+div.withError > div.input-group > input.narrow-down-list {
+    border-color: #e0e0e0
+}
+
+#main-part.sidebar-collapsed .fixed-bottom-button-group {
+    padding-left: 85px;
+}
+
+.input-group-btn.search-icon-btn {
+    width: 1% !important;
+}
