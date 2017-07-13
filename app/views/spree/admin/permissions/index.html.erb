@@ -7,29 +7,31 @@
 <% end if can? :create, Spree::Permission %>
 
 <% if @permissions.any? %>
-  <table class="table">
-    <thead>
-      <tr data-hook="admin_permissions_index_headers">
-        <th><%= Spree.t(:permission_title) %></th>
-        <th><%= Spree.t(:permission_priority) %></th>
-        <th><%= Spree.t(:permission_visible) %></th>
-        <th class="actions"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @permissions.each do |permission|%>
-        <tr id="<%= spree_dom_id permission %>" data-hook="admin_permissions_index_rows">
-          <td><%= permission.title %></td>
-          <td><%= permission.priority %></td>
-          <td><%= permission.visible %></td>
-          <td class="actions text-right">
-            <%= link_to_edit(permission, no_text: true) if can? :edit, permission %>
-            <%= link_to_delete(permission, no_text: true) if can? :destroy, permission %>
-          </td>
+  <div class="searchable-scrollable-list">
+    <table class="table">
+      <thead>
+        <tr data-hook="admin_permissions_index_headers">
+          <th><%= Spree.t(:permission_title) %></th>
+          <th><%= Spree.t(:permission_priority) %></th>
+          <th><%= Spree.t(:permission_visible) %></th>
+          <th class="actions"></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @permissions.each do |permission|%>
+          <tr id="<%= spree_dom_id permission %>" data-hook="admin_permissions_index_rows" class="search-target">
+            <td><%= permission.title %></td>
+            <td><%= permission.priority %></td>
+            <td><%= permission.visible %></td>
+            <td class="actions text-right">
+              <%= link_to_edit(permission, no_text: true) if can? :edit, permission %>
+              <%= link_to_delete(permission, no_text: true) if can? :destroy, permission %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
   <div class="alert alert-warning">
     <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::Permission)) %>,
