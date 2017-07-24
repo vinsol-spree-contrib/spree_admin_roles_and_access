@@ -62,20 +62,4 @@ RSpec.describe Spree::Role, type: :model  do
     end
   end
 
-  describe 'ability' do
-    before(:each) do
-      @permissions = [permission1, permission2]
-      allow(role1).to receive(:permissions).and_return(@permissions)
-    end
-
-    it 'should receive permissions and return @permissions' do
-      expect(role1).to receive(:permissions).and_return(@permissions)
-      role1.ability(ability, user)
-    end
-
-    it 'should receive ability on permission' do
-      expect(permission1).to receive(:ability).with(ability, user).and_return(true)
-      role1.ability(ability, user)
-    end
-  end
 end

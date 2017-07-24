@@ -344,11 +344,6 @@ RSpec.describe Spree::Ability, type: :model do
       Spree::Ability.new(user)
     end
 
-    it 'should receive ability with role and user' do
-      expect_any_instance_of(Spree::Ability).to receive(:ability).with(role, user).and_call_original
-      Spree::Ability.new(user)
-    end
-
     it 'should receive abilities on Spree::Ability' do
       expect(Spree::Ability).to receive(:abilities).and_call_original
       Spree::Ability.new(user)
@@ -368,15 +363,6 @@ RSpec.describe Spree::Ability, type: :model do
       it { expect(subject).to be_able_to :update, Spree::User.new }
       it { expect(subject).to_not be_able_to :create, Spree::User.new, :role_ids }
       it { expect(subject).to_not be_able_to :update, Spree::User.new, :role_ids }
-    end
-  end
-
-  describe 'ability method' do
-    let(:ability) { Spree::Ability.new(user) }
-
-    it 'should receive ability on role with ability, user' do
-      expect(role).to receive(:ability).with(ability, user).and_return(true)
-      ability.ability(role, user)
     end
   end
 
