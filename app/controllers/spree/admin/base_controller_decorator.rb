@@ -7,8 +7,8 @@ Spree::Admin::BaseController.class_eval do
         record = model_class.new
       else
         record = model_class
-        raise if record.blank?  ## This is done because on some machines model_class returns nil instead of raising an exception.
       end
+      raise if record.blank?
     rescue
       record = "#{params[:controller]}"
     end
