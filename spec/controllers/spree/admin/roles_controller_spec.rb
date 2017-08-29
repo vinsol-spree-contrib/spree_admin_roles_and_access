@@ -17,7 +17,7 @@ RSpec.describe Spree::Admin::RolesController, type: :controller do
     allow(controller).to receive(:spree_current_user).and_return(user)
     allow(user).to receive(:generate_spree_api_key!).and_return(true)
     allow(roles).to receive(:includes).and_return(roles)
-    allow(role).to receive(:ability).and_return(true)
+    allow(role).to receive(:permissions).and_return([])
 
     ability.can :manage, :all
     allow(controller).to receive(:current_ability).and_return(ability)

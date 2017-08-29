@@ -13,9 +13,7 @@ module Spree
 
       user ||= Spree.user_class.new
 
-      user_roles(user).each do |role|
-        ability(role, user)
-      end
+      user_roles(user).map(&:permissions).flatten.uniq.map { |permission| permission.ability(self, user) }
 
       Ability.abilities.each do |clazz|
         ability = clazz.send(:new, user)
@@ -25,10 +23,6 @@ module Spree
 
     def user_roles(user)
       (roles = user.roles.includes(:permissions)).empty? ? Spree::Role.default_role.includes(:permissions) : roles
-    end
-
-    def ability(role, user)
-      role.ability(self, user)
     end
   end
 end

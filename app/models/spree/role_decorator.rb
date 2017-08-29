@@ -10,12 +10,6 @@ Spree::Role.class_eval do
   validates :name, uniqueness: true, allow_blank: true
   validates :permission_sets, length: { minimum: 1, too_short: Spree.t(:atleast_one_permission_set_is_required) }, on: :update
 
-  def ability(current_ability, user)
-    permissions.each do |permission|
-      permission.ability(current_ability, user)
-    end
-  end
-
   def has_permission?(permission_title)
     permissions.pluck(:title).include?(permission_title)
   end
