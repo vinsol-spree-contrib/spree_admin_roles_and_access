@@ -1,4 +1,4 @@
-class AddEditableIsDefaultAndIndexOnEditableIsDefaultAndNameToSpreeRoles < ActiveRecord::Migration[5.1]
+class AddEditableIsDefaultAndIndexOnEditableIsDefaultAndNameToSpreeRoles < ActiveRecord::Migration[5.0]
   def change
     add_column :spree_roles, :editable, :boolean, default: true
     add_column :spree_roles, :is_default, :boolean, default: false
