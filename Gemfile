@@ -6,6 +6,6 @@ gem 'spree', github: 'spree/spree', branch: '3-1-stable'
 gem 'spree_i18n', github: 'spree/spree_i18n', branch: '3-1-stable'
 gem 'globalize', github: 'globalize/globalize', tag: 'v5.0.1'
 # Provides basic authentication functionality for testing parts of your engine
-gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '3-1-stable'
+gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '3-3-stable'
 
 gemspec
