@@ -326,8 +326,6 @@ namespace :spree_roles do
         build_permission_group(
           [
             [:admin], Spree::Store,
-            [:admin, :manage], Spree::StoreCreditCategory,
-            [:admin, :manage], Spree::StoreCredit,
             [:admin, :read, :edit], Spree::User
           ]
         ),
