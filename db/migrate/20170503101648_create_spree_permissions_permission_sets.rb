@@ -1,4 +1,4 @@
-class CreateSpreePermissionsPermissionSets < ActiveRecord::Migration
+class CreateSpreePermissionsPermissionSets < ActiveRecord::Migration[4.2]
   def change
     create_table :spree_permissions_permission_sets do |t|
       t.references :permission, index: true
