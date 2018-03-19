@@ -14,8 +14,10 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 3.0.0'
-  s.add_dependency 'spree_auth_devise', '~> 3.0.0'
+  spree_version = '>= 3.0.0', '< 4.0.0'
+
+  s.add_dependency 'spree_core', spree_version
+  s.add_dependency 'spree_auth_devise'
 
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'ffaker'
@@ -34,5 +36,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'selenium-webdriver'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'byebug'
+  s.add_development_dependency 'appraisal'
 
 end
