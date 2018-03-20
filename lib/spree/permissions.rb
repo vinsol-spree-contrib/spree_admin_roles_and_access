@@ -18,9 +18,7 @@ module Spree
     end
 
     define_method('default-permissions') do |current_ability, user|
-      current_ability.can [:read, :update, :destroy], Spree.user_class do |resource|
-        resource == user
-      end
+      current_ability.can [:read, :update, :destroy], Spree.user_class
 
       current_ability.can [:read, :update], Spree::Order, { user_id: user.id }
 
