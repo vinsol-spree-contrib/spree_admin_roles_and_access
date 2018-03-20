@@ -190,7 +190,6 @@ namespace :spree_roles do
         make_grouped_permission_set(
           build_permission_group(
             [
-              [:admin, :read, :edit], Spree::User,
               [:read, :admin, :edit, :cart], Spree::Order,
               [:read, :admin], Spree::Payment,
               [:read, :admin], Spree::Shipment,
@@ -221,7 +220,6 @@ namespace :spree_roles do
         build_permission_group(
           [
             [:admin, :read], Spree::ReimbursementType,
-            [:admin, :read, :edit], Spree::User,
             [:admin, :manage], Spree::Order,
             [:admin, :manage], Spree::Payment,
             [:admin, :manage], Spree::Shipment,
