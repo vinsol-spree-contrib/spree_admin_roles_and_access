@@ -1,4 +1,4 @@
-class DeprecateLegacyRolesAndPermissions < ActiveRecord::Migration[5.0]
+class DeprecateLegacyRolesAndPermissions < ActiveRecord::Migration
   def display_warning
     ActiveSupport::Deprecation.warn('Direct relationship between roles and permissions is deprecated. Use #legacy_permissions to access old permissions')
   end
