@@ -18,15 +18,12 @@ module Spree
     end
 
     define_method('default-permissions') do |current_ability, user|
-      current_ability.can [:read, :update, :destroy], Spree.user_class do |resource|
-        resource == user
-      end
+      current_ability.can [:read, :update, :destroy], Spree.user_class
 
-      current_ability.can [:read, :update], Spree::Order do |order, token|
-        order.user == user || (order.guest_token && token == order.guest_token)
-      end
+      current_ability.can [:read, :update], Spree::Order, { user_id: user.id }
 
       current_ability.can :create, Spree::Order
+
       current_ability.can :read, Spree::Address do |address|
         address.user == user
       end
