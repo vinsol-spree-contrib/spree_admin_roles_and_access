@@ -3,31 +3,31 @@
 
 en:
   spree:
-    new_role: "New Role"
-    edit_role: "Edit Role"
-    listing_roles: "Listing Roles"
-    roles: "Roles"
-    role_name: "Name"
-    role_editable: "Editable"
-    role_is_default: "Is default"
-    role_is_default_help: "Roles marked as default are applicable to all users who have no explicit roles assigned"
-    role_admin_accessible_help: "Roles marked as admin accessible indicate that the user has access to admin interface via the role"
-    permissions: "Permissions"
-    save_changes: "Save Changes"
-    new_permission: "New Permission"
-    permission_set_name: "Name"
-    permission_set_description: "Description"
-    permission_set_display_permission: "Display Permission"
-    permission_set_permissions: "Permissions"
-    permission_title: "Title"
-    permission_priority: "Priority"
-    permission_priority_help: "Set the order of permission in list, with 0 being the highest priority"
-    permission_visible: "Visible"
-    permission_visible_help: "Mark permission as publically visible to other users managing permissions"
-    select_permissions: "Select Permissions"
-    select_permission_sets: "Select Permission Sets"
-    atleast_one_permission_is_required: "Atleast One Permission Is Required"
-    atleast_one_permission_set_is_required: "Atleast One Permission Set Is Required"
-    permission_set_display_permission_help: "Set it to indicate that permission set provides permissions for display purposed only"
-    permission_set_admin_permission_required: "Ensure that the appropriate admin permission is included along with the resource permission if the user needs to access the admin interface"
+    new_role: New Role
+    edit_role: Edit Role
+    listing_roles: Listing Roles
+    roles: Roles
+    role_name: Name
+    role_editable: Editable
+    role_is_default: Is default
+    role_is_default_help: Roles marked as default are applicable to all users who have no explicit roles assigned
+    role_admin_accessible_help: Roles marked as admin accessible indicate that the user has access to admin interface via the role
+    permissions: Permissions
+    save_changes: Save Changes
+    new_permission: New Permission
+    permission_set_name: Name
+    permission_set_description: Description
+    permission_set_display_permission: Display Permission
+    permission_set_permissions: Permissions
+    permission_title: Title
+    permission_priority: Priority
+    permission_priority_help: Set the order of permission in list, with 0 being the highest priority
+    permission_visible: Visible
+    permission_visible_help: Mark permission as publically visible to other users managing permissions
+    select_permissions: Select Permissions
+    select_permission_sets: Select Permission Sets
+    atleast_one_permission_is_required: Atleast One Permission Is Required
+    atleast_one_permission_set_is_required: Atleast One Permission Set Is Required
+    permission_set_display_permission_help: Set it to indicate that permission set provides permissions for display purposed only
+    permission_set_admin_permission_required: Ensure that the appropriate admin permission is included along with the resource permission if the user needs to access the admin interface
     unable_to_access_requested_resource: "You do not have access to the requested resource at %{request_path}"
