@@ -15,8 +15,16 @@ Installation
 
 Add spree_admin_roles_and_access to your Gemfile:
 
+  #### Spree >= 3.2
+
 ```ruby
-gem 'spree_admin_roles_and_access'
+gem 'spree_admin_roles_and_access', github: 'vinsol-spree-contrib/spree_admin_roles_and_access'
+```
+
+  #### Spree < 3.2
+
+```ruby
+gem 'spree_admin_roles_and_access', github: 'vinsol-spree-contrib/spree_admin_roles_and_access', branch: 'X-X-stable'
 ```
 
 Bundle your dependencies and run the installation generator:
