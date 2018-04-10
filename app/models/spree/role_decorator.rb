@@ -8,7 +8,7 @@ Spree::Role.class_eval do
   has_and_belongs_to_many :legacy_permissions, join_table: 'spree_roles_permissions', class_name: 'Spree::Permission'
 
   validates :name, uniqueness: true, allow_blank: true
-  validates :permission_sets, length: { minimum: 1, too_short: Spree.t(:atleast_one_permission_set_is_required) }, on: :update
+  validates :permission_sets, length: { minimum: 1, too_short: Spree.t(:one_permission_set_is_required) }, on: :update
 
   def has_permission?(permission_title)
     permissions.pluck(:title).include?(permission_title)

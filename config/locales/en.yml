@@ -27,7 +27,7 @@ en:
     select_permissions: Select Permissions
     select_permission_sets: Select Permission Sets
     atleast_one_permission_is_required: Atleast One Permission Is Required
-    atleast_one_permission_set_is_required: Atleast One Permission Set Is Required
+    one_permission_set_is_required: Atleast One Permission Set Is Required
     permission_set_display_permission_help: Set it to indicate that permission set provides permissions for display purposed only
     permission_set_admin_permission_required: Ensure that the appropriate admin permission is included along with the resource permission if the user needs to access the admin interface
     unable_to_access_requested_resource: "You do not have access to the requested resource at %{request_path}"
