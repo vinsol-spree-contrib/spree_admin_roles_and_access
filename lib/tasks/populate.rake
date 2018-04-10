@@ -125,6 +125,10 @@ namespace :spree_roles do
       end
     end
 
+    def search_controller_permissions
+      @search_controller_permissions ||= [make_permission('can-admin-spree/admin/search', 3), make_permission('can-manage-spree/admin/search', 3)]
+    end
+
     desc "Create admin username and password"
     task populate: :environment do
       default_permission = make_permission('default-permissions', 0)
@@ -234,7 +238,7 @@ namespace :spree_roles do
         "Manage Orders"
       )
 
-      add_to_permission_set(order_mgmt, [admin_return_idx, manage_return_idx])
+      add_to_permission_set(order_mgmt, [admin_return_idx, manage_return_idx, search_controller_permissions])
 
       make_grouped_permission_set(
         build_permission_group(
