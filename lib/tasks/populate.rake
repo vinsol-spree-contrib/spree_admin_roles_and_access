@@ -117,21 +117,16 @@ namespace :spree_roles do
       group
     end
 
-    def admin_controller?(controller_name)
-      return false unless controller_name
-      controller_name.include?('/admin/') && !controller_name.include?('/api/')
-    end
-
-    def permission_name(controller, action)
-      "#{ permission_prefix_from_name(action.to_sym) }-#{ controller.gsub('/admin','') }"
-    end
-
     def add_to_permission_set(permission_set, permissions)
       permissions.each do |permission|
         unless permission_set.permissions.include? permission
           permission_set.permissions << permission
         end
       end
+    end
+
+    def search_controller_permissions
+      @search_controller_permissions ||= [make_permission('can-admin-spree/admin/search', 3), make_permission('can-manage-spree/admin/search', 3)]
     end
 
     desc "Create admin username and password"
@@ -183,8 +178,10 @@ namespace :spree_roles do
 
       admin_general_settings_admin = make_permission('can-admin-spree/admin/general_settings', 3)
       admin_general_settings_manage = make_permission('can-manage-spree/admin/general_settings', 3)
+      spree_config_admin = make_permission('can-admin-spree/config', 3)
+      spree_config_manage = make_permission('can-manage-spree/config', 3)
 
-      add_to_permission_set(config_management, [admin_general_settings_admin, admin_general_settings_manage])
+      add_to_permission_set(config_management, [admin_general_settings_admin, admin_general_settings_manage, spree_config_admin, spree_config_manage])
 
       order_display =
         make_grouped_permission_set(
@@ -219,7 +216,10 @@ namespace :spree_roles do
       order_mgmt = make_grouped_permission_set(
         build_permission_group(
           [
+            [:admin, :read], Spree::Product,
+            [:admin, :read], Spree::Variant,
             [:admin, :read], Spree::ReimbursementType,
+            [:admin, :read, :edit, :new], Spree::User,
             [:admin, :manage], Spree::Order,
             [:admin, :manage], Spree::Payment,
             [:admin, :manage], Spree::Shipment,
@@ -229,14 +229,16 @@ namespace :spree_roles do
             [:admin, :manage], Spree::CustomerReturn,
             [:admin, :manage], Spree::Reimbursement,
             [:admin, :manage], Spree::ReturnItem,
-            [:admin, :manage], Spree::Refund
+            [:admin, :manage], Spree::Refund,
+            [:admin, :manage], Spree::StateChange,
+            [:admin, :manage], Spree::LogEntry
           ]
         ),
         "Order Management",
         "Manage Orders"
       )
 
-      add_to_permission_set(order_mgmt, [admin_return_idx, manage_return_idx])
+      add_to_permission_set(order_mgmt, [admin_return_idx, manage_return_idx, search_controller_permissions])
 
       make_grouped_permission_set(
         build_permission_group(
@@ -310,6 +312,7 @@ namespace :spree_roles do
         build_permission_group(
           [
             [:admin], Spree::Store,
+            [:manage, :admin], Spree::Stock,
             [:manage, :admin], Spree::StockItem,
             [:manage, :admin], Spree::StockLocation,
             [:admin, :manage], Spree::StockMovement,
