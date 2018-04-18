@@ -3,6 +3,20 @@ SpreeAdminRolesAndAccess [![Code Climate](https://codeclimate.com/github/vinsol/
 
 This spree extension is built on CanCan to dynamically add new roles and define its access through permissions.
 
+Demo
+----
+Try Spree Admin Roles and Access for Spree master with direct deployment on Heroku:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vinsol-spree-contrib/spree-demo-heroku/tree/spree-admin-roles-and-access-master)
+
+Try Spree Admin Roles and Access for Spree 3-4 with direct deployment on Heroku:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vinsol-spree-contrib/spree-demo-heroku/tree/spree-admin-roles-and-access-3-4)
+
+Try Spree Admin Roles and Access for Spree 3-1 with direct deployment on Heroku:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vinsol-spree-contrib/spree-demo-heroku/tree/spree-admin-roles-and-access-3-1)
+
 Screenshots
 -----------
 
