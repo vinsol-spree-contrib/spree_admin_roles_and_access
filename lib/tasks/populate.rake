@@ -273,7 +273,8 @@ namespace :spree_roles do
             [:admin, :manage], Spree::Property,
             [:admin, :manage], Spree::Taxonomy,
             [:admin, :manage], Spree::Taxon,
-            [:admin, :manage], Spree::Classification
+            [:admin, :manage], Spree::Classification,
+            [:admin, :manage], Spree::Prototype
           ]
         ),
         "Product Management",
