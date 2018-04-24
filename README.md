@@ -40,6 +40,7 @@ gem 'spree_admin_roles_and_access', github: 'vinsol-spree-contrib/spree_admin_ro
 ```ruby
 gem 'spree_admin_roles_and_access', github: 'vinsol-spree-contrib/spree_admin_roles_and_access', branch: 'X-X-stable'
 ```
+**Note** Please use 3-1-stable-updated branch for spree-3-1
 
 Bundle your dependencies and run the installation generator:
 
