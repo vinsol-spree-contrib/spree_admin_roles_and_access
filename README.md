@@ -152,6 +152,12 @@ gem 'spree_admin_roles_and_access', '1.1.0'
 gem 'spree_admin_roles_and_access', '1.0.0'
 ```
 
+## See It In Action
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=jKgSKx636Es
+" target="_blank"><img src="http://img.youtube.com/vi/jKgSKx636Es/0.jpg" 
+alt="Youtube Video Tutorial" /></a>
+
 Contributing
 ------------
 
