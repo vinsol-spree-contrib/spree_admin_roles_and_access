@@ -1,0 +1,37 @@
+es:
+  spree:
+    new_role: Nuevo Rol
+    edit_role: Editar Rol
+    listing_roles: Listando Roles
+    roles: Roles
+    role_name: Nombre
+    role_editable: Editable
+    role_is_default: Por defecto
+    role_is_default_help: Los roles marcados como predeterminados se aplican a todos los usuarios que no tienen roles explícitos asignados
+    role_admin_accessible_help: Los roles marcados como accesibles por administrador indican que el usuario tiene acceso a la interfaz de administrador a través del rol
+    permissions: Permisos
+    save_changes: Guardar cambios
+    new_permission: Nuevo Permiso
+    permission_set_name: Nombre
+    permission_set_description: Descripción
+    permission_set_display_permission: Mostrar Permiso
+    permission_set_permissions: Permisos
+    permission_title: Título
+    permission_priority: Prioridad
+    permission_priority_help: Establezca el orden de los permisos en la lista, siendo 0 la prioridad más alta
+    permission_visible: Visible
+    permission_visible_help: Marcar el permiso como visible públicamente para otros usuarios que administran permisos
+    select_permissions: Seleccionar permisos
+    select_permission_sets: Seleccionar conjunto de permisos
+    atleast_one_permission_is_required: Al menos un permiso es requerido
+    atleast_one_permission_set_is_required: Al menos un conjunto de permiso es requerido
+    permission_set_display_permission_help: Configúrelo para indicar que el conjunto de permisos proporciona permisos solo para fines de visualización
+    permission_set_admin_permission_required:Asegúrese de que se incluya el permiso de administrador adecuado junto con el permiso de recursos si el usuario necesita acceder a la interfaz de administrador
+    unable_to_access_requested_resource: "No tienes acceso al recurso solicitado en %{request_path}"
+  activerecord:
+    errors:
+      models:
+        spree/role:
+          attributes:
+            permission_sets:
+              atleast_one_permission_set_is_required: Al menos un conjunto de permisos es requerido
