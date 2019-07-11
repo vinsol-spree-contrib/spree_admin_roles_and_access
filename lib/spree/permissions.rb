@@ -25,11 +25,11 @@ module Spree
       current_ability.can :create, Spree::Order
 
       current_ability.can :read, Spree::Order, [] do |order, token|
-        order.user == user || (order.guest_token && token == order.guest_token)
+        order.user == user || (order_token(order) && token == order_token(order))
       end
 
       current_ability.can :update, Spree::Order do |order, token|
-        !order.completed? && (order.user == user || order.guest_token && token == order.guest_token)
+        !order.completed? && (order.user == user || order_token(order) && token == order_token(order))
       end
 
       current_ability.can :read, Spree::Address do |address|
@@ -74,6 +74,10 @@ module Spree
         else
           return can.to_sym, action.to_sym, subject, attribute.try(:to_sym)
         end
+      end
+      
+      def order_token(order)
+        order.respond_to?(:token) ? order.token : order.guest_token
       end
   end
 end
