@@ -1,6 +1,5 @@
 module Spree
-  Ability.class_eval do
-
+  module AbilityDecorator
     def initialize(user)
       self.clear_aliased_actions
 
@@ -26,3 +25,5 @@ module Spree
     end
   end
 end
+
+::Spree::Ability.prepend(Spree::AbilityDecorator)
