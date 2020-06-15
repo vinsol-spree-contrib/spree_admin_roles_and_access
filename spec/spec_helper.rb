@@ -29,7 +29,6 @@ Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/url_helpers'
-require 'spree_dev_tools/rspec/spec_helper'
 
 RSpec.configure do |config|
   # == Requests support

@@ -1,7 +1,9 @@
 module SpreeAdminRolesAndAccess
   module UserDecorator
-    alias_attribute :roles, :spree_roles
+    def self.prepended(base)
+      base.alias_attribute :roles, :spree_roles
+    end
   end
 end
 
-Spree::User.prepend SpreeAdminRolesAndAccess::UserDecorator
+Spree.user_class.prepend SpreeAdminRolesAndAccess::UserDecorator

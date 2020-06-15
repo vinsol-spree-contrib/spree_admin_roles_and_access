@@ -1,4 +1,4 @@
-module SpreeAdminRolesAndAccess
+module Spree::Admin
   module BaseControllerDecorator
     def authorize_admin
       begin
@@ -26,6 +26,4 @@ module SpreeAdminRolesAndAccess
         NEW_ACTIONS.include?(params[:action].to_sym)
       end
   end
-end
-
-Spree::Admin::BaseController.prepend SpreeAdminRolesAndAccess::BaseControllerDecorator
+Spree::Admin::BaseController.prepend Spree::Admin::BaseControllerDecorator

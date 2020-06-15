@@ -26,7 +26,7 @@ RSpec.describe Spree::Ability, type: :model do
   let(:permission17) { Spree::Permission.create(title: 'can-create-spree/products', priority: 3) }
   let(:permission_set) { Spree::PermissionSet.create!(name: 'test') }
 
-  let(:user) { Spree::User.create!(email: 'abc@test.com', password: '123456') }
+  let(:user) { Spree.user_class.create!(email: 'abc@test.com', password: '123456') }
   let(:role) { Spree::Role.where(name: 'user').first_or_create! }
   let(:roles) { [role] }
 
@@ -125,8 +125,8 @@ RSpec.describe Spree::Ability, type: :model do
       it_should_behave_like 'access denied'
       it_should_behave_like 'no index allowed'
       it_should_behave_like 'default admin permissions'
-      it { expect(new_ability).to_not be_able_to :create, Spree::User, :role_ids }
-      it { expect(new_ability).to_not be_able_to :update, Spree::User, :role_ids }
+      it { expect(new_ability).to_not be_able_to :create, Spree.user_class, :role_ids }
+      it { expect(new_ability).to_not be_able_to :update, Spree.user_class, :role_ids }
     end
 
     context 'with warehouse_admin user' do
@@ -166,11 +166,11 @@ RSpec.describe Spree::Ability, type: :model do
     let(:resource) { Object.new }
     let(:resource_shipment) { Spree::Shipment.new }
     let(:resource_product) { Spree::Product.new }
-    let(:resource_user) { Spree::User.new }
+    let(:resource_user) { Spree.user_class.new }
     let(:resource_order) { Spree::Order.new }
-    let(:fakedispatch_user) { Spree::User.new }
+    let(:fakedispatch_user) { Spree.user_class.new }
     let(:admin_role) { Spree::Role.where(name: 'admin').first_or_create! }
-    let(:user1) { Spree::User.new }
+    let(:user1) { Spree.user_class.new }
     let(:ability) { Spree::Ability.new(user) }
 
     context 'with admin user' do
@@ -262,7 +262,7 @@ RSpec.describe Spree::Ability, type: :model do
       it_should_behave_like 'access granted'
     end
     context 'requested by other user' do
-      let(:resource) { Spree::User.new }
+      let(:resource) { Spree.user_class.new }
       it_should_behave_like 'create only'
     end
   end
@@ -276,7 +276,7 @@ RSpec.describe Spree::Ability, type: :model do
     end
 
     context 'requested by other user' do
-      before(:each) { resource.user = Spree::User.new }
+      before(:each) { resource.user = Spree.user_class.new }
       it_should_behave_like 'create only'
     end
 
@@ -325,12 +325,12 @@ RSpec.describe Spree::Ability, type: :model do
     end
 
     it 'should receive new on Spree::User when there is no user passed' do
-      expect(Spree::User).to receive(:new).and_return(user)
+      expect(Spree.user_class).to receive(:new).and_return(user)
       Spree::Ability.new(nil)
     end
 
     it 'should not receive new on Spree::User when there is no user passed' do
-      expect(Spree::User).to_not receive(:new)
+      expect(Spree.user_class).to_not receive(:new)
       Spree::Ability.new(user)
     end
 
@@ -359,10 +359,10 @@ RSpec.describe Spree::Ability, type: :model do
 
       subject { ability }
 
-      it { expect(subject).to be_able_to :create, Spree::User.new }
-      it { expect(subject).to be_able_to :update, Spree::User.new }
-      it { expect(subject).to_not be_able_to :create, Spree::User.new, :role_ids }
-      it { expect(subject).to_not be_able_to :update, Spree::User.new, :role_ids }
+      it { expect(subject).to be_able_to :create, Spree.user_class.new }
+      it { expect(subject).to be_able_to :update, Spree.user_class.new }
+      it { expect(subject).to_not be_able_to :create, Spree.user_class.new, :role_ids }
+      it { expect(subject).to_not be_able_to :update, Spree.user_class.new, :role_ids }
     end
   end
 
