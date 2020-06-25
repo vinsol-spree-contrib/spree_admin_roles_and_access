@@ -1,4 +1,4 @@
-Spree::Admin::BaseController.class_eval do
+module Spree::Admin::BaseControllerDecorator
   def authorize_admin
     begin
       if params[:id]
