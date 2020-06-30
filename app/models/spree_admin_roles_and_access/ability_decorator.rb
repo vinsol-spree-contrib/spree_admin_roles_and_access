@@ -1,6 +1,5 @@
-module Spree
-  Ability.class_eval do
-
+module SpreeAdminRolesAndAccess
+  module AbilityDecorator
     def initialize(user)
       self.clear_aliased_actions
 
@@ -15,7 +14,7 @@ module Spree
 
       user_roles(user).map(&:permissions).flatten.uniq.map { |permission| permission.ability(self, user) }
 
-      Ability.abilities.each do |clazz|
+      ::Spree::Ability.abilities.each do |clazz|
         ability = clazz.send(:new, user)
         @rules = rules + ability.send(:rules)
       end
@@ -26,3 +25,5 @@ module Spree
     end
   end
 end
+
+Spree::Ability.prepend SpreeAdminRolesAndAccess::AbilityDecorator

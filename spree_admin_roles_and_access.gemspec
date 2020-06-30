@@ -14,14 +14,14 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  spree_version = '>= 3.2.0', '< 4.0.0'
+  spree_version = '>= 4.0.0'
 
   s.add_dependency 'spree_core', spree_version
   s.add_dependency 'spree_auth_devise'
 
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'ffaker'
-  s.add_development_dependency 'rspec-rails', '~> 3.5.0'
+  s.add_development_dependency 'rspec-rails', '~> 4.0.0'
   s.add_development_dependency 'shoulda-matchers', '~> 3.1'
   s.add_development_dependency 'rspec-activemodel-mocks'
   s.add_development_dependency 'rails-controller-testing'
