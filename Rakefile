@@ -11,5 +11,5 @@ task default: [:spec]
 desc 'Generates a dummy app for testing'
 task :test_app do
   ENV['LIB_NAME'] = 'spree_admin_roles_and_access'
-  Rake::Task['extension:test_app'].invoke
+  Rake::Task['extension:test_app'].invoke('Spree::User')
 end
