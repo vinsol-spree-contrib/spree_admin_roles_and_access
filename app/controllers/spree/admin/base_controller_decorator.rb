@@ -1,22 +1,24 @@
-Spree::Admin::BaseController.class_eval do
-  def authorize_admin
-    begin
-      if params[:id]
-        record = model_class.where(PARAM_ATTRIBUTE[controller_name] => params[:id]).first
-      elsif new_action?
-        record = model_class.new
-      else
-        record = model_class
+module Spree::Admin
+  module BaseControllerDecorator
+    def authorize_admin
+      begin
+        if params[:id]
+          record = model_class.where(PARAM_ATTRIBUTE[controller_name] => params[:id]).first
+        elsif new_action?
+          record = model_class.new
+        else
+          record = model_class
+        end
+        raise if record.blank?
+      rescue
+        record = "#{params[:controller]}"
       end
-      raise if record.blank?
-    rescue
-      record = "#{params[:controller]}"
+      authorize! :admin, record
+      authorize_with_attributes! params[:action].to_sym, record, params[controller_name.singularize]
     end
-    authorize! :admin, record
-    authorize_with_attributes! params[:action].to_sym, record, params[controller_name.singularize]
-  end
 
-  private
+    private
+
     def unauthorized
       redirect_unauthorized_access
     end
@@ -24,4 +26,6 @@ Spree::Admin::BaseController.class_eval do
     def new_action?
       NEW_ACTIONS.include?(params[:action].to_sym)
     end
+  end  
 end
+Spree::Admin::BaseController.prepend Spree::Admin::BaseControllerDecorator 
