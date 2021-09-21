@@ -47,9 +47,9 @@ RSpec.describe Spree::Role, type: :model  do
     end
   end
 
-  describe 'default_role scope' do
+  describe 'spree_default_role scope' do
     it "should return the role with name user" do
-      expect(Spree::Role.default_role).to eq([role1])
+      expect(Spree::Role.spree_default_role).to eq([role1])
     end
   end
 
