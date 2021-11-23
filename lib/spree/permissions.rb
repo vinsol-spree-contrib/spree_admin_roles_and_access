@@ -59,6 +59,20 @@ module Spree
       current_ability.can :manage, Spree::Config
     end
 
+    define_method('can-store-coordinator') do |current_ability, user|
+      current_ability.cannot :create, Spree::Order
+      current_ability.cannot :create, Spree::User
+
+      current_ability.can [:admin, :read], Spree::Order, [] do |order|
+        user&.store_ids.include?(order.store.id)
+      end
+      current_ability.can [:admin, :read], Spree.user_class, [] do |store_user|
+        store_user.store_ids.each do |id|
+          user&.store_ids.include?(id)
+        end
+      end
+    end
+
     define_method('can-admin-spree/config') do |current_ability, user|
       current_ability.can :admin, Spree::Config
     end
