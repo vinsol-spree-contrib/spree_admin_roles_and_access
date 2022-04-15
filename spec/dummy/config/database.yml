@@ -1,0 +1,23 @@
+
+
+
+
+
+
+postgres: &postgres
+  adapter: postgresql
+  
+  
+  
+  min_messages: warning
+
+development:
+  <<: *postgres
+  database: spree_admin_roles_and_access_spree_development
+test:
+  <<: *postgres
+  database: spree_admin_roles_and_access_spree_test
+production:
+  <<: *postgres
+  database: spree_admin_roles_and_access_spree_production
+
