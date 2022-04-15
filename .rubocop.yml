@@ -1,0 +1,19 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rspec
+
+# inherit_from: .rubocop_todo.yml
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7.0
+  Exclude:
+    - bin/*
+    - gemfiles/*
+    - tmp/**/*
+    - vendor/**/*
+    - log/**/*
+Style/SignalException:
+  EnforcedStyle: only_raise
+

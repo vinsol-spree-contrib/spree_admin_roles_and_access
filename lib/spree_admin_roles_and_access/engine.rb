@@ -2,9 +2,10 @@ module SpreeAdminRolesAndAccess
   class Engine < Rails::Engine
     require 'spree/core'
     isolate_namespace Spree
+    isolate_namespace SpreeAdminRolesAndAccess
     engine_name 'spree_admin_roles_and_access'
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/app)
 
     # use rspec for tests
     config.generators do |g|

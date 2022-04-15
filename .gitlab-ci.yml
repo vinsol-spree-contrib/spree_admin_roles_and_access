@@ -1,0 +1,56 @@
+---
+# -------------------------------------------------------------
+# Stages
+# -------------------------------------------------------------
+
+stages:
+  - prepare
+  - lint
+  - test
+  - post-test
+  - review
+  - deploy
+
+# -------------------------------------------------------------
+# Includes
+# -------------------------------------------------------------
+
+include:
+  - project: everlywell/projects/gitlab/ci-templates
+    ref: gl-code-quality-test-coverage
+    file:
+      - cache.gitlab-ci.yml
+      - code-quality.gitlab-ci.yml
+      - coverage.gitlab-ci.yml
+      - deploy.gitlab-ci.yml
+      - frontend.gitlab-ci.yml
+      - global.gitlab-ci.yml
+      - rails.gitlab-ci.yml
+      - rules.gitlab-ci.yml
+      - static-analysis.gitlab-ci.yml
+      - workflow.gitlab-ci.yml
+
+# -------------------------------------------------------------
+# Override included configurations
+# -------------------------------------------------------------
+
+variables:
+  APPLICATION: 'spree_admin_roles_and_access'
+  CI_DEFAULT_IMAGE: 'ruby-2.7.2-bundler-2.1.4-mysql-8.0.28-chrome-100-node-14.16-yarn-1.22-cctestreporter-latest'
+  RUN_YARN_TESTS: 'false'
+  USE_WEBPACKER_COMPILE: 'false'
+  SETUP_DB: 'false'
+  SETUP_PARALLEL: 'false'
+
+rspec:
+  script:
+    - run_timed_command "bundle exec rake test_app"
+    - run_timed_command "bundle exec rspec"
+
+brakeman:
+  script:
+      - run_timed_command "bundle exec brakeman $BRAKEMAN_CONFIDENCE_LEVEL --force"
+
+# -------------------------------------------------------------
+# Application-specific jobs
+# -------------------------------------------------------------
