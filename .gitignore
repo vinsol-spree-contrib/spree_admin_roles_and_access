@@ -6,11 +6,8 @@
 .project
 .sass-cache
 coverage
-Gemfile.lock
 tmp
 nbproject
 pkg
 *.swp
-spec/dummy
-.ruby-version
 .byebug_history
